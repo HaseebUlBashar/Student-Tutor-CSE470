@@ -113,6 +113,10 @@
                         <option value="student_tutor">
                             Student Tutor
                         </option>
+                        <option value="admin">
+                            Admin
+                        </option>
+
 
                     </select>
 
