@@ -19,27 +19,42 @@
 
                 <div class="grid grid-cols-2 gap-6">
 
-                    <div>
-                        <label class="block font-semibold mb-2">
-                            Department
-                        </label>
+                <!-- Department -->
+                <div>
+                <label class="block font-semibold mb-2">
+                    Department
+                </label>
 
-                        <input
-                            type="text"
-                            name="department"
-                            class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
+                <select
+                    name="department"
+                    id="department"
+                    class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                    required>
 
-                    <div>
-                        <label class="block font-semibold mb-2">
-                            Course
-                        </label>
+                    <option value="">Select Department</option>
+                    <option value="CSE">CSE</option>
+                    <option value="BBA">BBA</option>
+                    <option value="EEE">EEE</option>
 
-                        <input
-                            type="text"
-                            name="course"
-                            class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
+                </select>
+            </div>
+            <!-- Course -->
+            <div>
+                <label class="block font-semibold mb-2">
+                    Course
+                </label>
+
+                <select
+                    name="course"
+                    id="course"
+                    class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                    required>
+
+                    <option value="">Select Department First</option>
+
+                </select>
+            </div>
+              <!-- Chapter -->
 
                     <div>
                         <label class="block font-semibold mb-2">
@@ -49,9 +64,10 @@
                         <input
                             type="text"
                             name="chapter"
-                            class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500">
+                            class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                            required>
                     </div>
-
+                       <!-- Difficulty -->
                     <div>
                         <label class="block font-semibold mb-2">
                             Difficulty
@@ -59,7 +75,8 @@
 
                         <select
                             name="difficulty"
-                            class="w-full rounded-lg border-gray-300 focus:ring-blue-500">
+                            class="w-full rounded-lg border-gray-300 focus:ring-blue-500"
+                            required>
 
                             <option>Easy</option>
                             <option>Medium</option>
@@ -67,7 +84,7 @@
 
                         </select>
                     </div>
-
+                       <!-- Reward -->
                     <div>
                         <label class="block font-semibold mb-2">
                             Reward (BDT)
@@ -76,9 +93,11 @@
                         <input
                             type="number"
                             name="reward"
-                            class="w-full rounded-lg border-gray-300">
+                            class="w-full rounded-lg border-gray-300"
+                            min="0"
+                            required>
                     </div>
-
+                       <!-- Deadline -->
                     <div>
                         <label class="block font-semibold mb-2">
                             Deadline
@@ -87,7 +106,8 @@
                         <input
                             type="date"
                             name="deadline"
-                            class="w-full rounded-lg border-gray-300">
+                            class="w-full rounded-lg border-gray-300"
+                            required>
                     </div>
 
                 </div>
@@ -100,7 +120,8 @@
                     <input
                         type="text"
                         name="title"
-                        class="w-full rounded-lg border-gray-300">
+                        class="w-full rounded-lg border-gray-300"
+                        required>
                 </div>
 
                 <div>
@@ -111,7 +132,8 @@
                     <textarea
                         rows="6"
                         name="description"
-                        class="w-full rounded-lg border-gray-300"></textarea>
+                        class="w-full rounded-lg border-gray-300"
+                        required></textarea>
                 </div>
 
                 <div>
@@ -122,6 +144,7 @@
                     <input
                         type="file"
                         name="attachment"
+                        accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
                         class="block w-full text-gray-700">
                 </div>
 
@@ -138,5 +161,59 @@
         </div>
 
     </div>
+<script>
+    const courses = {
+        CSE: [
+            "CSE220",
+            "CSE321",
+            "CSE420"
+        ],
 
+        BBA: [
+            "BUS101",
+            "BUS201",
+            "MKT102"
+        ],
+
+        EEE: [
+            "EEE201",
+            "EEE310",
+            "EEE420"
+        ]
+    };
+
+    const departmentSelect = document.getElementById('department');
+    const courseSelect = document.getElementById('course');
+
+    departmentSelect.addEventListener('change', function () {
+
+        const selectedDepartment = this.value;
+
+        // Clear existing courses
+        courseSelect.innerHTML = '';
+
+        if (selectedDepartment === '') {
+
+            courseSelect.innerHTML =
+                '<option value="">Select Department First</option>';
+
+            return;
+        }
+
+        // Add default option
+        courseSelect.innerHTML =
+            '<option value="">Select Course</option>';
+
+        // Add courses for selected department
+        courses[selectedDepartment].forEach(function(course) {
+
+            const option = document.createElement('option');
+
+            option.value = course;
+            option.textContent = course;
+
+            courseSelect.appendChild(option);
+        });
+    });
+</script>
 </x-app-layout>
