@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Problem;
+use App\Models\Solution;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProblemController extends Controller
 {
@@ -106,6 +108,11 @@ class ProblemController extends Controller
         //
     }
 
+    public function tutorShow(Problem $problem)
+{
+    return view('tutor.problems.show', compact('problem'));
+}
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -184,5 +191,104 @@ class ProblemController extends Controller
     return redirect()
         ->route('problems.index')
         ->with('success', 'Problem deleted successfully!');
+}
+public function startWorking(Problem $problem)
+{
+    $studentTutorId = Auth::id();
+
+    return DB::transaction(function () use ($problem, $studentTutorId) {
+
+        $problem = Problem::where('id', $problem->id)
+            ->lockForUpdate()
+            ->firstOrFail();
+
+        if ($problem->status !== 'Open') {
+            return redirect()
+                ->route('tutor.problems.show', $problem->id)
+                ->with('error', 'This problem is no longer available to work on.');
+        }
+
+        $existingSolution = Solution::where('problem_id', $problem->id)
+            ->where('status', 'draft')
+            ->first();
+
+        if ($existingSolution) {
+            return redirect()
+                ->route('tutor.problems.show', $problem->id)
+                ->with('error', 'This problem is already being worked on.');
+        }
+
+        $solution = Solution::create([
+            'problem_id' => $problem->id,
+            'student_tutor_id' => $studentTutorId,
+            'reward' => $problem->reward,
+            'status' => 'draft',
+        ]);
+
+        $problem->status = 'In Progress';
+        $problem->save();
+
+        return redirect()
+            ->route('tutor.solutions.create', $solution->id)
+            ->with('success', 'You have started working on this problem.');
+    });
+}
+public function createSolution(Solution $solution)
+{
+    if ($solution->student_tutor_id !== Auth::id()) {
+        abort(403);
+    }
+
+    if ($solution->status !== 'draft') {
+        return redirect()
+            ->route('tutor.problems.show', $solution->problem_id)
+            ->with('error', 'This solution has already been submitted.');
+    }
+
+    $problem = $solution->problem;
+
+    return view('tutor.solutions.create', compact('solution', 'problem'));
+}
+public function submitSolution(Request $request, Solution $solution)
+{
+    if ($solution->student_tutor_id !== Auth::id()) {
+        abort(403);
+    }
+
+    if ($solution->status !== 'draft') {
+        return redirect()
+            ->route('tutor.problems.show', $solution->problem_id)
+            ->with('error', 'This solution has already been submitted.');
+    }
+
+    $validated = $request->validate([
+        'description' => 'required|string',
+        'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:10240',
+    ]);
+
+    return DB::transaction(function () use ($request, $solution, $validated) {
+
+        if ($request->hasFile('attachment')) {
+            $validated['attachment'] = $request
+                ->file('attachment')
+                ->store('solutions', 'public');
+        }
+
+        $solution->update([
+            'description' => $validated['description'],
+            'attachment' => $validated['attachment'] ?? $solution->attachment,
+            'status' => 'submitted',
+            'submitted_at' => now(),
+        ]);
+
+        $problem = $solution->problem;
+
+        $problem->status = 'Solved';
+        $problem->save();
+
+        return redirect()
+            ->route('tutor.problems.show', $problem->id)
+            ->with('success', 'Your solution has been submitted successfully!');
+    });
 }
 }

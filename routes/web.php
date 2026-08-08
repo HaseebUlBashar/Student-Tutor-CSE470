@@ -36,4 +36,19 @@ Route::get('/admin/dashboard', function () {
 Route::resource('problems', ProblemController::class)
     ->middleware(['auth','role:student']);
 
+Route::get('/tutor/problems/{problem}', [ProblemController::class, 'tutorShow'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.problems.show');
+Route::post('/tutor/problems/{problem}/start-working', [ProblemController::class, 'startWorking'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.problems.start');
+
+Route::get('/tutor/solutions/{solution}/create', [ProblemController::class, 'createSolution'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.solutions.create');
+
+Route::post('/tutor/solutions/{solution}', [ProblemController::class, 'submitSolution'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.solutions.submit');
+
 require __DIR__.'/auth.php';

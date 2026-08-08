@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Problem extends Model
@@ -19,6 +19,11 @@ class Problem extends Model
         'attachment',
         'status',
     ];
+
+    public function solutions(): HasMany
+    {
+    return $this->hasMany(Solution::class);
+    }
 
     public function user()
     {
