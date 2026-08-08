@@ -216,4 +216,8 @@
         });
     });
 </script>
+<<<<<<< HEAD
 </x-app-layout>
+=======
+</x-app-layout>
+>>>>>>> d6ca70b7c321f21ef6db0a9696f4c8ac616c7bac
