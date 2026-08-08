@@ -81,8 +81,18 @@ class ProblemController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {
-        //
+   {
+    $problem = Problem::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->firstOrFail();
+
+    if ($problem->status !== 'Open') {
+        return redirect()
+            ->route('problems.index')
+            ->with('error', 'This problem can no longer be edited.');
+    }
+
+    return view('problems.edit', compact('problem'));
     }
 
     /**
@@ -90,14 +100,60 @@ class ProblemController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+    $problem = Problem::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->firstOrFail();
+
+    if ($problem->status !== 'Open') {
+        return redirect()
+            ->route('problems.index')
+            ->with('error', 'This problem can no longer be edited.');
+    }
+
+    $validated = $request->validate([
+        'department' => 'required|string|max:100',
+        'course' => 'required|string|max:100',
+        'chapter' => 'required|string|max:100',
+        'difficulty' => 'required|in:Easy,Medium,Hard',
+        'reward' => 'required|numeric|min:0',
+        'deadline' => 'required|date',
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
+    ]);
+
+    if ($request->hasFile('attachment')) {
+        $path = $request->file('attachment')->store('problems', 'public');
+
+        $validated['attachment'] = $path;
+    }
+
+    $problem->update($validated);
+
+    return redirect()
+        ->route('problems.index')
+        ->with('success', 'Problem updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        //
+{
+    $problem = Problem::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->firstOrFail();
+
+    if ($problem->status !== 'Open') {
+        return redirect()
+            ->route('problems.index')
+            ->with('error', 'This problem can no longer be deleted.');
     }
+
+    $problem->delete();
+
+    return redirect()
+        ->route('problems.index')
+        ->with('success', 'Problem deleted successfully!');
+}
 }
