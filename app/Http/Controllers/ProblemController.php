@@ -31,23 +31,54 @@ class ProblemController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-        'department' => 'required|string|max:100',
-        'course' => 'required|string|max:100',
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'department' => 'required|in:CSE,BBA,EEE',
+
+        'course' => [
+            'required',
+            function ($attribute, $value, $fail) use ($request) {
+
+                $courses = [
+                    'CSE' => ['CSE220', 'CSE321', 'CSE420'],
+                    'BBA' => ['BUS101', 'BUS201', 'MKT102'],
+                    'EEE' => ['EEE201', 'EEE310', 'EEE420'],
+                ];
+
+                $department = $request->department;
+
+                if (
+                    !isset($courses[$department]) ||
+                    !in_array($value, $courses[$department])
+                ) {
+                    $fail('The selected course does not belong to the selected department.');
+                }
+            },
+        ],
+
         'chapter' => 'required|string|max:100',
-        'difficulty' => 'required',
+
+        'difficulty' => 'required|in:Easy,Medium,Hard',
+
         'reward' => 'required|numeric|min:0',
+
         'deadline' => 'required|date',
+
         'title' => 'required|string|max:255',
+
         'description' => 'required|string',
-        'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
+
+        'attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
     ]);
+
     $path = null;
+
     if ($request->hasFile('attachment')) {
-        $path = $request->file('attachment')->store('problems', 'public');
+        $path = $request->file('attachment')
+            ->store('problems', 'public');
     }
+
     Problem::create([
         'user_id' => Auth::id(),
         'department' => $validated['department'],
@@ -61,13 +92,11 @@ class ProblemController extends Controller
         'attachment' => $path,
         'status' => 'Open',
     ]);
-        return redirect()
+
+    return redirect()
         ->route('problems.index')
         ->with('success', 'Problem posted successfully!');
-
-
-
-    }
+}
 
     /**
      * Display the specified resource.
