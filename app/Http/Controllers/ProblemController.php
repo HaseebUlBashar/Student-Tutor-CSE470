@@ -186,6 +186,7 @@ class ProblemController extends Controller
             ->with('error', 'This problem can no longer be deleted.');
     }
 
+
     $problem->delete();
 
     return redirect()
@@ -292,3 +293,4 @@ public function submitSolution(Request $request, Solution $solution)
     });
 }
 }
+
