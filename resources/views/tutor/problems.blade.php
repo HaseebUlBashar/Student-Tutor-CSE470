@@ -309,7 +309,7 @@
                             <th class="p-4 text-left text-sm font-semibold text-gray-700">Reward</th>
                             <th class="p-4 text-left text-sm font-semibold text-gray-700">Deadline</th>
                             <th class="p-4 text-left text-sm font-semibold text-gray-700">Status</th>
-                            <th class="p-4 text-center text-sm font-semibold text-gray-700">Attachment</th>
+                            <th class="p-4 text-center text-sm font-semibold text-gray-700">Action</th>
                         </tr>
                     </thead>
 
@@ -337,7 +337,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="p-4 text-center">
+                            {{-- <td class="p-4 text-center">
                                 @if($problem->attachment)
                                     <a href="{{ asset('storage/' . $problem->attachment) }}" target="_blank" class="inline-block bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 text-sm font-medium transition">
                                         View
@@ -345,6 +345,13 @@
                                 @else
                                     <span class="text-gray-400">No Attachment</span>
                                 @endif
+                            </td> --}}
+                            <td class="p-4 text-center">
+                                <a
+                                    href="{{ route('tutor.problems.show', $problem->id) }}"
+                                    class="inline-block bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 text-sm font-medium transition">
+                                    View
+                                </a>
                             </td>
                         </tr>
 
