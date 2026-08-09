@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2 class="text-2xl font-bold">
+        <h2 class="text-3xl font-bold">
             Submit Your Solution
         </h2>
     </x-slot>
