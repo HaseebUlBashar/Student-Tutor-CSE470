@@ -2,7 +2,7 @@
 
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="text-3xl font-bold text-gray-900">
+            <h2 class="text-3xl font-bold">
                 🔍 Browse Academic Problems
             </h2>
         </div>
