@@ -138,14 +138,58 @@
 
                 @if($problem->attachment)
 
-                    <a
-                        href="{{ asset('storage/' . $problem->attachment) }}"
-                        target="_blank"
-                        class="inline-flex items-center bg-gray-800 text-white px-5 py-3 rounded-lg hover:bg-gray-900">
+                    <td class="p-4 text-center">
 
-                        View / Open Attachment
+                        <div class="flex justify-center items-center gap-2">
 
-                    </a>
+                            <a
+                                href="{{ route('tutor.problems.show', $problem->id) }}"
+                                class="inline-block bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 text-sm font-medium transition">
+                                View
+                            </a>
+
+                            @if(auth()->user()->bookmarkedProblems()->where('problem_id', $problem->id)->exists())
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('tutor.bookmarks.destroy', $problem->id) }}">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition">
+
+                                        ★ Bookmarked
+
+                                    </button>
+
+                                </form>
+
+                            @else
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('tutor.bookmarks.store', $problem->id) }}">
+
+                                    @csrf
+
+                                    <button
+                                        type="submit"
+                                        class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition">
+
+                                        ☆ Bookmark
+
+                                    </button>
+
+                                </form>
+
+                            @endif
+
+                        </div>
+
+                    </td>
 
                     <p class="text-sm text-gray-500 mt-2">
                         You can open the uploaded PDF, image, or document.

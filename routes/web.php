@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TutorProblemController;
+use App\Http\Controllers\BookmarkController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,5 +56,18 @@ Route::get('/tutor/solutions/{solution}/create', [ProblemController::class, 'cre
 Route::post('/tutor/solutions/{solution}', [ProblemController::class, 'submitSolution'])
     ->middleware(['auth', 'role:student_tutor'])
     ->name('tutor.solutions.submit');
+
+Route::middleware(['auth', 'role:student_tutor'])->group(function () {
+
+    Route::get('/tutor/bookmarks', [BookmarkController::class, 'index'])
+        ->name('tutor.bookmarks');
+
+    Route::post('/tutor/problems/{problem}/bookmark', [BookmarkController::class, 'store'])
+        ->name('tutor.bookmarks.store');
+
+    Route::delete('/tutor/problems/{problem}/bookmark', [BookmarkController::class, 'destroy'])
+        ->name('tutor.bookmarks.destroy');
+
+});
 
 require __DIR__.'/auth.php';

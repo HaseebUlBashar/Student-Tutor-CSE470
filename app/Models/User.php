@@ -7,8 +7,10 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Problem;
 
 #[Fillable(['name', 'email', 'role', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -29,4 +31,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function problems()
+{
+    return $this->hasMany(Problem::class);
+}
+    public function bookmarkedProblems(): BelongsToMany
+{
+    return $this->belongsToMany(Problem::class, 'bookmarks');
+}
 }
