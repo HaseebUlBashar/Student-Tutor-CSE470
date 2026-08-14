@@ -439,7 +439,31 @@
                             <td class="px-6 py-5">
 
                                 <div class="flex items-center justify-center gap-3">
+                                    <a href="{{ route('problems.solutions', $problem->id) }}"
+                                    class="inline-flex items-center gap-1.5
+                                            px-3 py-2
+                                            rounded-lg
+                                            text-sm font-semibold
+                                            text-purple-600
+                                            bg-purple-50
+                                            hover:bg-purple-100
+                                            transition">
 
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="w-4 h-4"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2">
+
+                                            <path stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M8 10h8M8 14h5m6-9H5a2 2 0 00-2 2v14l4-4h12a2 2 0 002-2V7a2 2 0 00-2-2z"/>
+
+                                        </svg>
+
+                                        Solutions
+                                    </a>
                                     {{-- Edit --}}
                                     <a href="{{ route('problems.edit', $problem->id) }}"
                                        class="inline-flex items-center gap-1.5

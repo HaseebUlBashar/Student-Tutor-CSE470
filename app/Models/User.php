@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Problem;
 
-#[Fillable(['name', 'email', 'role', 'password'])]
+#[Fillable(['name', 'email', 'role', 'password', 'points'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -38,5 +38,65 @@ class User extends Authenticatable
     public function bookmarkedProblems(): BelongsToMany
 {
     return $this->belongsToMany(Problem::class, 'bookmarks');
+}
+public function badgeName(): string
+{
+    if ($this->points >= 4000) {
+        return 'Platinum';
+    }
+
+    if ($this->points >= 3000) {
+        return 'Diamond';
+    }
+
+    if ($this->points >= 2000) {
+        return 'Gold';
+    }
+
+    if ($this->points >= 1000) {
+        return 'Silver';
+    }
+
+    return 'Copper';
+}
+public function nextBadgePoints(): ?int
+{
+    if ($this->points < 1000) {
+        return 1000;
+    }
+
+    if ($this->points < 2000) {
+        return 2000;
+    }
+
+    if ($this->points < 3000) {
+        return 3000;
+    }
+
+    if ($this->points < 4000) {
+        return 4000;
+    }
+
+    return null;
+}
+public function badgeProgress(): int
+{
+    if ($this->points >= 4000) {
+        return 100;
+    }
+
+    if ($this->points >= 3000) {
+        return (int) (($this->points - 3000) / 1000 * 100);
+    }
+
+    if ($this->points >= 2000) {
+        return (int) (($this->points - 2000) / 1000 * 100);
+    }
+
+    if ($this->points >= 1000) {
+        return (int) (($this->points - 1000) / 1000 * 100);
+    }
+
+    return (int) ($this->points / 1000 * 100);
 }
 }

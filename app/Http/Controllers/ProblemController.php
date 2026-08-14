@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Problem;
 use App\Models\Solution;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -203,22 +204,37 @@ public function startWorking(Problem $problem)
             ->lockForUpdate()
             ->firstOrFail();
 
-        if ($problem->status !== 'Open') {
+        // A solved problem cannot receive new solutions
+        if ($problem->status === 'Solved') {
             return redirect()
                 ->route('tutor.problems.show', $problem->id)
-                ->with('error', 'This problem is no longer available to work on.');
+                ->with('error', 'This problem has already been solved.');
         }
 
+        // Check whether THIS tutor already has a solution
         $existingSolution = Solution::where('problem_id', $problem->id)
-            ->where('status', 'draft')
+            ->where('student_tutor_id', $studentTutorId)
             ->first();
 
         if ($existingSolution) {
+
+            // If they started but have not submitted yet,
+            // take them back to their solution form
+            if ($existingSolution->status === 'draft') {
+                return redirect()
+                    ->route('tutor.solutions.create', $existingSolution->id);
+            }
+
+            // They already submitted a solution
             return redirect()
                 ->route('tutor.problems.show', $problem->id)
-                ->with('error', 'This problem is already being worked on.');
+                ->with(
+                    'error',
+                    'You have already submitted a solution for this problem.'
+                );
         }
 
+        // Create a NEW solution for THIS tutor
         $solution = Solution::create([
             'problem_id' => $problem->id,
             'student_tutor_id' => $studentTutorId,
@@ -226,12 +242,19 @@ public function startWorking(Problem $problem)
             'status' => 'draft',
         ]);
 
-        $problem->status = 'In Progress';
-        $problem->save();
+        // The first tutor changes Open → In Progress.
+        // Other tutors leave it In Progress.
+        if ($problem->status === 'Open') {
+            $problem->status = 'In Progress';
+            $problem->save();
+        }
 
         return redirect()
             ->route('tutor.solutions.create', $solution->id)
-            ->with('success', 'You have started working on this problem.');
+            ->with(
+                'success',
+                'You have started working on this problem.'
+            );
     });
 }
 public function createSolution(Solution $solution)
@@ -282,15 +305,88 @@ public function submitSolution(Request $request, Solution $solution)
             'submitted_at' => now(),
         ]);
 
+        // IMPORTANT:
+        // Do NOT change the problem to Solved here.
+        // The student must accept a solution first.
+
         $problem = $solution->problem;
 
-        $problem->status = 'Solved';
-        $problem->save();
+        if ($problem->status !== 'Solved') {
+            $problem->status = 'In Progress';
+            $problem->save();
+        }
 
         return redirect()
             ->route('tutor.problems.show', $problem->id)
-            ->with('success', 'Your solution has been submitted successfully!');
+            ->with('success', 'Your solution has been submitted successfully! The student will review it.');
     });
+}
+public function acceptSolution(Solution $solution)
+{
+    $problem = $solution->problem;
+
+    // Only the student who posted the problem can accept a solution
+    if ($problem->user_id !== Auth::id()) {
+        abort(403);
+    }
+
+    // Only submitted solutions can be accepted
+    if ($solution->status !== 'submitted') {
+        return redirect()
+            ->route('problems.solutions', $problem->id)
+            ->with('error', 'This solution cannot be accepted.');
+    }
+
+    DB::transaction(function () use ($problem, $solution) {
+
+        // Accept the selected solution
+        $solution->update([
+            'status' => 'accepted',
+        ]);
+
+        // Reject all other submitted solutions
+        Solution::where('problem_id', $problem->id)
+            ->where('id', '!=', $solution->id)
+            ->where('status', 'submitted')
+            ->update([
+                'status' => 'rejected',
+            ]);
+
+        // Now the problem is officially solved
+        $problem->update([
+            'status' => 'Solved',
+        ]);
+        // Award points to the Student Tutor
+        $points = match ($problem->difficulty) {
+            'Easy' => 5,
+            'Medium' => 10,
+            'Hard' => 20,
+            default => 0,
+        };
+
+        $tutor = User::findOrFail($solution->student_tutor_id);
+
+        $tutor->increment('points', $points);
+    });
+
+    return redirect()
+        ->route('problems.solutions', $problem->id)
+        ->with('success', 'Solution accepted successfully! The problem is now solved.');
+}
+public function solutions(Problem $problem)
+{
+    // Only the student who posted the problem can view its solutions
+    if ($problem->user_id !== Auth::id()) {
+        abort(403);
+    }
+
+    $solutions = $problem->solutions()
+        ->with('studentTutor')
+        ->whereIn('status', ['submitted', 'accepted', 'rejected'])
+        ->latest('submitted_at')
+        ->get();
+
+    return view('problems.solutions', compact('problem', 'solutions'));
 }
 }
 
