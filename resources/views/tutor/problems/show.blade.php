@@ -234,6 +234,24 @@
 
             </div>
 
+            {{-- Report Problem --}}
+            <div class="border-t pt-6 mb-6">
+
+                <a
+                    href="{{ route('reports.problem.create', $problem->id) }}"
+                    class="inline-flex items-center gap-2
+                        bg-red-600 hover:bg-red-700
+                        text-white px-4 py-2
+                        rounded-lg
+                        text-sm font-semibold
+                        transition">
+
+                    Report Problem
+
+                </a>
+
+            </div>
+
 
  {{-- Start Working / Submit Solution --}}
 <div class="border-t pt-6">
