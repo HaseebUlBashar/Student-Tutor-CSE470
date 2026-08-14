@@ -416,34 +416,34 @@
                             {{-- Review Button --}}
                             <div class="lg:shrink-0">
 
-                                <button
-                                    type="button"
+                                <a
+                                    href="{{ route('admin.reports.show', $report->id) }}"
                                     class="inline-flex items-center gap-2
-                                           bg-blue-600
-                                           hover:bg-blue-700
-                                           text-white
-                                           px-5 py-2.5
-                                           rounded-xl
-                                           text-sm
-                                           font-semibold
-                                           transition">
+                                        bg-blue-600
+                                        hover:bg-blue-700
+                                        text-white
+                                        px-5 py-2.5
+                                        rounded-xl
+                                        text-sm
+                                        font-semibold
+                                        transition">
 
                                     Review Report
 
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                         class="w-4 h-4"
-                                         fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor"
-                                         stroke-width="2">
+                                        class="w-4 h-4"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2">
 
                                         <path stroke-linecap="round"
-                                              stroke-linejoin="round"
-                                              d="M9 5l7 7-7 7"/>
+                                            stroke-linejoin="round"
+                                            d="M9 5l7 7-7 7"/>
 
                                     </svg>
 
-                                </button>
+                                </a>
 
                             </div>
 

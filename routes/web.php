@@ -9,6 +9,7 @@ use App\Http\Controllers\TutorDashboardController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,6 +40,18 @@ Route::get('/tutor/dashboard', [TutorDashboardController::class, 'index'])
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'role:admin'])
     ->name('admin.dashboard');
+
+Route::get('/admin/reports/{report}', [\App\Http\Controllers\AdminReportController::class, 'show'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.show');
+
+Route::post('/admin/reports/{report}/action', [\App\Http\Controllers\AdminReportController::class, 'takeAction'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.action');
+
+Route::post('/admin/reports/{report}/dismiss', [\App\Http\Controllers\AdminReportController::class, 'dismiss'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.dismiss');
 
 Route::resource('problems', ProblemController::class)
     ->middleware(['auth','role:student']);
