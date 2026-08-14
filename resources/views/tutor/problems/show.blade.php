@@ -143,11 +143,40 @@
                         <div class="flex justify-center items-center gap-2">
 
                             <a
-                                href="{{ route('tutor.problems.show', $problem->id) }}"
-                                class="inline-block bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 text-sm font-medium transition">
-                                View
-                            </a>
+    href="{{ asset('storage/' . $problem->attachment) }}"
+    target="_blank"
+    class="inline-flex items-center gap-2
+           bg-blue-600 hover:bg-blue-700
+           text-white px-4 py-2
+           rounded-lg
+           text-sm font-semibold
+           shadow-sm hover:shadow-md
+           transition-all duration-200">
 
+    <!-- Eye Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="w-4 h-4"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke="currentColor"
+         stroke-width="2">
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.458 12C3.732 7.943 7.523 5 12 5
+                 c4.477 0 8.268 2.943 9.542 7
+                 -1.274 4.057-5.065 7-9.542 7
+                 -4.477 0-8.268-2.943-9.542-7z"/>
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+
+    </svg>
+
+    <span>View Attachment</span>
+
+</a>
                             @if(auth()->user()->bookmarkedProblems()->where('problem_id', $problem->id)->exists())
 
                                 <form
@@ -206,55 +235,111 @@
             </div>
 
 
-            {{-- Start Working --}}
-            <div class="border-t pt-6">
+ {{-- Start Working / Submit Solution --}}
+<div class="border-t pt-6">
+
+    @php
+        $mySolution = \App\Models\Solution::where('problem_id', $problem->id)
+            ->where('student_tutor_id', auth()->id())
+            ->first();
+    @endphp
+
+
+    @if($problem->status === 'Solved')
+
+        <div class="bg-green-100 text-green-800 p-4 rounded-lg
+                    text-center font-semibold">
+
+            ✓ This problem has already been solved.
+
+        </div>
+
+
+    @elseif($problem->status === 'Expired')
+
+        <div class="bg-red-100 text-red-800 p-4 rounded-lg
+                    text-center font-semibold">
+
+            This problem has expired.
+
+        </div>
+
+
+    @elseif($mySolution && $mySolution->status === 'submitted')
+
+        <div class="bg-blue-50 border border-blue-200
+                    text-blue-800 p-4 rounded-lg text-center">
+
+            <p class="font-semibold">
+                ✓ You have already submitted a solution.
+            </p>
+
+            <p class="text-sm mt-1">
+                The student will review your solution.
+            </p>
+
+        </div>
+
+
+    @elseif($mySolution && $mySolution->status === 'draft')
+
+        <form
+            method="POST"
+            action="{{ route('tutor.solutions.submit', $mySolution->id) }}">
+
+            @csrf
+
+            <a
+                href="{{ route('tutor.solutions.create', $mySolution->id) }}"
+                class="block w-full bg-blue-600 text-white
+                       py-4 rounded-xl font-bold text-lg
+                       text-center hover:bg-blue-700 transition">
+
+                Continue Your Solution
+
+            </a>
+
+        </form>
+
+
+    @else
+
+        <form
+            method="POST"
+            action="{{ route('tutor.problems.start', $problem->id) }}">
+
+            @csrf
+
+            <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-4
+                       rounded-xl font-bold text-lg
+                       hover:bg-blue-700 transition">
 
                 @if($problem->status === 'Open')
+                    Start Working
+                @else
+                    Submit Your Own Solution
+                @endif
 
-    <form
-        method="POST"
-        action="{{ route('tutor.problems.start', $problem->id) }}">
+            </button>
 
-        @csrf
+        </form>
 
-        <button
-            type="submit"
-            class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700">
+        @if($problem->status === 'In Progress')
 
-            Start Working
+            <p class="text-sm text-gray-500 text-center mt-3">
 
-        </button>
+                Other Student Tutors are also working on this problem.
+                You can submit your own solution.
 
-    </form>
+            </p>
 
-@elseif($problem->status === 'In Progress')
+        @endif
 
-    <div class="bg-yellow-100 text-yellow-800 p-4 rounded-lg text-center font-semibold">
+    @endif
 
-        This problem is currently being worked on.
-
-    </div>
-
-@elseif($problem->status === 'Solved')
-
-    <div class="bg-green-100 text-green-800 p-4 rounded-lg text-center font-semibold">
-
-        This problem has already been solved.
-
-    </div>
-
-@elseif($problem->status === 'Expired')
-
-    <div class="bg-red-100 text-red-800 p-4 rounded-lg text-center font-semibold">
-
-        This problem has expired.
-
-    </div>
-
-@endif
-
-            </div>
-
+</div>
         </div>
 
     </div>

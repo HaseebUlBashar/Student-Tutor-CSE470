@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TutorProblemController;
+use App\Http\Controllers\TutorDashboardController;
 use App\Http\Controllers\BookmarkController;
 
 Route::get('/', function () {
@@ -29,10 +30,9 @@ Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])
     ->middleware(['auth', 'role:student'])
     ->name('student.dashboard');
 
-Route::get('/tutor/dashboard', function () {
-    return view('tutor.dashboard');
-})->middleware(['auth', 'role:student_tutor'])
-->name('tutor.dashboard');
+Route::get('/tutor/dashboard', [TutorDashboardController::class, 'index'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.dashboard');
 
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
@@ -41,6 +41,14 @@ Route::get('/admin/dashboard', function () {
 
 Route::resource('problems', ProblemController::class)
     ->middleware(['auth','role:student']);
+
+Route::get('/problems/{problem}/solutions', [ProblemController::class, 'solutions'])
+    ->middleware(['auth', 'role:student'])
+    ->name('problems.solutions');
+
+Route::post('/solutions/{solution}/accept', [ProblemController::class, 'acceptSolution'])
+    ->middleware(['auth', 'role:student'])
+    ->name('solutions.accept');
 
 Route::get('/tutor/problems/{problem}', [ProblemController::class, 'tutorShow'])
     ->middleware(['auth', 'role:student_tutor'])

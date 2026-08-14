@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Problem;
+use App\Models\Solution;
 
 class StudentDashboardController extends Controller
 {
@@ -29,13 +30,30 @@ class StudentDashboardController extends Controller
             ->take(5)
             ->get();
 
+        $newSolutions = Solution::with(['problem', 'studentTutor'])
+                ->whereHas('problem', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->where('status', 'submitted')
+                ->latest('submitted_at')
+                ->take(5)
+                ->get();
+
+        $newSolutionsCount = Solution::whereHas('problem', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->where('status', 'submitted')
+                ->count();
+
 
         return view('student.dashboard', compact(
             'totalProblems',
             'openProblems',
             'inProgressProblems',
             'solvedProblems',
-            'recentProblems'
+            'recentProblems',
+            'newSolutions',
+            'newSolutionsCount'
         ));
     }
 }
