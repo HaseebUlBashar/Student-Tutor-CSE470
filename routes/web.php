@@ -7,6 +7,7 @@ use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TutorProblemController;
 use App\Http\Controllers\TutorDashboardController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\WalletController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -75,7 +76,17 @@ Route::middleware(['auth', 'role:student_tutor'])->group(function () {
 
     Route::delete('/tutor/problems/{problem}/bookmark', [BookmarkController::class, 'destroy'])
         ->name('tutor.bookmarks.destroy');
-
 });
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/wallet', [WalletController::class, 'index'])
+        ->name('wallet.index');
+
+    Route::post('/wallet/deposit', [WalletController::class, 'deposit'])
+        ->name('wallet.deposit');
+});
+
 
 require __DIR__.'/auth.php';
