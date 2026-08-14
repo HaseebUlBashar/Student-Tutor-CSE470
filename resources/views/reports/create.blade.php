@@ -348,22 +348,6 @@
 
                     </div>
 
-
-                    {{-- ================= HIDDEN IDS ================= --}}
-
-                    <input type="hidden"
-                           name="problem_id"
-                           value="{{ $problem->id }}">
-
-                    @if($solution)
-
-                        <input type="hidden"
-                               name="solution_id"
-                               value="{{ $solution->id }}">
-
-                    @endif
-
-
                     {{-- ================= REPORT FORM ================= --}}
 
                     <form method="POST"
@@ -371,30 +355,19 @@
 
                         @csrf
 
-
-                        <input type="hidden"
-                               name="problem_id"
-                               value="{{ $problem->id }}">
-
-
                         @if($solution)
 
                             <input type="hidden"
-                                   name="solution_id"
-                                   value="{{ $solution->id }}">
-
-                            <input type="hidden"
-                                   name="reported_user_id"
-                                   value="{{ $solution->student_tutor_id }}">
+                                name="solution_id"
+                                value="{{ $solution->id }}">
 
                         @else
 
                             <input type="hidden"
-                                   name="reported_user_id"
-                                   value="{{ $problem->user_id }}">
+                                name="problem_id"
+                                value="{{ $problem->id }}">
 
                         @endif
-
 
                         {{-- ================= REASON ================= --}}
 
