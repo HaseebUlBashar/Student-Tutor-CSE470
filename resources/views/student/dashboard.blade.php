@@ -756,6 +756,23 @@
 
                                             </span>
 
+                                        @elseif($problem->status === 'Expired')
+
+                                            <span class="inline-flex items-center
+                                                         px-3 py-1 rounded-full
+                                                         bg-red-50
+                                                         text-red-700
+                                                         text-xs font-semibold">
+
+                                                <span class="w-2 h-2
+                                                             bg-red-500
+                                                             rounded-full mr-2">
+                                                </span>
+
+                                                Expired
+
+                                            </span>
+
                                         @else
 
                                             <span class="text-sm text-slate-600">

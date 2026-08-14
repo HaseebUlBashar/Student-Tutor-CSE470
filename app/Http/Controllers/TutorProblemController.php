@@ -9,7 +9,16 @@ class TutorProblemController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Problem::whereIn('status', ['Open', 'In Progress']);
+        // Mark overdue problems as expired
+        Problem::whereIn('status', ['Open', 'In Progress'])
+            ->where('deadline', '<', now())
+            ->update([
+                'status' => 'Expired',
+            ]);
+
+        // Only show active problems with a future deadline
+        $query = Problem::whereIn('status', ['Open', 'In Progress'])
+            ->where('deadline', '>=', now());
 
         // Search by department
         if ($request->filled('department')) {
@@ -45,8 +54,8 @@ class TutorProblemController extends Controller
         if ($request->filled('deadline')) {
             $query->whereDate('deadline', $request->deadline);
         }
-        
-        //Sorting
+
+        // Sorting
         $sort = $request->get('sort', 'latest');
 
         switch ($sort) {
