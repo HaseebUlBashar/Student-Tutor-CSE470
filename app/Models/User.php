@@ -12,8 +12,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Problem;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'email', 'role', 'password', 'points'])]
+#[Fillable(['name', 'email', 'role', 'password', 'points', 'account_status', 'suspended_until'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -30,6 +31,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'suspended_until' => 'datetime',
         ];
     }
     public function problems()
@@ -103,5 +105,13 @@ public function badgeProgress(): int
 public function wallet(): HasOne
 {
     return $this->hasOne(Wallet::class);
+}
+public function warnings(): HasMany
+{
+    return $this->hasMany(UserWarning::class, 'user_id');
+}
+public function issuedWarnings(): HasMany
+{
+    return $this->hasMany(UserWarning::class, 'admin_id');
 }
 }

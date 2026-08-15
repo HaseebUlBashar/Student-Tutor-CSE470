@@ -136,33 +136,120 @@
     </h2>
 
     <p class="text-sm text-slate-500 mb-6">
-        Decide whether this report requires action or should be dismissed.
+        Select an action for this report and explain your decision.
     </p>
 
-    <form method="POST" action="{{ route('admin.reports.action', $report->id) }}">
+    <form method="POST"
+          action="{{ route('admin.reports.action', $report->id) }}">
+
         @csrf
 
-        <label for="admin_note"
-               class="block text-sm font-semibold text-slate-700 mb-2">
-            Admin Note
-        </label>
+        {{-- Action --}}
+        <div>
 
-        <textarea
-            id="admin_note"
-            name="admin_note"
-            rows="4"
-            maxlength="2000"
-            placeholder="Explain your decision..."
-            class="w-full rounded-xl border-slate-300
-                   focus:border-blue-500 focus:ring-blue-500">{{ old('admin_note') }}</textarea>
+            <label for="action"
+                   class="block text-sm font-semibold text-slate-700 mb-2">
+                Action
+            </label>
 
-        @error('admin_note')
-            <p class="text-sm text-red-600 mt-2">
-                {{ $message }}
-            </p>
-        @enderror
+            <select id="action"
+                    name="action"
+                    required
+                    class="w-full rounded-xl border-slate-300
+                           focus:border-blue-500 focus:ring-blue-500">
 
-        <div class="flex flex-col sm:flex-row gap-3 mt-6">
+                <option value="">
+                    Select an action
+                </option>
+
+                <option value="remove_content">
+                    Remove Content
+                </option>
+
+                <option value="warn_user">
+                    Warn User
+                </option>
+
+                <option value="remove_and_warn">
+                    Remove Content & Warn User
+                </option>
+
+                <option value="suspend">
+                    Suspend User
+                </option>
+
+                <option value="ban">
+                    Permanently Ban User
+                </option>
+
+            </select>
+
+            @error('action')
+                <p class="text-sm text-red-600 mt-2">
+                    {{ $message }}
+                </p>
+            @enderror
+
+        </div>
+
+        {{-- Suspension Duration --}}
+        <div id="suspension-duration" class="mt-5 hidden">
+
+            <label for="suspension_duration"
+                   class="block text-sm font-semibold text-slate-700 mb-2">
+                Suspension Duration
+            </label>
+
+            <select
+                id="suspension_duration"
+                name="suspension_duration"
+                class="w-full rounded-xl border-slate-300
+                       focus:border-blue-500 focus:ring-blue-500">
+
+                <option value="">Select duration</option>
+                <option value="1">1 Day</option>
+                <option value="7">7 Days</option>
+                <option value="30">30 Days</option>
+
+            </select>
+
+            @error('suspension_duration')
+                <p class="text-sm text-red-600 mt-2">
+                    {{ $message }}
+                </p>
+            @enderror
+
+        </div>
+
+
+        {{-- Admin Note --}}
+        <div class="mb-6">
+
+            <label for="admin_note"
+                   class="block text-sm font-semibold text-slate-700 mb-2">
+                Admin Note
+            </label>
+
+            <textarea
+                id="admin_note"
+                name="admin_note"
+                rows="4"
+                maxlength="2000"
+                placeholder="Explain your decision..."
+                class="w-full rounded-xl border-slate-300
+                       focus:border-blue-500 focus:ring-blue-500">{{ old('admin_note') }}</textarea>
+
+            @error('admin_note')
+                <p class="text-sm text-red-600 mt-2">
+                    {{ $message }}
+                </p>
+            @enderror
+
+        </div>
+
+
+        {{-- Buttons --}}
+        <div class="flex flex-col sm:flex-row gap-3">
 
             <button
                 type="submit"
@@ -172,7 +259,7 @@
                        font-semibold
                        transition">
 
-                Take Action
+                Apply Action
 
             </button>
 
@@ -194,5 +281,16 @@
     </form>
 
 </div>
+<script>
+    const actionSelect = document.getElementById('action');
+    const suspensionDuration = document.getElementById('suspension-duration');
 
+    actionSelect.addEventListener('change', function () {
+        if (this.value === 'suspend') {
+            suspensionDuration.classList.remove('hidden');
+        } else {
+            suspensionDuration.classList.add('hidden');
+        }
+    });
+</script>
 </x-app-layout>
