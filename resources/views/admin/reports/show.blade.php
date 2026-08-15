@@ -162,11 +162,7 @@
                     Select an action
                 </option>
 
-                <option value="remove_content">
-                    Remove Content
-                </option>
-
-                <option value="warn_user">
+                <option value="warn">
                     Warn User
                 </option>
 

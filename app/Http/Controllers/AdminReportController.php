@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
-use App\Models\UseWarning;
+use App\Models\UserWarning;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +24,7 @@ class AdminReportController extends Controller
     public function takeAction(Request $request, Report $report)
     {
         $validated = $request->validate([
-            'action' => 'required|in:remove_content,warn,remove_and_warn,suspend,ban',
+            'action' => 'required|in:warn,remove_and_warn,suspend,ban',
             'suspension_duration' => 'nullable|in:1,7,30',
             'admin_note' => 'nullable|string|max:2000',
         ]);
@@ -43,45 +43,44 @@ class AdminReportController extends Controller
         DB::transaction(function () use ($validated, $report) {
 
             $user = $report->reportedUser;
-
-            /*
-            * Remove the reported content.
-            */
+            /* Save a snapshot and remove the reported content */
             if (
                 in_array($validated['action'], [
-                    'remove_content',
                     'remove_and_warn',
+                    'suspend',
+                    'ban',
                 ])
             ) {
                 if ($report->problem) {
+                    $report->update([
+                        'reported_content_type' => 'Problem',
+                        'reported_content_title' => $report->problem->title,
+                        'reported_content_description' => $report->problem->description,
+                        'reported_content_attachment' => $report->problem->attachment,
+                    ]);
                     $report->problem->delete();
                 }
-
                 if ($report->solution) {
+                    $report->update([
+                        'reported_content_type' => 'Solution',
+                        'reported_content_title' => $report->solution->problem->title ?? null,
+                        'reported_content_description' => $report->solution->description,
+                        'reported_content_attachment' => $report->solution->attachment,
+                    ]);
                     $report->solution->delete();
                 }
             }
 
-            /*
-            * Create a warning.
-            */
-            if (
-                in_array($validated['action'], [
-                    'warn',
-                    'remove_and_warn',
-                ])
-            ) {
-                UserWarning::create([
-                    'user_id' => $user->id,
-                    'admin_id' => auth()->id(),
-                    'report_id' => $report->id,
-                    'reason' => $validated['admin_note'] ?? 'Warning issued by administrator.',
-                ]);
-            }
+            /* Create a warning */
+            UserWarning::create([
+                'user_id' => $user->id,
+                'admin_id' => auth()->id(),
+                'report_id' => $report->id,
+                'reason' => $validated['admin_note']
+                    ?? 'Warning issued by administrator.',
+            ]);
 
-            /*
-            * Suspend the user.
-            */
+            /* Suspend the user */
             if ($validated['action'] === 'suspend') {
 
                 $user->update([
@@ -92,9 +91,7 @@ class AdminReportController extends Controller
                 ]);
             }
 
-            /*
-            * Permanently ban the user.
-            */
+            /* Permanently ban the user */
             if ($validated['action'] === 'ban') {
 
                 $user->update([
@@ -103,9 +100,7 @@ class AdminReportController extends Controller
                 ]);
             }
 
-            /*
-            * Mark the report as handled.
-            */
+            /* Mark the report as handled */
             $report->update([
                 'status' => 'action_taken',
                 'admin_note' => $validated['admin_note'] ?? null,

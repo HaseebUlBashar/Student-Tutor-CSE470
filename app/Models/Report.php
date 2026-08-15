@@ -16,6 +16,10 @@ class Report extends Model
         'description',
         'status',
         'admin_note',
+        'reported_content_type',
+        'reported_content_title',
+        'reported_content_description',
+        'reported_content_attachment',
     ];
 
     public function reporter(): BelongsTo

@@ -54,20 +54,6 @@
 
             @endif
 
-            <form method="POST" action="{{ route('logout') }}" class="mt-8">
-                @csrf
-
-                <button
-                    type="submit"
-                    class="bg-slate-800 hover:bg-slate-900
-                           text-white px-6 py-2.5
-                           rounded-xl font-semibold transition">
-
-                    Log Out
-
-                </button>
-            </form>
-
         </div>
 
     </div>
