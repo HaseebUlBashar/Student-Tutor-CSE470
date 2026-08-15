@@ -15,6 +15,9 @@ use App\Http\Controllers\WalletController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/account/status', function () {
+    return view('account-status');
+})->middleware('auth')->name('account.status');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
