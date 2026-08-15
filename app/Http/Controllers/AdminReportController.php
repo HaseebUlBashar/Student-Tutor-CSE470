@@ -17,8 +17,9 @@ class AdminReportController extends Controller
             'problem',
             'solution',
         ]);
+        $previousWarningCount = UserWarning::where('user_id', $report->reported_user_id)->count();
 
-        return view('admin.reports.show', compact('report'));
+        return view('admin.reports.show', compact('report', 'previousWarningCount'));
     }
 
     public function takeAction(Request $request, Report $report)

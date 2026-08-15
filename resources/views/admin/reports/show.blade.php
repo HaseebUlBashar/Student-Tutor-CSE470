@@ -32,6 +32,13 @@
                 </div>
 
                 <div>
+                    <p class="text-sm text-slate-500">Previous Warnings</p>
+                    <p class="font-semibold text-slate-900">
+                        {{ $previousWarningCount }}
+                    </p>
+                </div>
+
+                <div>
                     <p class="text-sm text-slate-500">Reported By</p>
                     <p class="font-semibold text-slate-900">
                         {{ $report->reporter->name ?? 'Unknown User' }}
@@ -155,7 +162,7 @@
             <select id="action"
                     name="action"
                     required
-                    class="w-full rounded-xl border-slate-300
+                    class="w-full rounded-xl border-slate-300 mb-3
                            focus:border-blue-500 focus:ring-blue-500">
 
                 <option value="">
