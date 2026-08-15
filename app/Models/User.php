@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Problem;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['name', 'email', 'role', 'password', 'points'])]
 #[Hidden(['password', 'remember_token'])]
@@ -98,5 +99,9 @@ public function badgeProgress(): int
     }
 
     return (int) ($this->points / 1000 * 100);
+}
+public function wallet(): HasOne
+{
+    return $this->hasOne(Wallet::class);
 }
 }

@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Problem;
 use App\Models\Solution;
 use App\Models\User;
+use App\Models\Wallet;
+use App\Models\WalletTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
 
 class ProblemController extends Controller
 {
@@ -16,9 +19,12 @@ class ProblemController extends Controller
      */
     public function index()
     {
-    $problems = Problem::where('user_id', auth()->id())
-        ->latest()
-        ->get();
+    // $problems = Problem::where('user_id', auth()->id())
+    //     ->latest()
+    //     ->get();
+    $problems = Problem::where('user_id', Auth::id())
+    ->latest()
+    ->get();
 
     return view('problems.index', compact('problems'));
     }
@@ -337,41 +343,171 @@ public function acceptSolution(Solution $solution)
             ->with('error', 'This solution cannot be accepted.');
     }
 
-    DB::transaction(function () use ($problem, $solution) {
+    try {
 
-        // Accept the selected solution
-        $solution->update([
-            'status' => 'accepted',
-        ]);
+        DB::transaction(function () use ($problem, $solution) {
 
-        // Reject all other submitted solutions
-        Solution::where('problem_id', $problem->id)
-            ->where('id', '!=', $solution->id)
-            ->where('status', 'submitted')
-            ->update([
-                'status' => 'rejected',
+            /*
+             * Lock the student's wallet.
+             *
+             * This prevents two requests from spending
+             * the same wallet balance at the same time.
+             */
+            $studentWallet = Wallet::where('user_id', $problem->user_id)
+                ->lockForUpdate()
+                ->first();
+
+            /*
+             * If the student does not have a wallet yet,
+             * create one with a zero balance.
+             */
+            if (!$studentWallet) {
+                $studentWallet = Wallet::create([
+                    'user_id' => $problem->user_id,
+                    'balance' => 0,
+                ]);
+            }
+
+            /*
+             * Check whether the student has enough money
+             * to pay the tutor.
+             */
+            if ($studentWallet->balance < $solution->reward) {
+
+                throw new \Exception(
+                    'Insufficient wallet balance. Please deposit enough money before accepting this solution.'
+                );
+            }
+
+            /*
+             * Get the tutor's wallet.
+             *
+             * If the tutor does not have a wallet yet,
+             * create one with zero balance.
+             */
+            $tutor = User::findOrFail($solution->student_tutor_id);
+
+            $tutorWallet = Wallet::firstOrCreate(
+                ['user_id' => $tutor->id],
+                ['balance' => 0]
+            );
+
+            /*
+             * Lock the tutor wallet too.
+             *
+             * This makes the transfer safer when multiple
+             * wallet operations happen at the same time.
+             */
+            $tutorWallet = Wallet::where('id', $tutorWallet->id)
+                ->lockForUpdate()
+                ->first();
+
+            /*
+             * Calculate the reward that will be transferred.
+             */
+            $reward = $solution->reward;
+
+            /*
+             * ---------------------------------------------
+             * 1. DEDUCT MONEY FROM STUDENT
+             * ---------------------------------------------
+             */
+            $studentWallet->balance -= $reward;
+            $studentWallet->save();
+
+            /*
+             * Create the student's payment transaction.
+             *
+             * We store the amount as positive here, while
+             * the transaction type tells us that this is money
+             * leaving the wallet.
+             */
+            WalletTransaction::create([
+                'wallet_id' => $studentWallet->id,
+                'type' => 'payment',
+                'amount' => $reward,
+                'description' => 'Payment for accepted solution: ' . $problem->title,
+                'solution_id' => $solution->id,
+                'balance_after' => $studentWallet->balance,
             ]);
 
-        // Now the problem is officially solved
-        $problem->update([
-            'status' => 'Solved',
-        ]);
-        // Award points to the Student Tutor
-        $points = match ($problem->difficulty) {
-            'Easy' => 5,
-            'Medium' => 10,
-            'Hard' => 20,
-            default => 0,
-        };
+            /*
+             * ---------------------------------------------
+             * 2. ADD MONEY TO TUTOR
+             * ---------------------------------------------
+             */
+            $tutorWallet->balance += $reward;
+            $tutorWallet->save();
 
-        $tutor = User::findOrFail($solution->student_tutor_id);
+            /*
+             * Create the tutor's earning transaction.
+             */
+            WalletTransaction::create([
+                'wallet_id' => $tutorWallet->id,
+                'type' => 'earning',
+                'amount' => $reward,
+                'description' => 'Earning from accepted solution for: ' . $problem->title,
+                'solution_id' => $solution->id,
+                'balance_after' => $tutorWallet->balance,
+            ]);
 
-        $tutor->increment('points', $points);
-    });
+            /*
+             * ---------------------------------------------
+             * 3. ACCEPT THE SOLUTION
+             * ---------------------------------------------
+             */
+            $solution->update([
+                'status' => 'accepted',
+            ]);
+
+            /*
+             * Reject all other submitted solutions
+             * for this problem.
+             */
+            Solution::where('problem_id', $problem->id)
+                ->where('id', '!=', $solution->id)
+                ->where('status', 'submitted')
+                ->update([
+                    'status' => 'rejected',
+                ]);
+
+            /*
+             * The problem is now officially solved.
+             */
+            $problem->update([
+                'status' => 'Solved',
+            ]);
+
+            /*
+             * ---------------------------------------------
+             * 4. AWARD POINTS TO THE TUTOR
+             * ---------------------------------------------
+             */
+            $points = match ($problem->difficulty) {
+                'Easy' => 5,
+                'Medium' => 10,
+                'Hard' => 20,
+                default => 0,
+            };
+
+            $tutor->increment('points', $points);
+        });
+
+    } catch (\Exception $e) {
+
+        return redirect()
+            ->route('problems.solutions', $problem->id)
+            ->with('error', $e->getMessage());
+    }
 
     return redirect()
         ->route('problems.solutions', $problem->id)
-        ->with('success', 'Solution accepted successfully! The problem is now solved.');
+        ->with(
+            'success',
+            'Solution accepted successfully! ৳' .
+            number_format($solution->reward, 2) .
+            ' has been transferred to the Student Tutor.'
+        );
 }
 public function solutions(Problem $problem)
 {

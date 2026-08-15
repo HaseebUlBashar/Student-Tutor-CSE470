@@ -10,6 +10,7 @@ use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminReportController;
+use App\Http\Controllers\WalletController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -89,7 +90,6 @@ Route::middleware(['auth', 'role:student_tutor'])->group(function () {
 
     Route::delete('/tutor/problems/{problem}/bookmark', [BookmarkController::class, 'destroy'])
         ->name('tutor.bookmarks.destroy');
-
 });
 
 Route::get('/reports/problem/{problem}', [ReportController::class, 'createForProblem'])
@@ -103,5 +103,15 @@ Route::get('/reports/solution/{solution}', [ReportController::class, 'createForS
 Route::post('/reports', [ReportController::class, 'store'])
     ->middleware('auth')
     ->name('reports.store');
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/wallet', [WalletController::class, 'index'])
+        ->name('wallet.index');
+
+    Route::post('/wallet/deposit', [WalletController::class, 'deposit'])
+        ->name('wallet.deposit');
+});
+
 
 require __DIR__.'/auth.php';
