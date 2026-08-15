@@ -7,11 +7,17 @@ use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TutorProblemController;
 use App\Http\Controllers\TutorDashboardController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\WalletController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/account/status', function () {
+    return view('account-status');
+})->middleware('auth')->name('account.status');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,10 +41,21 @@ Route::get('/tutor/dashboard', [TutorDashboardController::class, 'index'])
     ->middleware(['auth', 'role:student_tutor'])
     ->name('tutor.dashboard');
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'role:admin'])
-->name('admin.dashboard');
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.dashboard');
+
+Route::get('/admin/reports/{report}', [\App\Http\Controllers\AdminReportController::class, 'show'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.show');
+
+Route::post('/admin/reports/{report}/action', [\App\Http\Controllers\AdminReportController::class, 'takeAction'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.action');
+
+Route::post('/admin/reports/{report}/dismiss', [\App\Http\Controllers\AdminReportController::class, 'dismiss'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.dismiss');
 
 Route::resource('problems', ProblemController::class)
     ->middleware(['auth','role:student']);
@@ -78,6 +95,17 @@ Route::middleware(['auth', 'role:student_tutor'])->group(function () {
         ->name('tutor.bookmarks.destroy');
 });
 
+Route::get('/reports/problem/{problem}', [ReportController::class, 'createForProblem'])
+    ->middleware('auth')
+    ->name('reports.problem.create');
+
+Route::get('/reports/solution/{solution}', [ReportController::class, 'createForSolution'])
+    ->middleware('auth')
+    ->name('reports.solution.create');
+
+Route::post('/reports', [ReportController::class, 'store'])
+    ->middleware('auth')
+    ->name('reports.store');
 
 Route::middleware('auth')->group(function () {
 

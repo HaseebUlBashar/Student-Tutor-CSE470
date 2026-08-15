@@ -192,6 +192,22 @@
 
                     @endif
 
+                    @if(auth()->user()->role === 'student')
+
+                        <div class="mt-4">
+
+                            <a href="{{ route('reports.solution.create', $solution->id) }}"
+                            class="inline-flex items-center gap-2
+                                    text-red-600 hover:text-red-700
+                                    font-semibold">
+
+                                ⚠ Report Solution
+
+                            </a>
+
+                        </div>
+
+                    @endif
 
                     @if($solution->submitted_at)
 

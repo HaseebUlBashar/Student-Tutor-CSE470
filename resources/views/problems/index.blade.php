@@ -24,7 +24,7 @@
                     </p>
 
                     <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">
-                        My Academic Problems
+                        📖 My Academic Problems
                     </h2>
 
                     <p class="mt-2 text-blue-100">
@@ -413,6 +413,22 @@
                                         <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
 
                                         Solved
+
+                                    </span>
+
+                                @elseif($problem->status === 'Expired')
+                                
+                                    <span class="inline-flex items-center gap-2
+                                                 px-3 py-1.5
+                                                 rounded-full
+                                                 bg-red-50
+                                                 text-red-700
+                                                 text-sm
+                                                 font-semibold">
+
+                                        <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+
+                                        Expired
 
                                     </span>
 
