@@ -1,135 +1,971 @@
 <x-app-layout>
 
+    {{-- ================= HEADER ================= --}}
     <x-slot name="header">
-        <h2 class="text-3xl font-bold">
-            Student Dashboard
-        </h2>
-    </x-slot>
 
-    <div class="max-w-7xl mx-auto py-8">
+    <div class="relative overflow-hidden">
 
-        <h1 class="text-2xl font-semibold mb-6">
-            Welcome, {{ auth()->user()->name }} 👋
-        </h1>
+        <!-- Background decoration -->
+        <div class="absolute -top-10 -right-10 w-40 h-40
+                    bg-blue-100 rounded-full opacity-60">
+        </div>
 
-        <div class="grid grid-cols-4 gap-6">
+        <div class="absolute -bottom-16 -right-5 w-32 h-32
+                    bg-indigo-100 rounded-full opacity-50">
+        </div>
 
-            <div class="bg-blue-500 text-white rounded-xl p-6 shadow">
-                <h3>Total Problems</h3>
-                <p class="text-4xl font-bold mt-3">
-                    {{ $totalProblems }}
+
+        <div class="relative flex items-center justify-between gap-6">
+
+            <!-- Left Content -->
+            <div>
+
+                <!-- Small Label -->
+                <div class="flex items-center gap-2 mb-2">
+
+                    <span class="inline-flex items-center
+                                 px-3 py-1
+                                 rounded-full
+                                 bg-blue-100
+                                 text-blue-700
+                                 text-xs
+                                 font-bold
+                                 uppercase
+                                 tracking-wider">
+
+                        Student Portal
+
+                    </span>
+
+                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+
+                    <span class="text-xs text-gray-500 font-medium">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <!-- Main Heading -->
+                <h2 class="text-3xl md:text-4xl
+                           font-extrabold
+                           text-slate-900
+                           tracking-tight">
+
+                    Student Dashboard
+
+                </h2>
+
+
+                <!-- Description -->
+                <p class="mt-2
+                          text-blue-100
+                          text-sm md:text-base
+                          max-w-xl">
+
+                    Manage your academic problems, track their progress,
+                    and connect with student tutors.
+
                 </p>
+
             </div>
 
-            <div class="bg-green-500 text-white rounded-xl p-6 shadow">
-                <h3>Open</h3>
-                <p class="text-4xl font-bold mt-3">
-                    {{ $openProblems }}
-                </p>
-            </div>
 
-            <div class="bg-yellow-500 text-white rounded-xl p-6 shadow">
-                <h3>In Progress</h3>
-                <p class="text-4xl font-bold mt-3">
-                    {{ $inProgressProblems }}
-                </p>
-            </div>
+            <!-- Right Icon -->
+            <div class="hidden sm:flex
+                        relative
+                        w-20 h-20
+                        rounded-3xl
+                        bg-gradient-to-br
+                        from-blue-500
+                        to-indigo-600
+                        items-center
+                        justify-center
+                        shadow-lg
+                        shadow-blue-200">
 
-            <div class="bg-purple-500 text-white rounded-xl p-6 shadow">
-                <h3>Solved</h3>
-                <p class="text-4xl font-bold mt-3">
-                    {{ $solvedProblems }}
-                </p>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="w-10 h-10 text-white"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="1.7">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18s-3.332.477-4.5 1.253"/>
+
+                </svg>
+
             </div>
 
         </div>
-        <br><br>
-        <div class="mb-6">
-        <a href="{{ route('problems.create') }}"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
-            + Post New Problem
-        </a>
-        </div>
-        <div class="mt-8 bg-white shadow rounded-xl overflow-hidden">
-
-    <div class="p-5 border-b">
-
-        <h2 class="text-xl font-bold">
-
-            Recent Problems
-
-        </h2>
 
     </div>
 
-    <table class="w-full">
+</x-slot>
 
-        <thead class="bg-gray-100">
 
-        <tr>
+    {{-- ================= MAIN CONTENT ================= --}}
 
-            <th class="p-4 text-left">Title</th>
-            <th class="p-4 text-left">Course</th>
-            <th class="p-4 text-left">Reward</th>
-            <th class="p-4 text-left">Status</th>
+    <div class="min-h-screen bg-slate-50">
 
-        </tr>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        </thead>
 
-        <tbody>
+            {{-- ================= WELCOME ================= --}}
 
-        @forelse($recentProblems as $problem)
+            <div class="flex flex-col md:flex-row md:items-center
+                        md:justify-between gap-4 mb-8">
 
-            <tr class="border-t">
+                <div>
 
-                <td class="p-4">{{ $problem->title }}</td>
+                    <p class="text-sm text-slate-500">
+                        Welcome back
+                    </p>
 
-                <td class="p-4">{{ $problem->course }}</td>
+                    <h1 class="text-2xl md:text-3xl font-bold text-slate-900">
+                        {{ auth()->user()->name }} 👋
+                    </h1>
 
-                <td class="p-4">{{ $problem->reward }}</td>
+                    <p class="mt-1 text-slate-500">
+                        Here's an overview of your academic problems.
+                    </p>
 
-                <td class="p-4">
+                </div>
 
-                    {{ $problem->status }}
 
-                </td>
+                {{-- Post Problem Button --}}
 
-            </tr>
+                <a href="{{ route('problems.create') }}"
+                   class="inline-flex items-center justify-center gap-2
+                          bg-blue-600 hover:bg-blue-700
+                          text-white font-semibold
+                          px-5 py-3 rounded-xl
+                          shadow-sm hover:shadow-md
+                          transition duration-200">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-5 h-5"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 4v16m8-8H4"/>
+
+                    </svg>
+
+                    Post New Problem
+
+                </a>
+
+            </div>
+            {{-- ================= NEW SOLUTIONS ================= --}}
+
+<div class="mb-8">
+
+    <div class="bg-white rounded-2xl border border-slate-200
+                shadow-sm overflow-hidden">
+
+        {{-- Notification Header --}}
+        <div class="px-6 py-5 border-b border-slate-200
+                    flex items-center justify-between">
+
+            <div class="flex items-center gap-3">
+
+                {{-- Bell Icon --}}
+                <div class="w-11 h-11 rounded-xl
+                            bg-blue-50
+                            flex items-center justify-center">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-6 h-6 text-blue-600"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15 17h5l-1.405-1.405A2.032
+                                 2.032 0 0118 14.158V11a6.002
+                                 6.002 0 00-4-5.659V5a2 2 0 10-4
+                                 0v.341C7.67 6.165 6 8.388
+                                 6 11v3.159c0 .538-.214 1.055
+                                 -.595 1.436L4 17h5m6 0v1a3 3
+                                 0 11-6 0v-1m6 0H9"/>
+
+                    </svg>
+
+                </div>
+
+
+                <div>
+
+                    <div class="flex items-center gap-2">
+
+                        <h2 class="text-lg font-bold text-slate-900">
+                            New Solutions
+                        </h2>
+
+                        @if($newSolutionsCount > 0)
+
+                            <span class="inline-flex items-center justify-center
+                                         min-w-6 h-6 px-2
+                                         rounded-full
+                                         bg-blue-600
+                                         text-white
+                                         text-xs
+                                         font-bold">
+
+                                {{ $newSolutionsCount }}
+
+                            </span>
+
+                        @endif
+
+                    </div>
+
+                    <p class="text-sm text-slate-500 mt-1">
+                        Solutions submitted by Student Tutors for your problems.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- Notification List --}}
+
+        @forelse($newSolutions as $solution)
+
+            <div class="px-6 py-5
+                        border-b border-slate-100
+                        hover:bg-slate-50
+                        transition duration-150">
+
+                <div class="flex flex-col sm:flex-row
+                            sm:items-center
+                            sm:justify-between
+                            gap-4">
+
+                    {{-- Notification Information --}}
+                    <div class="flex items-start gap-4">
+
+                        {{-- Tutor Icon --}}
+                        <div class="w-10 h-10
+                                    rounded-full
+                                    bg-indigo-100
+                                    text-indigo-700
+                                    flex items-center justify-center
+                                    font-bold
+                                    shrink-0">
+
+                            {{ strtoupper(substr($solution->studentTutor->name, 0, 1)) }}
+
+                        </div>
+
+
+                        <div>
+
+                            <p class="text-sm text-slate-500">
+
+                                New solution submitted for
+
+                            </p>
+
+                            <h3 class="font-bold text-slate-900">
+
+                                {{ $solution->problem->title }}
+
+                            </h3>
+
+                            <p class="text-sm text-slate-600 mt-1">
+
+                                Submitted by
+                                <span class="font-semibold">
+                                    {{ $solution->studentTutor->name }}
+                                </span>
+
+                            </p>
+
+                            @if($solution->submitted_at)
+
+                                <p class="text-xs text-slate-400 mt-1">
+
+                                    {{ $solution->submitted_at->format('d M Y, h:i A') }}
+
+                                </p>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- View Solution Button --}}
+                    <div class="sm:shrink-0">
+
+                        <a href="{{ route('problems.solutions', $solution->problem->id) }}"
+                           class="inline-flex items-center gap-2
+                                  bg-blue-600
+                                  hover:bg-blue-700
+                                  text-white
+                                  px-4 py-2.5
+                                  rounded-xl
+                                  text-sm
+                                  font-semibold
+                                  transition duration-200">
+
+                            View Solution
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M9 5l7 7-7 7"/>
+
+                            </svg>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         @empty
 
-            <tr>
+            {{-- No Notifications --}}
+            <div class="px-6 py-10 text-center">
 
-                <td colspan="4" class="text-center p-6">
+                <div class="w-14 h-14
+                            mx-auto
+                            rounded-2xl
+                            bg-slate-100
+                            flex items-center justify-center">
 
-                    You haven't posted any problems yet.
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-7 h-7 text-slate-400"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="1.8">
 
-                </td>
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15 17h5l-1.405-1.405A2.032
+                                 2.032 0 0118 14.158V11a6.002
+                                 6.002 0 00-4-5.659V5a2 2
+                                 0 10-4 0v.341C7.67 6.165
+                                 6 8.388 6 11v3.159c0
+                                 .538-.214 1.055-.595
+                                 1.436L4 17h5m6 0v1a3
+                                 3 0 11-6 0v-1m6 0H9"/>
 
-            </tr>
+                    </svg>
+
+                </div>
+
+                <h3 class="mt-4 font-semibold text-slate-900">
+                    No New Solutions
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    You don't have any new solutions to review right now.
+                </p>
+
+            </div>
 
         @endforelse
 
-        </tbody>
-
-    </table>
-
-</div>
-<div class="mt-5 text-right">
-
-    <a href="{{ route('problems.index') }}"
-       class="text-blue-600 hover:underline font-semibold">
-
-        View All Problems →
-
-    </a>
-
-</div>
-
-
-
     </div>
 
+</div>
+
+
+            {{-- ================= STATISTICS ================= --}}
+
+            <div class="grid grid-cols-1 sm:grid-cols-2
+                        lg:grid-cols-4 gap-5 mb-8">
+
+
+                {{-- Total Problems --}}
+                <div class="bg-white rounded-2xl border border-slate-200
+                            p-6 shadow-sm hover:shadow-md
+                            transition duration-200">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-slate-500">
+                                Total Problems
+                            </p>
+
+                            <p class="mt-2 text-3xl font-bold text-slate-900">
+                                {{ $totalProblems }}
+                            </p>
+
+                        </div>
+
+                        <div class="w-12 h-12 rounded-xl bg-blue-50
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-6 h-6 text-blue-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M9 12h6m-6 4h6M7 4h10a2 2 0 012 2v14H5V6a2 2 0 012-2z"/>
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- Open --}}
+                <div class="bg-white rounded-2xl border border-slate-200
+                            p-6 shadow-sm hover:shadow-md
+                            transition duration-200">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-slate-500">
+                                Open
+                            </p>
+
+                            <p class="mt-2 text-3xl font-bold text-slate-900">
+                                {{ $openProblems }}
+                            </p>
+
+                        </div>
+
+                        <div class="w-12 h-12 rounded-xl bg-emerald-50
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-6 h-6 text-emerald-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M5 12h14"/>
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- In Progress --}}
+                <div class="bg-white rounded-2xl border border-slate-200
+                            p-6 shadow-sm hover:shadow-md
+                            transition duration-200">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-slate-500">
+                                In Progress
+                            </p>
+
+                            <p class="mt-2 text-3xl font-bold text-slate-900">
+                                {{ $inProgressProblems }}
+                            </p>
+
+                        </div>
+
+                        <div class="w-12 h-12 rounded-xl bg-amber-50
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-6 h-6 text-amber-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M12 8v4l3 2"/>
+
+                                <circle cx="12"
+                                        cy="12"
+                                        r="9"/>
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                {{-- Solved --}}
+                <div class="bg-white rounded-2xl border border-slate-200
+                            p-6 shadow-sm hover:shadow-md
+                            transition duration-200">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <p class="text-sm font-medium text-slate-500">
+                                Solved
+                            </p>
+
+                            <p class="mt-2 text-3xl font-bold text-slate-900">
+                                {{ $solvedProblems }}
+                            </p>
+
+                        </div>
+
+                        <div class="w-12 h-12 rounded-xl bg-purple-50
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-6 h-6 text-purple-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {{-- ================= RECENT PROBLEMS ================= --}}
+
+            <div class="bg-white rounded-2xl border border-slate-200
+                        shadow-sm overflow-hidden">
+
+                {{-- Header --}}
+
+                <div class="px-6 py-5 border-b border-slate-200
+                            flex flex-col sm:flex-row
+                            sm:items-center sm:justify-between gap-3">
+
+                    <div>
+
+                        <h2 class="text-xl font-bold text-slate-900">
+                            Recent Problems
+                        </h2>
+
+                        <p class="text-sm text-slate-500 mt-1">
+                            Your most recently posted academic problems.
+                        </p>
+
+                    </div>
+
+
+                    <a href="{{ route('problems.index') }}"
+                       class="text-sm font-semibold text-blue-600
+                              hover:text-blue-700">
+
+                        View All Problems →
+
+                    </a>
+
+                </div>
+
+
+                {{-- Table --}}
+
+                <div class="overflow-x-auto">
+
+                    <table class="w-full">
+
+                        <thead class="bg-slate-50">
+
+                            <tr>
+
+                                <th class="px-6 py-4 text-left text-xs
+                                           font-semibold text-slate-500
+                                           uppercase tracking-wider">
+                                    Title
+                                </th>
+
+                                <th class="px-6 py-4 text-left text-xs
+                                           font-semibold text-slate-500
+                                           uppercase tracking-wider">
+                                    Course
+                                </th>
+
+                                <th class="px-6 py-4 text-left text-xs
+                                           font-semibold text-slate-500
+                                           uppercase tracking-wider">
+                                    Reward
+                                </th>
+
+                                <th class="px-6 py-4 text-left text-xs
+                                           font-semibold text-slate-500
+                                           uppercase tracking-wider">
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody class="divide-y divide-slate-100">
+
+                            @forelse($recentProblems as $problem)
+
+                                <tr class="hover:bg-slate-50
+                                           transition duration-150">
+
+                                    {{-- Title --}}
+
+                                    <td class="px-6 py-4">
+
+                                        <p class="font-semibold text-slate-900">
+                                            {{ $problem->title }}
+                                        </p>
+
+                                        <p class="text-xs text-slate-500 mt-1">
+                                            {{ $problem->department }}
+                                        </p>
+
+                                    </td>
+
+
+                                    {{-- Course --}}
+
+                                    <td class="px-6 py-4">
+
+                                        <span class="inline-flex items-center
+                                                     px-3 py-1 rounded-lg
+                                                     bg-blue-50 text-blue-700
+                                                     text-sm font-semibold">
+
+                                            {{ $problem->course }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    {{-- Reward --}}
+
+                                    <td class="px-6 py-4">
+
+                                        <span class="font-semibold text-slate-800">
+
+                                            ৳{{ number_format($problem->reward, 2) }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    {{-- Status --}}
+
+                                    <td class="px-6 py-4">
+
+                                        @if($problem->status === 'Open')
+
+                                            <span class="inline-flex items-center
+                                                         px-3 py-1 rounded-full
+                                                         bg-emerald-50
+                                                         text-emerald-700
+                                                         text-xs font-semibold">
+
+                                                <span class="w-2 h-2
+                                                             bg-emerald-500
+                                                             rounded-full mr-2">
+                                                </span>
+
+                                                Open
+
+                                            </span>
+
+                                        @elseif($problem->status === 'In Progress')
+
+                                            <span class="inline-flex items-center
+                                                         px-3 py-1 rounded-full
+                                                         bg-amber-50
+                                                         text-amber-700
+                                                         text-xs font-semibold">
+
+                                                <span class="w-2 h-2
+                                                             bg-amber-500
+                                                             rounded-full mr-2">
+                                                </span>
+
+                                                In Progress
+
+                                            </span>
+
+                                        @elseif($problem->status === 'Solved')
+
+                                            <span class="inline-flex items-center
+                                                         px-3 py-1 rounded-full
+                                                         bg-purple-50
+                                                         text-purple-700
+                                                         text-xs font-semibold">
+
+                                                <span class="w-2 h-2
+                                                             bg-purple-500
+                                                             rounded-full mr-2">
+                                                </span>
+
+                                                Solved
+
+                                            </span>
+
+                                        @elseif($problem->status === 'Expired')
+
+                                            <span class="inline-flex items-center
+                                                         px-3 py-1 rounded-full
+                                                         bg-red-50
+                                                         text-red-700
+                                                         text-xs font-semibold">
+
+                                                <span class="w-2 h-2
+                                                             bg-red-500
+                                                             rounded-full mr-2">
+                                                </span>
+
+                                                Expired
+
+                                            </span>
+
+                                        @else
+
+                                            <span class="text-sm text-slate-600">
+                                                {{ $problem->status }}
+                                            </span>
+
+                                        @endif
+
+                                    </td>
+
+                                </tr>
+
+                            @empty
+
+                                <tr>
+
+                                    <td colspan="4"
+                                        class="px-6 py-14 text-center">
+
+                                        <div class="w-16 h-16 mx-auto
+                                                    rounded-2xl bg-blue-50
+                                                    flex items-center justify-center">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="w-8 h-8 text-blue-600"
+                                                 fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke="currentColor"
+                                                 stroke-width="2">
+
+                                                <path stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      d="M12 4v16m8-8H4"/>
+
+                                            </svg>
+
+                                        </div>
+
+                                        <h3 class="mt-4 text-lg font-semibold
+                                                   text-slate-900">
+
+                                            No problems yet
+
+                                        </h3>
+
+                                        <p class="mt-1 text-sm text-slate-500">
+
+                                            You haven't posted any academic
+                                            problems yet.
+
+                                        </p>
+
+                                        <a href="{{ route('problems.create') }}"
+                                           class="inline-flex mt-5
+                                                  bg-blue-600 hover:bg-blue-700
+                                                  text-white px-5 py-2.5
+                                                  rounded-xl font-semibold
+                                                  transition">
+
+                                            + Post New Problem
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            @endforelse
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            {{-- ================= QUICK ACTIONS ================= --}}
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+
+
+                {{-- Need Help --}}
+
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700
+                            rounded-2xl p-6 text-white shadow-sm">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <h3 class="text-lg font-bold">
+                                Need academic help?
+                            </h3>
+
+                            <p class="mt-1 text-blue-100 text-sm">
+                                Post your problem and let a student tutor
+                                help you.
+                            </p>
+
+                        </div>
+
+                        <div class="hidden sm:flex w-12 h-12
+                                    rounded-xl bg-white/10
+                                    items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-6 h-6"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M12 4v16m8-8H4"/>
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                    <a href="{{ route('problems.create') }}"
+                       class="inline-flex mt-4 bg-white text-blue-700
+                              px-4 py-2 rounded-lg
+                              text-sm font-semibold
+                              hover:bg-blue-50 transition">
+
+                        Post a Problem →
+
+                    </a>
+
+                </div>
+
+
+                {{-- Manage Problems --}}
+
+                <div class="bg-white border border-slate-200
+                            rounded-2xl p-6 shadow-sm">
+
+                    <div class="flex items-center justify-between">
+
+                        <div>
+
+                            <h3 class="text-lg font-bold text-slate-900">
+                                Manage Your Problems
+                            </h3>
+
+                            <p class="mt-1 text-slate-500 text-sm">
+                                View and manage all the problems you have posted.
+                            </p>
+
+                        </div>
+
+                        <div class="hidden sm:flex w-12 h-12
+                                    rounded-xl bg-slate-100
+                                    items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-6 h-6 text-slate-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a3 3 0 006 0M9 5h6"/>
+
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+                    <a href="{{ route('problems.index') }}"
+                       class="inline-flex mt-4 text-blue-600
+                              hover:text-blue-700
+                              text-sm font-semibold">
+
+                        View All Problems →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
 
 </x-app-layout>

@@ -7,10 +7,14 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Problem;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'email', 'role', 'password'])]
+#[Fillable(['name', 'email', 'role', 'password', 'points', 'account_status', 'suspended_until'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -27,16 +31,87 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'suspended_until' => 'datetime',
         ];
     }
-
-    public function bookmarks()
+    public function problems()
 {
-    return $this->hasMany(Bookmark::class);
+    return $this->hasMany(Problem::class);
 }
-
-public function hasBookmarked($problemId)
+    public function bookmarkedProblems(): BelongsToMany
 {
-    return $this->bookmarks()->where('problem_id', $problemId)->exists();
+    return $this->belongsToMany(Problem::class, 'bookmarks');
+}
+public function badgeName(): string
+{
+    if ($this->points >= 4000) {
+        return 'Platinum';
+    }
+
+    if ($this->points >= 3000) {
+        return 'Diamond';
+    }
+
+    if ($this->points >= 2000) {
+        return 'Gold';
+    }
+
+    if ($this->points >= 1000) {
+        return 'Silver';
+    }
+
+    return 'Copper';
+}
+public function nextBadgePoints(): ?int
+{
+    if ($this->points < 1000) {
+        return 1000;
+    }
+
+    if ($this->points < 2000) {
+        return 2000;
+    }
+
+    if ($this->points < 3000) {
+        return 3000;
+    }
+
+    if ($this->points < 4000) {
+        return 4000;
+    }
+
+    return null;
+}
+public function badgeProgress(): int
+{
+    if ($this->points >= 4000) {
+        return 100;
+    }
+
+    if ($this->points >= 3000) {
+        return (int) (($this->points - 3000) / 1000 * 100);
+    }
+
+    if ($this->points >= 2000) {
+        return (int) (($this->points - 2000) / 1000 * 100);
+    }
+
+    if ($this->points >= 1000) {
+        return (int) (($this->points - 1000) / 1000 * 100);
+    }
+
+    return (int) ($this->points / 1000 * 100);
+}
+public function wallet(): HasOne
+{
+    return $this->hasOne(Wallet::class);
+}
+public function warnings(): HasMany
+{
+    return $this->hasMany(UserWarning::class, 'user_id');
+}
+public function issuedWarnings(): HasMany
+{
+    return $this->hasMany(UserWarning::class, 'admin_id');
 }
 }

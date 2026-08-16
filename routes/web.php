@@ -5,10 +5,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TutorProblemController;
+use App\Http\Controllers\TutorDashboardController;
+use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminReportController;
+use App\Http\Controllers\WalletController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/account/status', function () {
+    return view('account-status');
+})->middleware('auth')->name('account.status');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -31,17 +40,84 @@ Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])
     ->middleware(['auth', 'role:student'])
     ->name('student.dashboard');
 
-Route::get('/tutor/dashboard', function () {
-    return view('tutor.dashboard');
-})->middleware(['auth', 'role:student_tutor'])
-->name('tutor.dashboard');
+Route::get('/tutor/dashboard', [TutorDashboardController::class, 'index'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.dashboard');
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'role:admin'])
-->name('admin.dashboard');
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.dashboard');
+
+Route::get('/admin/reports/{report}', [\App\Http\Controllers\AdminReportController::class, 'show'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.show');
+
+Route::post('/admin/reports/{report}/action', [\App\Http\Controllers\AdminReportController::class, 'takeAction'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.action');
+
+Route::post('/admin/reports/{report}/dismiss', [\App\Http\Controllers\AdminReportController::class, 'dismiss'])
+    ->middleware(['auth', 'role:admin'])
+    ->name('admin.reports.dismiss');
 
 Route::resource('problems', ProblemController::class)
     ->middleware(['auth','role:student']);
+
+Route::get('/problems/{problem}/solutions', [ProblemController::class, 'solutions'])
+    ->middleware(['auth', 'role:student'])
+    ->name('problems.solutions');
+
+Route::post('/solutions/{solution}/accept', [ProblemController::class, 'acceptSolution'])
+    ->middleware(['auth', 'role:student'])
+    ->name('solutions.accept');
+
+Route::get('/tutor/problems/{problem}', [ProblemController::class, 'tutorShow'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.problems.show');
+Route::post('/tutor/problems/{problem}/start-working', [ProblemController::class, 'startWorking'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.problems.start');
+
+Route::get('/tutor/solutions/{solution}/create', [ProblemController::class, 'createSolution'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.solutions.create');
+
+Route::post('/tutor/solutions/{solution}', [ProblemController::class, 'submitSolution'])
+    ->middleware(['auth', 'role:student_tutor'])
+    ->name('tutor.solutions.submit');
+
+Route::middleware(['auth', 'role:student_tutor'])->group(function () {
+
+    Route::get('/tutor/bookmarks', [BookmarkController::class, 'index'])
+        ->name('tutor.bookmarks');
+
+    Route::post('/tutor/problems/{problem}/bookmark', [BookmarkController::class, 'store'])
+        ->name('tutor.bookmarks.store');
+
+    Route::delete('/tutor/problems/{problem}/bookmark', [BookmarkController::class, 'destroy'])
+        ->name('tutor.bookmarks.destroy');
+});
+
+Route::get('/reports/problem/{problem}', [ReportController::class, 'createForProblem'])
+    ->middleware('auth')
+    ->name('reports.problem.create');
+
+Route::get('/reports/solution/{solution}', [ReportController::class, 'createForSolution'])
+    ->middleware('auth')
+    ->name('reports.solution.create');
+
+Route::post('/reports', [ReportController::class, 'store'])
+    ->middleware('auth')
+    ->name('reports.store');
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/wallet', [WalletController::class, 'index'])
+        ->name('wallet.index');
+
+    Route::post('/wallet/deposit', [WalletController::class, 'deposit'])
+        ->name('wallet.deposit');
+});
+
 
 require __DIR__.'/auth.php';

@@ -1,223 +1,629 @@
 <x-app-layout>
 
+    <!-- Header -->
     <x-slot name="header">
-        <h2 class="text-3xl font-bold text-gray-900">
-            📚 Post Academic Problem
-        </h2>
+
+        <div class="relative overflow-hidden">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-1">
+                        Student Portal
+                    </p>
+
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">
+                        Post Academic Problem
+                    </h2>
+
+                    <p class="mt-2 text-slate-500">
+                        Share your academic problem and get help from student tutors.
+                    </p>
+                </div>
+
+                <!-- Decorative Icon -->
+                <div class="hidden sm:flex w-16 h-16 rounded-2xl
+                            bg-blue-50 items-center justify-center">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-9 h-9 text-blue-600"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="1.8">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5
+                              S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18
+                              7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477
+                              14.754 5 16.5 5S19.832 5.477 21 6.253v13
+                              C19.832 18.477 18.246 18 16.5 18s-3.332-.477
+                              -4.5 1.253"/>
+
+                    </svg>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </x-slot>
 
-    <div class="max-w-4xl mx-auto mt-8">
 
-        <div class="bg-white rounded-2xl shadow-xl p-8">
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+
+        <!-- Intro Card -->
+        <div class="mb-6">
+
+            <div class="flex items-center gap-3">
+
+                <div class="w-10 h-10 rounded-xl bg-blue-100
+                            flex items-center justify-center">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-5 h-5 text-blue-600"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 6v12m6-6H6"/>
+
+                    </svg>
+
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900">
+                        Problem Details
+                    </h3>
+
+                    <p class="text-sm text-slate-500">
+                        Provide the details of the problem you need help with.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Form Card -->
+        <div class="bg-white rounded-2xl shadow-lg
+                    border border-slate-100 overflow-hidden">
 
             <form method="POST"
                   action="{{ route('problems.store') }}"
                   enctype="multipart/form-data"
-                  class="space-y-6">
+                  class="p-6 sm:p-8 space-y-8">
 
                 @csrf
 
-                <div class="grid grid-cols-2 gap-6">
 
-                <!-- Department -->
+                <!-- Academic Information -->
                 <div>
-                <label class="block font-semibold mb-2">
-                    Department
-                </label>
 
-                <select
-                    name="department"
-                    id="department"
-                    class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                    required>
+                    <h3 class="text-lg font-bold text-slate-900 mb-5">
+                        Academic Information
+                    </h3>
 
-                    <option value="">Select Department</option>
-                    <option value="CSE">CSE</option>
-                    <option value="BBA">BBA</option>
-                    <option value="EEE">EEE</option>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                </select>
-            </div>
-            <!-- Course -->
-            <div>
-                <label class="block font-semibold mb-2">
-                    Course
-                </label>
 
-                <select
-                    name="course"
-                    id="course"
-                    class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                    required>
+                        <!-- Department -->
+                        <div>
 
-                    <option value="">Select Department First</option>
+                            <label for="department"
+                                   class="block text-sm font-semibold text-slate-700 mb-2">
+                                Department
+                            </label>
 
-                </select>
-            </div>
-              <!-- Chapter -->
+                            <select
+                                name="department"
+                                id="department"
+                                required
+                                class="w-full rounded-xl border-slate-300
+                                       focus:border-blue-500 focus:ring-blue-500
+                                       bg-white py-3 px-4">
 
-                    <div>
-                        <label class="block font-semibold mb-2">
-                            Chapter
+                                <option value="">
+                                    Select Department
+                                </option>
+
+                                <option value="CSE"
+                                    {{ old('department') == 'CSE' ? 'selected' : '' }}>
+                                    CSE
+                                </option>
+
+                                <option value="BBA"
+                                    {{ old('department') == 'BBA' ? 'selected' : '' }}>
+                                    BBA
+                                </option>
+
+                                <option value="EEE"
+                                    {{ old('department') == 'EEE' ? 'selected' : '' }}>
+                                    EEE
+                                </option>
+
+                            </select>
+
+                            @error('department')
+                                <p class="text-red-600 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                        </div>
+
+
+                        <!-- Course -->
+                        <div>
+
+                            <label for="course"
+                                   class="block text-sm font-semibold text-slate-700 mb-2">
+                                Course
+                            </label>
+
+                            <select
+                                name="course"
+                                id="course"
+                                required
+                                class="w-full rounded-xl border-slate-300
+                                       focus:border-blue-500 focus:ring-blue-500
+                                       bg-white py-3 px-4">
+
+                                <option value="">
+                                    Select Department First
+                                </option>
+
+                            </select>
+
+                            @error('course')
+                                <p class="text-red-600 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                        </div>
+
+
+                        <!-- Chapter -->
+                        <div>
+
+                            <label for="chapter"
+                                   class="block text-sm font-semibold text-slate-700 mb-2">
+                                Chapter
+                            </label>
+
+                            <input
+                                type="text"
+                                name="chapter"
+                                id="chapter"
+                                value="{{ old('chapter') }}"
+                                placeholder="e.g. Binary Trees"
+                                required
+                                class="w-full rounded-xl border-slate-300
+                                       focus:border-blue-500 focus:ring-blue-500
+                                       py-3 px-4">
+
+                            @error('chapter')
+                                <p class="text-red-600 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                        </div>
+
+
+                        <!-- Difficulty -->
+                        <div>
+
+                            <label for="difficulty"
+                                   class="block text-sm font-semibold text-slate-700 mb-2">
+                                Difficulty
+                            </label>
+
+                            <select
+                                name="difficulty"
+                                id="difficulty"
+                                required
+                                class="w-full rounded-xl border-slate-300
+                                       focus:border-blue-500 focus:ring-blue-500
+                                       bg-white py-3 px-4">
+
+                                <option value="Easy"
+                                    {{ old('difficulty') == 'Easy' ? 'selected' : '' }}>
+                                    Easy
+                                </option>
+
+                                <option value="Medium"
+                                    {{ old('difficulty') == 'Medium' ? 'selected' : '' }}>
+                                    Medium
+                                </option>
+
+                                <option value="Hard"
+                                    {{ old('difficulty') == 'Hard' ? 'selected' : '' }}>
+                                    Hard
+                                </option>
+
+                            </select>
+
+                            @error('difficulty')
+                                <p class="text-red-600 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                        </div>
+
+
+                        <!-- Reward -->
+                        <div>
+
+                            <label for="reward"
+                                   class="block text-sm font-semibold text-slate-700 mb-2">
+                                Reward
+                            </label>
+
+                            <div class="relative">
+
+                                <span class="absolute left-4 top-1/2
+                                             -translate-y-1/2
+                                             text-slate-500 font-medium">
+                                    ৳
+                                </span>
+
+                                <input
+                                    type="number"
+                                    name="reward"
+                                    id="reward"
+                                    min="0"
+                                    step="0.01"
+                                    value="{{ old('reward') }}"
+                                    placeholder="1000"
+                                    required
+                                    class="w-full rounded-xl border-slate-300
+                                           focus:border-blue-500 focus:ring-blue-500
+                                           py-3 pl-9 pr-4">
+
+                            </div>
+
+                            <p class="text-xs text-slate-500 mt-2">
+                                Set a reward amount for the tutor who solves your problem.
+                            </p>
+
+                            @error('reward')
+                                <p class="text-red-600 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                        </div>
+
+
+                        <!-- Deadline -->
+                        <div>
+
+                            <label for="deadline"
+                                   class="block text-sm font-semibold text-slate-700 mb-2">
+                                Deadline
+                            </label>
+
+                            <input
+                                type="date"
+                                name="deadline"
+                                id="deadline"
+                                value="{{ old('deadline') }}"
+                                required
+                                class="w-full rounded-xl border-slate-300
+                                       focus:border-blue-500 focus:ring-blue-500
+                                       py-3 px-4">
+
+                            @error('deadline')
+                                <p class="text-red-600 text-sm mt-2">
+                                    {{ $message }}
+                                </p>
+                            @enderror
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Problem Information -->
+                <div class="border-t border-slate-100 pt-8">
+
+                    <h3 class="text-lg font-bold text-slate-900 mb-5">
+                        Problem Information
+                    </h3>
+
+
+                    <!-- Title -->
+                    <div class="mb-6">
+
+                        <label for="title"
+                               class="block text-sm font-semibold text-slate-700 mb-2">
+                            Problem Title
                         </label>
 
                         <input
                             type="text"
-                            name="chapter"
-                            class="w-full rounded-lg border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                            required>
+                            name="title"
+                            id="title"
+                            value="{{ old('title') }}"
+                            placeholder="Give your problem a clear title"
+                            required
+                            class="w-full rounded-xl border-slate-300
+                                   focus:border-blue-500 focus:ring-blue-500
+                                   py-3 px-4">
+
+                        @error('title')
+                            <p class="text-red-600 text-sm mt-2">
+                                {{ $message }}
+                            </p>
+                        @enderror
+
                     </div>
-                       <!-- Difficulty -->
+
+
+                    <!-- Description -->
                     <div>
-                        <label class="block font-semibold mb-2">
-                            Difficulty
+
+                        <label for="description"
+                               class="block text-sm font-semibold text-slate-700 mb-2">
+                            Description
                         </label>
 
-                        <select
-                            name="difficulty"
-                            class="w-full rounded-lg border-gray-300 focus:ring-blue-500"
-                            required>
+                        <textarea
+                            rows="7"
+                            name="description"
+                            id="description"
+                            placeholder="Explain your problem clearly. Include any relevant details, questions, or things you have already tried."
+                            required
+                            class="w-full rounded-xl border-slate-300
+                                   focus:border-blue-500 focus:ring-blue-500
+                                   py-3 px-4 resize-none">{{ old('description') }}</textarea>
 
-                            <option>Easy</option>
-                            <option>Medium</option>
-                            <option>Hard</option>
+                        @error('description')
+                            <p class="text-red-600 text-sm mt-2">
+                                {{ $message }}
+                            </p>
+                        @enderror
 
-                        </select>
-                    </div>
-                       <!-- Reward -->
-                    <div>
-                        <label class="block font-semibold mb-2">
-                            Reward (BDT)
-                        </label>
-
-                        <input
-                            type="number"
-                            name="reward"
-                            class="w-full rounded-lg border-gray-300"
-                            min="0"
-                            required>
-                    </div>
-                       <!-- Deadline -->
-                    <div>
-                        <label class="block font-semibold mb-2">
-                            Deadline
-                        </label>
-
-                        <input
-                            type="date"
-                            name="deadline"
-                            class="w-full rounded-lg border-gray-300"
-                            required>
                     </div>
 
                 </div>
 
-                <div>
-                    <label class="block font-semibold mb-2">
-                        Title
-                    </label>
 
-                    <input
-                        type="text"
-                        name="title"
-                        class="w-full rounded-lg border-gray-300"
-                        required>
+                <!-- Attachment -->
+                <div class="border-t border-slate-100 pt-8">
+
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">
+                        Attachment
+                    </h3>
+
+                    <p class="text-sm text-slate-500 mb-4">
+                        Upload an image or document if it helps explain your problem.
+                    </p>
+
+                    <div class="border-2 border-dashed border-slate-300
+                                rounded-2xl p-6
+                                hover:border-blue-400
+                                hover:bg-blue-50/30
+                                transition">
+
+                        <div class="flex flex-col sm:flex-row
+                                    items-center gap-4">
+
+                            <div class="w-12 h-12 rounded-xl
+                                        bg-blue-100
+                                        flex items-center justify-center">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-6 h-6 text-blue-600"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor"
+                                     stroke-width="2">
+
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+
+                                </svg>
+
+                            </div>
+
+                            <div class="flex-1 w-full">
+
+                                <label for="attachment"
+                                       class="block text-sm font-semibold text-slate-700 mb-2">
+                                    Upload Image / PDF / Document
+                                </label>
+
+                                <input
+                                    type="file"
+                                    name="attachment"
+                                    id="attachment"
+                                    accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
+                                    class="block w-full text-sm text-slate-600
+                                           file:mr-4 file:py-2.5 file:px-4
+                                           file:rounded-lg file:border-0
+                                           file:text-sm file:font-semibold
+                                           file:bg-blue-50 file:text-blue-700
+                                           hover:file:bg-blue-100">
+
+                                <p class="text-xs text-slate-500 mt-2">
+                                    Supported: JPG, JPEG, PNG, PDF, DOC, DOCX · Maximum 5 MB
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    @error('attachment')
+                        <p class="text-red-600 text-sm mt-2">
+                            {{ $message }}
+                        </p>
+                    @enderror
+
                 </div>
 
-                <div>
-                    <label class="block font-semibold mb-2">
-                        Description
-                    </label>
 
-                    <textarea
-                        rows="6"
-                        name="description"
-                        class="w-full rounded-lg border-gray-300"
-                        required></textarea>
+                <!-- Buttons -->
+                <div class="border-t border-slate-100 pt-6
+                            flex flex-col sm:flex-row gap-3">
+
+                    <button
+                        type="submit"
+                        class="flex-1 inline-flex items-center justify-center
+                               gap-2 bg-blue-600 hover:bg-blue-700
+                               text-white py-3.5 px-6
+                               rounded-xl font-semibold
+                               shadow-md shadow-blue-200
+                               hover:shadow-lg
+                               transition-all duration-200">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-5 h-5"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M12 4v16m8-8H4"/>
+
+                        </svg>
+
+                        Submit Problem
+
+                    </button>
+
+
+                    <a
+                        href="{{ route('student.dashboard') }}"
+                        class="sm:w-40 inline-flex items-center justify-center
+                               bg-slate-100 hover:bg-slate-200
+                               text-slate-700 py-3.5 px-6
+                               rounded-xl font-semibold
+                               transition">
+
+                        Cancel
+
+                    </a>
+
                 </div>
-
-                <div>
-                    <label class="block font-semibold mb-2">
-                        Upload Image / PDF
-                    </label>
-
-                    <input
-                        type="file"
-                        name="attachment"
-                        accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
-                        class="block w-full text-gray-700">
-                </div>
-
-                <button
-                    type="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
-
-                    Submit Problem
-
-                </button>
 
             </form>
 
         </div>
 
     </div>
-<script>
-    const courses = {
-        CSE: [
-            "CSE220",
-            "CSE321",
-            "CSE420"
-        ],
 
-        BBA: [
-            "BUS101",
-            "BUS201",
-            "MKT102"
-        ],
 
-        EEE: [
-            "EEE201",
-            "EEE310",
-            "EEE420"
-        ]
-    };
+    <!-- Department → Course Script -->
+    <script>
 
-    const departmentSelect = document.getElementById('department');
-    const courseSelect = document.getElementById('course');
+        const courses = {
 
-    departmentSelect.addEventListener('change', function () {
+            CSE: [
+                "CSE220",
+                "CSE321",
+                "CSE420"
+            ],
 
-        const selectedDepartment = this.value;
+            BBA: [
+                "BUS101",
+                "BUS201",
+                "MKT102"
+            ],
 
-        // Clear existing courses
-        courseSelect.innerHTML = '';
+            EEE: [
+                "EEE201",
+                "EEE310",
+                "EEE420"
+            ]
 
-        if (selectedDepartment === '') {
+        };
+
+
+        const departmentSelect =
+            document.getElementById('department');
+
+        const courseSelect =
+            document.getElementById('course');
+
+
+        function updateCourses() {
+
+            const selectedDepartment =
+                departmentSelect.value;
+
+            courseSelect.innerHTML = '';
+
+
+            if (selectedDepartment === '') {
+
+                courseSelect.innerHTML =
+                    '<option value="">Select Department First</option>';
+
+                return;
+            }
+
 
             courseSelect.innerHTML =
-                '<option value="">Select Department First</option>';
+                '<option value="">Select Course</option>';
 
-            return;
+
+            courses[selectedDepartment].forEach(function(course) {
+
+                const option =
+                    document.createElement('option');
+
+                option.value = course;
+                option.textContent = course;
+
+                courseSelect.appendChild(option);
+
+            });
+
         }
 
-        // Add default option
-        courseSelect.innerHTML =
-            '<option value="">Select Course</option>';
 
-        // Add courses for selected department
-        courses[selectedDepartment].forEach(function(course) {
+        departmentSelect.addEventListener(
+            'change',
+            updateCourses
+        );
 
-            const option = document.createElement('option');
 
-            option.value = course;
-            option.textContent = course;
+        // Restore selected course after validation error
+        const oldCourse =
+            @json(old('course'));
 
-            courseSelect.appendChild(option);
-        });
-    });
-</script>
-<<<<<<< HEAD
+
+        if (departmentSelect.value !== '') {
+
+            updateCourses();
+
+            if (oldCourse) {
+
+                courseSelect.value = oldCourse;
+
+            }
+
+        }
+
+    </script>
+
 </x-app-layout>
-=======
-</x-app-layout>
->>>>>>> d6ca70b7c321f21ef6db0a9696f4c8ac616c7bac

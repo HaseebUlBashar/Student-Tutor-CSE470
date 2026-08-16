@@ -2,8 +2,8 @@
 
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="text-3xl font-bold text-gray-900">
-                Browse Academic Problems
+            <h2 class="text-3xl font-bold">
+                🔍 Browse Academic Problems
             </h2>
         </div>
     </x-slot>
@@ -16,7 +16,7 @@
 
         <div>
             <label for="department" class="block text-sm font-medium text-gray-700 mb-1">
-                Department
+                🏢 Department
             </label>
 
             <select
@@ -34,7 +34,7 @@
 
         <div>
             <label for="course" class="block text-sm font-medium text-gray-700 mb-1">
-                Course
+                📔Course
             </label>
 
             <select
@@ -50,7 +50,7 @@
 
         <div>
             <label for="reward" class="block text-sm font-medium text-gray-700 mb-1">
-                Reward Amount
+                💰 Reward Amount
             </label>
 
             <input
@@ -68,7 +68,7 @@
 
         <div>
             <label for="deadline" class="block text-sm font-medium text-gray-700 mb-1">
-                Deadline
+                ⏳ Deadline
             </label>
 
             <input
@@ -107,7 +107,7 @@
 
     <details>
         <summary class="cursor-pointer font-semibold text-gray-800">
-            Filter
+            🔬 Filter
         </summary>
 
         <form method="GET" action="{{ route('tutor.problems') }}" class="mt-6">
@@ -125,7 +125,7 @@
                 <div>
                     <label for="difficulty"
                            class="block text-sm font-medium text-gray-700 mb-1">
-                        Difficulty
+                        🏋️ Difficulty
                     </label>
 
                     <select
@@ -137,17 +137,17 @@
 
                         <option value="Easy"
                             {{ request('difficulty') == 'Easy' ? 'selected' : '' }}>
-                            Easy
+                            🧠 Easy
                         </option>
 
                         <option value="Medium"
                             {{ request('difficulty') == 'Medium' ? 'selected' : '' }}>
-                            Medium
+                            🧠🧠 Medium
                         </option>
 
                         <option value="Hard"
                             {{ request('difficulty') == 'Hard' ? 'selected' : '' }}>
-                            Hard
+                            🧠🧠🧠 Hard
                         </option>
 
                     </select>
@@ -158,7 +158,7 @@
                 <div>
                     <label for="min_reward"
                            class="block text-sm font-medium text-gray-700 mb-1">
-                        Minimum Reward (BDT)
+                        💵 Minimum Reward (BDT)
                     </label>
 
                     <input
@@ -177,7 +177,7 @@
                 <div>
                     <label for="max_reward"
                            class="block text-sm font-medium text-gray-700 mb-1">
-                        Maximum Reward (BDT)
+                        💸 Maximum Reward (BDT)
                     </label>
 
                     <input
@@ -196,7 +196,7 @@
                 <div>
                     <label for="filter_deadline"
                            class="block text-sm font-medium text-gray-700 mb-1">
-                        Deadline
+                        ⏳ Deadline
                     </label>
 
                     <input
@@ -309,9 +309,6 @@
                             <th class="p-4 text-left text-sm font-semibold text-gray-700">Reward</th>
                             <th class="p-4 text-left text-sm font-semibold text-gray-700">Deadline</th>
                             <th class="p-4 text-left text-sm font-semibold text-gray-700">Status</th>
-                            <th class="p-4 text-center text-sm font-semibold text-gray-700">Attachment</th>
-                            
-                            {{-- BOOKMARK FEATURE: Added Action Column Header --}}
                             <th class="p-4 text-center text-sm font-semibold text-gray-700">Action</th>
                         </tr>
                     </thead>
@@ -332,15 +329,15 @@
                             <td class="p-4">
                                 @if($problem->status === 'Open')
                                     <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-                                        Open
+                                        🟢Open
                                     </span>
                                 @elseif($problem->status === 'In Progress')
                                     <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm font-medium">
-                                        In Progress
+                                        🟡In Progress
                                     </span>
                                 @endif
                             </td>
-                            <td class="p-4 text-center">
+                            {{-- <td class="p-4 text-center">
                                 @if($problem->attachment)
                                     <a href="{{ asset('storage/' . $problem->attachment) }}" target="_blank" class="inline-block bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 text-sm font-medium transition">
                                         View
@@ -348,24 +345,20 @@
                                 @else
                                     <span class="text-gray-400">No Attachment</span>
                                 @endif
-                            </td>
-
-                            {{-- BOOKMARK FEATURE: Added Save for Later / Unsave Form Button --}}
+                            </td> --}}
                             <td class="p-4 text-center">
-                                <form action="{{ route('bookmarks.toggle', $problem->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-white transition {{ auth()->user()->hasBookmarked($problem->id) ? 'bg-red-600 hover:bg-red-700' : 'bg-indigo-600 hover:bg-indigo-700' }}">
-                                        {{ auth()->user()->hasBookmarked($problem->id) ? 'Unsave' : 'Bookmark' }}
-                                    </button>
-                                </form>
+                                <a
+                                    href="{{ route('tutor.problems.show', $problem->id) }}"
+                                    class="inline-block bg-blue-600 text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 text-sm font-medium transition">
+                                    View
+                                </a>
                             </td>
                         </tr>
 
                     @empty
 
                         <tr>
-                            {{-- BOOKMARK FEATURE: Updated colspan from 7 to 9 --}}
-                            <td colspan="9" class="text-center p-8 text-gray-500">
+                            <td colspan="7" class="text-center p-8">
                                 No academic problems available.
                             </td>
                         </tr>
