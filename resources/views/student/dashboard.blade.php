@@ -3,73 +3,59 @@
     {{-- ================= HEADER ================= --}}
     <x-slot name="header">
 
-    <div class="relative overflow-hidden">
+    <div class="relative overflow-hidden
+                bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-600
+                rounded-3xl
+                shadow-xl
+                px-8 py-8 md:px-10 md:py-10">
 
-        <!-- Background decoration -->
-        <div class="absolute -top-10 -right-10 w-40 h-40
-                    bg-blue-100 rounded-full opacity-60">
-        </div>
+            {{-- Decorative circles --}}
+            <div class="absolute -top-20 -right-20
+                        w-64 h-64
+                        bg-white/10
+                        rounded-full">
+            </div>
 
-        <div class="absolute -bottom-16 -right-5 w-32 h-32
-                    bg-indigo-100 rounded-full opacity-50">
-        </div>
+            <div class="absolute -bottom-24 -left-16
+                        w-48 h-48
+                        bg-white/5
+                        rounded-full">
+            </div>
 
+            <div class="relative flex items-center justify-between">
 
-        <div class="relative flex items-center justify-between gap-6">
+                <div>
 
-            <!-- Left Content -->
-            <div>
-
-                <!-- Small Label -->
-                <div class="flex items-center gap-2 mb-2">
-
-                    <span class="inline-flex items-center
-                                 px-3 py-1
-                                 rounded-full
-                                 bg-blue-100
-                                 text-blue-700
-                                 text-xs
-                                 font-bold
-                                 uppercase
-                                 tracking-wider">
+                    <p class="text-sm font-semibold
+                              text-blue-100
+                              uppercase
+                              tracking-widest
+                              mb-2">
 
                         Student Portal
 
-                    </span>
+                    </p>
 
-                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                    <h2 class="text-3xl md:text-4xl
+                               font-extrabold
+                               text-white">
 
-                    <span class="text-xs text-gray-500 font-medium">
-                        Active
-                    </span>
+                        Student Dashboard
 
-                </div>
+                    </h2>
 
-
-                <!-- Main Heading -->
-                <h2 class="text-3xl md:text-4xl
-                           font-extrabold
-                           text-slate-900
-                           tracking-tight">
-
-                    Student Dashboard
-
-                </h2>
-
-
-                <!-- Description -->
-                <p class="mt-2
-                          text-blue-100
-                          text-sm md:text-base
-                          max-w-xl">
+                    <p class="mt-3
+                              text-blue-100
+                              max-w-xl">
 
                     Manage your academic problems, track their progress,
                     and connect with student tutors.
 
-                </p>
+                    </p>
 
-            </div>
+                </div>
 
+        <div class="relative flex items-center justify-between gap-6">
 
             <!-- Right Icon -->
             <div class="hidden sm:flex
