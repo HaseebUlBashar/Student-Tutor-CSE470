@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Problem;
 use App\Models\Solution;
 use App\Models\Report;
+use App\Models\Conversation;
 
 class StudentDashboardController extends Controller
 {
@@ -45,7 +46,24 @@ class StudentDashboardController extends Controller
                 })
                 ->where('status', 'submitted')
                 ->count();
-        
+        $activeConversations = Conversation::where('student_id', $user->id)
+        ->whereHas('problem.solutions', function ($query) {
+            $query->where('status', 'submitted')
+                ->whereColumn(
+                    'solutions.student_tutor_id',
+                    'conversations.student_tutor_id'
+                );
+        })
+        ->with([
+            'problem',
+            'studentTutor',
+            'messages' => function ($query) {
+                $query->latest()->limit(1);
+            },
+        ])
+        ->latest('updated_at')
+        ->get();
+
         $reportUpdates = Report::where('reporter_id', $user->id)
             ->whereIn('status', ['dismissed', 'action_taken'])
             ->latest('updated_at')
@@ -58,16 +76,17 @@ class StudentDashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('student.dashboard', compact(
-            'totalProblems',
-            'openProblems',
-            'inProgressProblems',
-            'solvedProblems',
-            'recentProblems',
-            'newSolutions',
-            'newSolutionsCount',
-            'reportUpdates',
-            'warnings'
-        ));
+       return view('student.dashboard', compact(
+        'totalProblems',
+        'openProblems',
+        'inProgressProblems',
+        'solvedProblems',
+        'recentProblems',
+        'newSolutions',
+        'newSolutionsCount',
+        'activeConversations',
+        'reportUpdates',
+        'warnings'
+    ));
     }
 }

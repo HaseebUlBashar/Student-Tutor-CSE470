@@ -114,4 +114,18 @@ public function issuedWarnings(): HasMany
 {
     return $this->hasMany(UserWarning::class, 'admin_id');
 }
+public function studentConversations(): HasMany
+{
+    return $this->hasMany(Conversation::class, 'student_id');
+}
+
+public function tutorConversations(): HasMany
+{
+    return $this->hasMany(Conversation::class, 'student_tutor_id');
+}
+
+public function sentMessages(): HasMany
+{
+    return $this->hasMany(Message::class, 'sender_id');
+}
 }
