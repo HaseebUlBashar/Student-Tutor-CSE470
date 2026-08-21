@@ -1166,6 +1166,426 @@
 
         </div>
 
+        {{-- ================= REPORT UPDATES ================= --}}
+
+        <div class="mt-8 mb-8">
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+
+                {{-- Report Update Header --}}
+                <div class="px-6 py-5 border-b border-slate-100
+                            flex items-center gap-3">
+
+                    <div class="w-11 h-11 rounded-xl
+                                bg-amber-50
+                                flex items-center justify-center">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-6 h-6 text-amber-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="text-xl font-bold text-slate-900">
+                            Report Updates
+                        </h2>
+
+                        <p class="text-sm text-slate-500">
+                            Updates about the reports you submitted
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- Report Update List --}}
+
+                @forelse($reportUpdates as $report)
+
+                    <div class="px-6 py-5
+                                border-b border-slate-100
+                                last:border-b-0
+                                hover:bg-slate-50
+                                transition">
+
+                        <div class="flex items-start gap-4">
+
+                            {{-- Status Icon --}}
+
+                            @if($report->status === 'dismissed')
+
+                                <div class="w-10 h-10 rounded-full
+                                            bg-slate-100
+                                            flex items-center justify-center
+                                            shrink-0">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-5 h-5 text-slate-500"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2">
+
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"/>
+
+                                    </svg>
+
+                                </div>
+
+                            @else
+
+                                <div class="w-10 h-10 rounded-full
+                                            bg-green-100
+                                            flex items-center justify-center
+                                            shrink-0">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-5 h-5 text-green-600"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2">
+
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M5 13l4 4L19 7"/>
+
+                                    </svg>
+
+                                </div>
+
+                            @endif
+
+
+                            {{-- Report Information --}}
+
+                            <div class="flex-1">
+
+                                @if($report->status === 'dismissed')
+
+                                    <h3 class="font-semibold text-slate-700">
+                                        Report Dismissed
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        Your report has been reviewed and dismissed by an administrator.
+                                    </p>
+
+                                @else
+
+                                    <h3 class="font-semibold text-green-700">
+                                        Action Taken
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        Your report has been reviewed and appropriate action has been taken.
+                                    </p>
+
+                                @endif
+
+
+                                @if($report->reported_content_title)
+
+                                    <p class="mt-2 text-sm text-slate-500">
+
+                                        Reported:
+                                        <span class="font-semibold text-slate-700">
+                                            "{{ $report->reported_content_title }}"
+                                        </span>
+
+                                    </p>
+
+                                @endif
+
+
+                                @if($report->updated_at)
+
+                                    <p class="mt-2 text-xs text-slate-400">
+                                        {{ $report->updated_at->diffForHumans() }}
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+
+                            {{-- Status Badge --}}
+
+                            @if($report->status === 'dismissed')
+
+                                <span class="hidden sm:inline-flex
+                                            px-3 py-1
+                                            rounded-full
+                                            bg-slate-100
+                                            text-slate-600
+                                            text-xs
+                                            font-semibold">
+
+                                    Dismissed
+
+                                </span>
+
+                            @else
+
+                                <span class="hidden sm:inline-flex
+                                            px-3 py-1
+                                            rounded-full
+                                            bg-green-100
+                                            text-green-700
+                                            text-xs
+                                            font-semibold">
+
+                                    Action Taken
+
+                                </span>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                @empty
+
+                    {{-- No Report Updates --}}
+
+                    <div class="px-6 py-10 text-center">
+
+                        <div class="w-14 h-14
+                                    mx-auto
+                                    rounded-full
+                                    bg-slate-100
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-7 h-7 text-slate-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.8">
+
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                            </svg>
+
+                        </div>
+
+                        <p class="mt-4 font-semibold text-slate-700">
+                            No Report Updates
+                        </p>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            You will see updates here when your reports are reviewed.
+                        </p>
+
+                    </div>
+
+                @endforelse
+
+            </div>
+
+        </div>
+        {{-- ================= WARNINGS ================= --}}
+
+        <div class="mt-8 mb-8">
+
+            <div class="bg-white rounded-2xl border border-slate-200
+                        shadow-sm overflow-hidden">
+
+                {{-- Warning Header --}}
+                <div class="px-6 py-5 border-b border-slate-200
+                            flex items-center gap-3">
+
+                    <div class="w-11 h-11 rounded-xl
+                                bg-red-50
+                                flex items-center justify-center">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-6 h-6 text-red-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="text-lg font-bold text-slate-900">
+                            Warnings
+                        </h2>
+
+                        <p class="text-sm text-slate-500 mt-1">
+                            Warnings issued to your account by an administrator.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- Warning List --}}
+
+                @forelse($warnings as $warning)
+
+                    <div class="px-6 py-5
+                                border-b border-slate-100
+                                last:border-b-0
+                                hover:bg-slate-50
+                                transition">
+
+                        <div class="flex items-start gap-4">
+
+                            {{-- Warning Icon --}}
+
+                            <div class="w-10 h-10 rounded-full
+                                        bg-red-100
+                                        flex items-center justify-center
+                                        shrink-0">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5 text-red-600"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2">
+
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                                </svg>
+
+                            </div>
+
+
+                            {{-- Warning Information --}}
+
+                            <div class="flex-1">
+
+                                @if(
+                                    $warning->report &&
+                                    $warning->report->reported_content_title
+                                )
+
+                                    <h3 class="font-semibold text-red-700">
+                                        Content Removed & Warning Issued
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        After reviewing a report concerning your account,
+                                        the reported content was removed and a warning
+                                        has been issued. For more information, please contact the support team and check the report details.
+                                    </p>
+
+                                @else
+
+                                    <h3 class="font-semibold text-red-700">
+                                        Warning Issued
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        After reviewing a report concerning your account,
+                                        a warning has been issued. For more information, please contact the support team and check the report details.
+                                    </p>
+
+                                @endif
+
+
+                                @if($warning->created_at)
+
+                                    <p class="mt-2 text-xs text-slate-400">
+                                        {{ $warning->created_at->diffForHumans() }}
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+
+                            {{-- Badge --}}
+
+                            <span class="hidden sm:inline-flex
+                                        px-3 py-1
+                                        rounded-full
+                                        bg-red-100
+                                        text-red-700
+                                        text-xs
+                                        font-semibold">
+
+                                Warning
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                @empty
+
+                    {{-- No Warnings --}}
+
+                    <div class="px-6 py-10 text-center">
+
+                        <div class="w-14 h-14
+                                    mx-auto
+                                    rounded-2xl
+                                    bg-slate-100
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-7 h-7 text-slate-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.8">
+
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                            </svg>
+
+                        </div>
+
+                        <h3 class="mt-4 font-semibold text-slate-900">
+                            No Warnings
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            You currently have no warnings.
+                        </p>
+
+                    </div>
+
+                @endforelse
+
+            </div>
+
+        </div>
+
     </div>
 
 </x-app-layout>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Problem;
 use App\Models\Solution;
+use App\Models\Report;
 
 class StudentDashboardController extends Controller
 {
@@ -44,7 +45,18 @@ class StudentDashboardController extends Controller
                 })
                 ->where('status', 'submitted')
                 ->count();
+        
+        $reportUpdates = Report::where('reporter_id', $user->id)
+            ->whereIn('status', ['dismissed', 'action_taken'])
+            ->latest('updated_at')
+            ->take(5)
+            ->get();
 
+        $warnings = $user->warnings()
+            ->with('report')
+            ->latest()
+            ->take(5)
+            ->get();
 
         return view('student.dashboard', compact(
             'totalProblems',
@@ -53,7 +65,9 @@ class StudentDashboardController extends Controller
             'solvedProblems',
             'recentProblems',
             'newSolutions',
-            'newSolutionsCount'
+            'newSolutionsCount',
+            'reportUpdates',
+            'warnings'
         ));
     }
 }

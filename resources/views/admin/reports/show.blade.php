@@ -269,6 +269,7 @@
             <button
                 type="submit"
                 formaction="{{ route('admin.reports.dismiss', $report->id) }}"
+                formnovalidate
                 class="bg-slate-200 hover:bg-slate-300
                        text-slate-800 px-5 py-2.5
                        rounded-xl
