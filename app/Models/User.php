@@ -11,6 +11,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Problem;
+use App\Models\Wallet;
+use App\Models\UserWarning;
+use App\Models\Conversation;
+use App\Models\Message;
+use App\Models\Review;
+use App\Models\Bookmark;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -34,98 +40,132 @@ class User extends Authenticatable
             'suspended_until' => 'datetime',
         ];
     }
+
     public function problems()
-{
-    return $this->hasMany(Problem::class);
-}
+    {
+        return $this->hasMany(Problem::class);
+    }
+
     public function bookmarkedProblems(): BelongsToMany
-{
-    return $this->belongsToMany(Problem::class, 'bookmarks');
-}
-public function badgeName(): string
-{
-    if ($this->points >= 4000) {
-        return 'Platinum';
+    {
+        return $this->belongsToMany(Problem::class, 'bookmarks');
     }
 
-    if ($this->points >= 3000) {
-        return 'Diamond';
+    public function bookmarks(): HasMany
+    {
+        return $this->hasMany(Bookmark::class);
     }
 
-    if ($this->points >= 2000) {
-        return 'Gold';
+    public function hasBookmarked($problemId): bool
+    {
+        return $this->bookmarks()->where('problem_id', $problemId)->exists();
     }
 
-    if ($this->points >= 1000) {
-        return 'Silver';
+    public function badgeName(): string
+    {
+        if ($this->points >= 4000) {
+            return 'Platinum';
+        }
+
+        if ($this->points >= 3000) {
+            return 'Diamond';
+        }
+
+        if ($this->points >= 2000) {
+            return 'Gold';
+        }
+
+        if ($this->points >= 1000) {
+            return 'Silver';
+        }
+
+        return 'Copper';
     }
 
-    return 'Copper';
-}
-public function nextBadgePoints(): ?int
-{
-    if ($this->points < 1000) {
-        return 1000;
+    public function nextBadgePoints(): ?int
+    {
+        if ($this->points < 1000) {
+            return 1000;
+        }
+
+        if ($this->points < 2000) {
+            return 2000;
+        }
+
+        if ($this->points < 3000) {
+            return 3000;
+        }
+
+        if ($this->points < 4000) {
+            return 4000;
+        }
+
+        return null;
     }
 
-    if ($this->points < 2000) {
-        return 2000;
+    public function badgeProgress(): int
+    {
+        if ($this->points >= 4000) {
+            return 100;
+        }
+
+        if ($this->points >= 3000) {
+            return (int) (($this->points - 3000) / 1000 * 100);
+        }
+
+        if ($this->points >= 2000) {
+            return (int) (($this->points - 2000) / 1000 * 100);
+        }
+
+        if ($this->points >= 1000) {
+            return (int) (($this->points - 1000) / 1000 * 100);
+        }
+
+        return (int) ($this->points / 1000 * 100);
     }
 
-    if ($this->points < 3000) {
-        return 3000;
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(Wallet::class);
     }
 
-    if ($this->points < 4000) {
-        return 4000;
+    public function warnings(): HasMany
+    {
+        return $this->hasMany(UserWarning::class, 'user_id');
     }
 
-    return null;
-}
-public function badgeProgress(): int
-{
-    if ($this->points >= 4000) {
-        return 100;
+    public function issuedWarnings(): HasMany
+    {
+        return $this->hasMany(UserWarning::class, 'admin_id');
     }
 
-    if ($this->points >= 3000) {
-        return (int) (($this->points - 3000) / 1000 * 100);
+    public function reviewsGiven(): HasMany
+    {
+        return $this->hasMany(Review::class, 'reviewer_id');
     }
 
-    if ($this->points >= 2000) {
-        return (int) (($this->points - 2000) / 1000 * 100);
+    public function reviewsReceived(): HasMany
+    {
+        return $this->hasMany(Review::class, 'reviewed_id');
     }
 
-    if ($this->points >= 1000) {
-        return (int) (($this->points - 1000) / 1000 * 100);
+    public function averageRating(): float
+    {
+        return round($this->reviewsReceived()->avg('rating') ?? 0, 1);
     }
 
-    return (int) ($this->points / 1000 * 100);
-}
-public function wallet(): HasOne
-{
-    return $this->hasOne(Wallet::class);
-}
-public function warnings(): HasMany
-{
-    return $this->hasMany(UserWarning::class, 'user_id');
-}
-public function issuedWarnings(): HasMany
-{
-    return $this->hasMany(UserWarning::class, 'admin_id');
-}
-public function reviewsGiven()
-{
-    return $this->hasMany(\App\Models\Review::class, 'reviewer_id');
-}
+    public function studentConversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class, 'student_id');
+    }
 
-public function reviewsReceived()
-{
-    return $this->hasMany(\App\Models\Review::class, 'reviewed_id');
-}
+    public function tutorConversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class, 'student_tutor_id');
+    }
 
-public function averageRating()
-{
-    return round($this->reviewsReceived()->avg('rating') ?? 0, 1);
-}
+    public function sentMessages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
 }

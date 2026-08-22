@@ -790,252 +790,6 @@
             </div>
 
         </div>
-<!-- Notifications -->
-<div class="mb-8">
-
-    <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-
-        <!-- Notification Header -->
-        <div class="px-6 py-5 border-b border-slate-100
-                    flex items-center justify-between">
-
-            <div class="flex items-center gap-3">
-
-                <div class="w-11 h-11 rounded-xl
-                            bg-blue-50
-                            flex items-center justify-center">
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-6 h-6 text-blue-600"
-                         fill="none"
-                         viewBox="0 0 24 24"
-                         stroke="currentColor"
-                         stroke-width="2">
-
-                        <path stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M15 17h5l-1.405-1.405A2.032
-                                 2.032 0 0118 14.158V11a6.002
-                                 6.002 0 00-4-5.659V5a2 2 0
-                                 10-4 0v.341C7.67 6.165 6
-                                 8.388 6 11v3.159c0 .538-.214
-                                 1.055-.595 1.436L4 17h5m6
-                                 0v1a3 3 0 11-6 0v-1m6 0H9"/>
-
-                    </svg>
-
-                </div>
-
-                <div>
-
-                    <h2 class="text-xl font-bold text-slate-900">
-                        Notifications
-                    </h2>
-
-                    <p class="text-sm text-slate-500">
-                        Updates about your submitted solutions
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Notification List -->
-
-        @forelse($notifications as $notification)
-
-            <div class="px-6 py-5
-                        border-b border-slate-100
-                        last:border-b-0
-                        hover:bg-slate-50
-                        transition">
-
-                <div class="flex items-start gap-4">
-
-                    <!-- Status Icon -->
-
-                    @if($notification->status === 'accepted')
-
-                        <div class="w-10 h-10 rounded-full
-                                    bg-green-100
-                                    flex items-center justify-center
-                                    shrink-0">
-
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="w-5 h-5 text-green-600"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor"
-                                 stroke-width="2">
-
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M5 13l4 4L19 7"/>
-
-                            </svg>
-
-                        </div>
-
-                    @else
-
-                        <div class="w-10 h-10 rounded-full
-                                    bg-red-100
-                                    flex items-center justify-center
-                                    shrink-0">
-
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 class="w-5 h-5 text-red-600"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor"
-                                 stroke-width="2">
-
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M6 18L18 6M6 6l12 12"/>
-
-                            </svg>
-
-                        </div>
-
-                    @endif
-
-
-                    <!-- Notification Text -->
-
-                    <div class="flex-1">
-
-                        @if($notification->status === 'accepted')
-
-                            <h3 class="font-semibold text-green-700">
-                                Solution Accepted
-                            </h3>
-
-                            <p class="mt-1 text-sm text-slate-600">
-                                Your solution for
-                                <span class="font-semibold text-slate-800">
-                                    "{{ $notification->problem->title }}"
-                                </span>
-                                was accepted by the student.
-                            </p>
-
-                        @else
-
-                            <h3 class="font-semibold text-red-700">
-                                Solution Rejected
-                            </h3>
-
-                            <p class="mt-1 text-sm text-slate-600">
-                                Your solution for
-                                <span class="font-semibold text-slate-800">
-                                    "{{ $notification->problem->title }}"
-                                </span>
-                                was not selected by the student.
-                            </p>
-
-                        @endif
-
-
-                        @if($notification->updated_at)
-
-                            <p class="mt-2 text-xs text-slate-400">
-
-                                {{ $notification->updated_at->diffForHumans() }}
-
-                            </p>
-
-                        @endif
-
-                    </div>
-
-
-                    <!-- Status Badge -->
-
-                    @if($notification->status === 'accepted')
-
-                        <span class="hidden sm:inline-flex
-                                     px-3 py-1
-                                     rounded-full
-                                     bg-green-100
-                                     text-green-700
-                                     text-xs
-                                     font-semibold">
-
-                            Accepted
-
-                        </span>
-
-                    @else
-
-                        <span class="hidden sm:inline-flex
-                                     px-3 py-1
-                                     rounded-full
-                                     bg-red-100
-                                     text-red-700
-                                     text-xs
-                                     font-semibold">
-
-                            Rejected
-
-                        </span>
-
-                    @endif
-
-                </div>
-
-            </div>
-
-        @empty
-
-            <!-- No Notifications -->
-
-            <div class="px-6 py-10 text-center">
-
-                <div class="w-14 h-14
-                            mx-auto
-                            rounded-full
-                            bg-slate-100
-                            flex items-center justify-center">
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-7 h-7 text-slate-400"
-                         fill="none"
-                         viewBox="0 0 24 24"
-                         stroke="currentColor"
-                         stroke-width="1.8">
-
-                        <path stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M15 17h5l-1.405-1.405A2.032
-                                 2.032 0 0118 14.158V11a6.002
-                                 6.002 0 00-4-5.659V5a2 2 0
-                                 10-4 0v.341C7.67 6.165
-                                 6 8.388 6 11v3.159c0
-                                 .538-.214 1.055-.595
-                                 1.436L4 17h5"/>
-
-                    </svg>
-
-                </div>
-
-                <p class="mt-4 font-semibold text-slate-700">
-                    No notifications yet
-                </p>
-
-                <p class="mt-1 text-sm text-slate-500">
-                    You will see updates here when a student reviews your solution.
-                </p>
-
-            </div>
-
-        @endforelse
-
-    </div>
-
-</div>
 
         <!-- Browse Problems Card -->
         <div class="group relative
@@ -1161,6 +915,1289 @@
                     </div>
 
                 </div>
+
+            </div>
+
+        </div>
+        <br>
+{{-- ================================================================ --}}
+{{-- ACTIVE CONVERSATIONS + NOTIFICATIONS --}}
+{{-- ================================================================ --}}
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+
+    {{-- ============================================================ --}}
+    {{-- ACTIVE CONVERSATIONS --}}
+    {{-- ============================================================ --}}
+
+    <div class="mb-0">
+
+        {{-- ========================================================= --}}
+        {{-- SECTION HEADER --}}
+        {{-- ========================================================= --}}
+
+        <div class="relative overflow-hidden
+                    rounded-3xl
+                    bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-700
+                    shadow-sm
+                    mb-6">
+
+            {{-- Decorative shapes --}}
+            <div class="absolute -top-10 -right-10
+                        w-32 h-32
+                        rounded-full
+                        bg-white/10">
+            </div>
+
+            <div class="absolute -bottom-12 right-24
+                        w-24 h-24
+                        rounded-full
+                        bg-white/5">
+            </div>
+
+            <div class="absolute top-5 right-1/3
+                        w-3 h-3
+                        rounded-full
+                        bg-white/20">
+            </div>
+
+
+            <div class="relative px-6 py-6">
+
+                <div class="flex items-center
+                            justify-between
+                            gap-5">
+
+
+                    {{-- Left --}}
+                    <div class="flex items-center gap-4">
+
+                        {{-- Chat icon --}}
+                        <div class="relative
+                                    flex-shrink-0
+                                    w-14 h-14
+                                    rounded-2xl
+                                    bg-white
+                                    flex items-center justify-center
+                                    shadow-md">
+
+                            <div class="relative
+                                        w-8 h-6
+                                        rounded-lg
+                                        bg-blue-600">
+
+                                {{-- Chat bubble tail --}}
+                                <div class="absolute
+                                            bottom-0 left-2
+                                            w-2.5 h-2.5
+                                            bg-blue-600
+                                            rotate-45
+                                            translate-y-1">
+                                </div>
+
+                                {{-- Dots --}}
+                                <div class="absolute inset-0
+                                            flex items-center
+                                            justify-center gap-1">
+
+                                    <span class="w-1.5 h-1.5
+                                                 rounded-full
+                                                 bg-white">
+                                    </span>
+
+                                    <span class="w-1.5 h-1.5
+                                                 rounded-full
+                                                 bg-white">
+                                    </span>
+
+                                    <span class="w-1.5 h-1.5
+                                                 rounded-full
+                                                 bg-white">
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            {{-- Floating message icon --}}
+                            <span class="absolute
+                                         -top-2 -right-2
+                                         w-7 h-7
+                                         rounded-full
+                                         bg-indigo-500
+                                         border-2 border-white
+                                         flex items-center justify-center
+                                         text-xs">
+
+                                💬
+
+                            </span>
+
+                        </div>
+
+
+                        {{-- Heading --}}
+                        <div class="min-w-0">
+
+                            <div class="flex items-center gap-2">
+
+                                <h2 class="text-xl sm:text-2xl
+                                           font-bold
+                                           text-white">
+
+                                    Active Conversations
+
+                                </h2>
+
+
+                                @if($conversations->count())
+
+                                    <span class="px-2.5 py-1
+                                                 rounded-full
+                                                 bg-white/15
+                                                 border border-white/20
+                                                 text-white
+                                                 text-xs
+                                                 font-bold">
+
+                                        {{ $conversations->count() }}
+
+                                    </span>
+
+                                @endif
+
+                            </div>
+
+
+                            <p class="text-sm
+                                      text-blue-100
+                                      mt-1">
+
+                                Continue your discussions with students.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- Right illustration --}}
+                    <div class="hidden md:flex
+                                items-center
+                                justify-center
+                                relative
+                                w-20 h-16
+                                flex-shrink-0">
+
+                        {{-- Decorative chat bubbles --}}
+                        <div class="absolute
+                                    top-1 right-3
+                                    w-11 h-8
+                                    rounded-xl
+                                    bg-white/20
+                                    rotate-6">
+                        </div>
+
+                        <div class="absolute
+                                    bottom-1 left-2
+                                    w-12 h-9
+                                    rounded-xl
+                                    bg-white/15
+                                    -rotate-6">
+                        </div>
+
+                        <div class="relative
+                                    w-12 h-12
+                                    rounded-full
+                                    bg-white
+                                    flex items-center justify-center
+                                    text-xl
+                                    shadow-lg">
+
+                            💬
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- ========================================================= --}}
+        {{-- CONVERSATIONS --}}
+        {{-- ========================================================= --}}
+
+        @forelse($conversations as $conversation)
+
+            @php
+                $lastMessage = $conversation->messages->first();
+
+                $studentName = $conversation->student->name;
+
+                $studentInitial = strtoupper(
+                    substr($studentName, 0, 1)
+                );
+            @endphp
+
+
+            <div class="group
+                        bg-white
+                        rounded-2xl
+                        border border-slate-200
+                        shadow-sm
+                        hover:shadow-md
+                        hover:border-blue-200
+                        transition-all duration-200
+                        p-5
+                        mb-4">
+
+
+                <div class="flex items-center
+                            justify-between
+                            gap-4">
+
+
+                    {{-- ================================================= --}}
+                    {{-- STUDENT INFORMATION --}}
+                    {{-- ================================================= --}}
+
+                    <div class="flex items-center
+                                gap-4
+                                min-w-0">
+
+
+                        {{-- Student avatar --}}
+                        <div class="relative flex-shrink-0">
+
+                            <div class="w-12 h-12
+                                        rounded-2xl
+                                        bg-gradient-to-br
+                                        from-blue-500
+                                        to-indigo-600
+                                        text-white
+                                        flex items-center justify-center
+                                        text-lg
+                                        font-bold
+                                        shadow-sm">
+
+                                {{ $studentInitial }}
+
+                            </div>
+
+
+                            {{-- Active indicator --}}
+                            <span class="absolute
+                                         -bottom-1
+                                         -right-1
+                                         w-4 h-4
+                                         rounded-full
+                                         bg-emerald-500
+                                         border-2
+                                         border-white">
+                            </span>
+
+                        </div>
+
+
+                        {{-- Conversation details --}}
+                        <div class="min-w-0">
+
+                            {{-- Student --}}
+                            <div class="flex items-center
+                                        flex-wrap
+                                        gap-2">
+
+                                <h3 class="text-base
+                                           font-bold
+                                           text-slate-900
+                                           truncate">
+
+                                    {{ $studentName }}
+
+                                </h3>
+
+
+                                <span class="inline-flex
+                                             items-center
+                                             gap-1
+                                             px-2 py-0.5
+                                             rounded-full
+                                             bg-emerald-50
+                                             text-emerald-700
+                                             text-xs
+                                             font-semibold">
+
+                                    <span class="w-1.5 h-1.5
+                                                 rounded-full
+                                                 bg-emerald-500">
+                                    </span>
+
+                                    Active
+
+                                </span>
+
+                            </div>
+
+
+                            {{-- Problem --}}
+                            <p class="text-sm
+                                      font-semibold
+                                      text-slate-700
+                                      mt-1
+                                      truncate">
+
+                                {{ $conversation->problem->title }}
+
+                            </p>
+
+
+                            {{-- Last message --}}
+                            @if($lastMessage)
+
+                                <div class="flex items-center
+                                            gap-1
+                                            mt-1
+                                            min-w-0">
+
+                                    <span class="text-xs
+                                                 font-medium
+                                                 text-slate-400
+                                                 flex-shrink-0">
+
+                                        {{ $lastMessage->sender_id === auth()->id()
+                                            ? 'You:'
+                                            : $studentName . ':' }}
+
+                                    </span>
+
+
+                                    <p class="text-xs
+                                              text-slate-500
+                                              truncate">
+
+                                        {{ $lastMessage->message }}
+
+                                    </p>
+
+                                </div>
+
+
+                                <p class="text-[11px]
+                                          text-slate-400
+                                          mt-0.5">
+
+                                    {{ $lastMessage->created_at->format('d M Y, h:i A') }}
+
+                                </p>
+
+                            @else
+
+                                <p class="text-xs
+                                          text-slate-400
+                                          mt-1">
+
+                                    No messages yet.
+
+                                </p>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- ================================================= --}}
+                    {{-- OPEN CHAT BUTTON --}}
+                    {{-- ================================================= --}}
+
+                    <div class="flex-shrink-0">
+
+                        <a
+                            href="{{ route('chat.show', $conversation->id) }}"
+                            class="inline-flex
+                                   items-center
+                                   justify-center
+                                   gap-1.5
+                                   px-3
+                                   py-2.5
+                                   rounded-xl
+                                   bg-blue-600
+                                   hover:bg-blue-700
+                                   text-white
+                                   text-sm
+                                   font-semibold
+                                   shadow-sm
+                                   transition"
+                        >
+
+                            <span>
+                                💬
+                            </span>
+
+                            <span class="hidden xl:inline">
+                                Open Chat
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        @empty
+
+            {{-- ========================================================= --}}
+            {{-- EMPTY STATE --}}
+            {{-- ========================================================= --}}
+
+            <div class="bg-white
+                        rounded-3xl
+                        border border-slate-200
+                        shadow-sm
+                        p-10
+                        text-center">
+
+
+                <div class="relative
+                            w-20 h-20
+                            mx-auto">
+
+                    <div class="absolute
+                                inset-0
+                                rounded-3xl
+                                bg-blue-50">
+                    </div>
+
+
+                    <div class="absolute
+                                inset-0
+                                flex items-center
+                                justify-center
+                                text-3xl">
+
+                        💬
+
+                    </div>
+
+
+                    <span class="absolute
+                                 -top-2 -right-2
+                                 w-5 h-5
+                                 rounded-full
+                                 bg-indigo-100">
+                    </span>
+
+                    <span class="absolute
+                                 bottom-0 -left-3
+                                 w-3 h-3
+                                 rounded-full
+                                 bg-blue-100">
+                    </span>
+
+                </div>
+
+
+                <h3 class="text-xl
+                           font-bold
+                           text-slate-800
+                           mt-5">
+
+                    No Active Conversations
+
+                </h3>
+
+
+                <p class="text-sm
+                          text-slate-500
+                          mt-2
+                          leading-relaxed">
+
+                    Conversations will appear here when a student contacts you
+                    about one of your submitted solutions.
+
+                </p>
+
+
+                <div class="mt-4
+                            inline-flex
+                            items-center
+                            gap-2
+                            px-4 py-2
+                            rounded-full
+                            bg-slate-50
+                            text-slate-500
+                            text-xs">
+
+                    <span>
+                        ✨
+                    </span>
+
+                    Keep helping students!
+
+                </div>
+
+            </div>
+
+        @endforelse
+
+    </div>
+
+
+
+    {{-- ============================================================ --}}
+    {{-- NOTIFICATIONS --}}
+    {{-- ============================================================ --}}
+
+    <div class="mb-0">
+
+        <div class="bg-white
+                    rounded-3xl
+                    border border-slate-200
+                    shadow-sm
+                    overflow-hidden">
+
+
+            {{-- ===================================================== --}}
+            {{-- NOTIFICATION HEADER --}}
+            {{-- ===================================================== --}}
+
+            <div class="px-6 py-5
+                        border-b border-slate-100
+                        flex items-center justify-between">
+
+
+                <div class="flex items-center gap-3">
+
+                    <div class="w-11 h-11
+                                rounded-xl
+                                bg-blue-50
+                                flex items-center justify-center">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-6 h-6 text-blue-600"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15 17h5l-1.405-1.405A2.032
+                                     2.032 0 0118 14.158V11a6.002
+                                     6.002 0 00-4-5.659V5a2 2 0
+                                     10-4 0v.341C7.67 6.165 6
+                                     8.388 6 11v3.159c0 .538-.214
+                                     1.055-.595 1.436L4 17h5m6
+                                     0v1a3 3 0 11-6 0v-1m6 0H9"/>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2 class="text-xl
+                                   font-bold
+                                   text-slate-900">
+
+                            Notifications
+
+                        </h2>
+
+
+                        <p class="text-sm
+                                  text-slate-500">
+
+                            Updates about your submitted solutions
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            {{-- ===================================================== --}}
+            {{-- NOTIFICATION LIST --}}
+            {{-- ===================================================== --}}
+
+            @forelse($notifications as $notification)
+
+                <div class="px-6 py-5
+                            border-b border-slate-100
+                            last:border-b-0
+                            hover:bg-slate-50
+                            transition">
+
+                    <div class="flex items-start
+                                gap-4">
+
+
+                        {{-- Status Icon --}}
+                        @if($notification->status === 'accepted')
+
+                            <div class="w-10 h-10
+                                        rounded-full
+                                        bg-green-100
+                                        flex items-center justify-center
+                                        shrink-0">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-5 h-5 text-green-600"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor"
+                                     stroke-width="2">
+
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M5 13l4 4L19 7"/>
+
+                                </svg>
+
+                            </div>
+
+                        @else
+
+                            <div class="w-10 h-10
+                                        rounded-full
+                                        bg-red-100
+                                        flex items-center justify-center
+                                        shrink-0">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-5 h-5 text-red-600"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor"
+                                     stroke-width="2">
+
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M6 18L18 6M6 6l12 12"/>
+
+                                </svg>
+
+                            </div>
+
+                        @endif
+
+
+
+                        {{-- Notification Text --}}
+                        <div class="flex-1 min-w-0">
+
+                            @if($notification->status === 'accepted')
+
+                                <h3 class="font-semibold
+                                           text-green-700">
+
+                                    Solution Accepted
+
+                                </h3>
+
+
+                                <p class="mt-1
+                                          text-sm
+                                          text-slate-600">
+
+                                    Your solution for
+
+                                    <span class="font-semibold
+                                                 text-slate-800">
+
+                                        "{{ $notification->problem->title }}"
+
+                                    </span>
+
+                                    was accepted by the student.
+
+                                </p>
+
+                            @else
+
+                                <h3 class="font-semibold
+                                           text-red-700">
+
+                                    Solution Rejected
+
+                                </h3>
+
+
+                                <p class="mt-1
+                                          text-sm
+                                          text-slate-600">
+
+                                    Your solution for
+
+                                    <span class="font-semibold
+                                                 text-slate-800">
+
+                                        "{{ $notification->problem->title }}"
+
+                                    </span>
+
+                                    was not selected by the student.
+
+                                </p>
+
+                            @endif
+
+
+                            @if($notification->updated_at)
+
+                                <p class="mt-2
+                                          text-xs
+                                          text-slate-400">
+
+                                    {{ $notification->updated_at->diffForHumans() }}
+
+                                </p>
+
+                            @endif
+
+                        </div>
+
+
+
+                        {{-- Status Badge --}}
+                        @if($notification->status === 'accepted')
+
+                            <span class="hidden sm:inline-flex
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-green-100
+                                         text-green-700
+                                         text-xs
+                                         font-semibold
+                                         flex-shrink-0">
+
+                                Accepted
+
+                            </span>
+
+                        @else
+
+                            <span class="hidden sm:inline-flex
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-red-100
+                                         text-red-700
+                                         text-xs
+                                         font-semibold
+                                         flex-shrink-0">
+
+                                Rejected
+
+                            </span>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+
+            @empty
+
+                {{-- ================================================= --}}
+                {{-- NO NOTIFICATIONS --}}
+                {{-- ================================================= --}}
+
+                <div class="px-6 py-10
+                            text-center">
+
+                    <div class="w-14 h-14
+                                mx-auto
+                                rounded-full
+                                bg-slate-100
+                                flex items-center justify-center">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-7 h-7 text-slate-400"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="1.8">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15 17h5l-1.405-1.405A2.032
+                                     2.032 0 0118 14.158V11a6.002
+                                     6.002 0 00-4-5.659V5a2 2 0
+                                     10-4 0v.341C7.67 6.165
+                                     6 8.388 6 11v3.159c0
+                                     .538-.214 1.055-.595
+                                     1.436L4 17h5"/>
+
+                        </svg>
+
+                    </div>
+
+
+                    <p class="mt-4
+                              font-semibold
+                              text-slate-700">
+
+                        No notifications yet
+
+                    </p>
+
+
+                    <p class="mt-1
+                              text-sm
+                              text-slate-500">
+
+                        You will see updates here when a student reviews your solution.
+
+                    </p>
+
+                </div>
+
+            @endforelse
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+        {{-- ================= REPORT UPDATES ================= --}}
+
+        <div class="mt-8 mb-8">
+
+            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+
+                {{-- Report Update Header --}}
+                <div class="px-6 py-5 border-b border-slate-100
+                            flex items-center gap-3">
+
+                    <div class="w-11 h-11 rounded-xl
+                                bg-amber-50
+                                flex items-center justify-center">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-6 h-6 text-amber-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="text-xl font-bold text-slate-900">
+                            Report Updates
+                        </h2>
+
+                        <p class="text-sm text-slate-500">
+                            Updates about the reports you submitted
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- Report Update List --}}
+
+                @forelse($reportUpdates as $report)
+
+                    <div class="px-6 py-5
+                                border-b border-slate-100
+                                last:border-b-0
+                                hover:bg-slate-50
+                                transition">
+
+                        <div class="flex items-start gap-4">
+
+                            {{-- Status Icon --}}
+
+                            @if($report->status === 'dismissed')
+
+                                <div class="w-10 h-10 rounded-full
+                                            bg-slate-100
+                                            flex items-center justify-center
+                                            shrink-0">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-5 h-5 text-slate-500"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2">
+
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M6 18L18 6M6 6l12 12"/>
+
+                                    </svg>
+
+                                </div>
+
+                            @else
+
+                                <div class="w-10 h-10 rounded-full
+                                            bg-green-100
+                                            flex items-center justify-center
+                                            shrink-0">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-5 h-5 text-green-600"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="2">
+
+                                        <path stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M5 13l4 4L19 7"/>
+
+                                    </svg>
+
+                                </div>
+
+                            @endif
+
+
+                            {{-- Report Information --}}
+
+                            <div class="flex-1">
+
+                                @if($report->status === 'dismissed')
+
+                                    <h3 class="font-semibold text-slate-700">
+                                        Report Dismissed
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        Your report has been reviewed and dismissed by an administrator.
+                                    </p>
+
+                                @else
+
+                                    <h3 class="font-semibold text-green-700">
+                                        Action Taken
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        Your report has been reviewed and appropriate action has been taken.
+                                    </p>
+
+                                @endif
+
+
+                                @if($report->reported_content_title)
+
+                                    <p class="mt-2 text-sm text-slate-500">
+
+                                        Reported:
+                                        <span class="font-semibold text-slate-700">
+                                            "{{ $report->reported_content_title }}"
+                                        </span>
+
+                                    </p>
+
+                                @endif
+
+
+                                @if($report->updated_at)
+
+                                    <p class="mt-2 text-xs text-slate-400">
+                                        {{ $report->updated_at->diffForHumans() }}
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+
+                            {{-- Status Badge --}}
+
+                            @if($report->status === 'dismissed')
+
+                                <span class="hidden sm:inline-flex
+                                            px-3 py-1
+                                            rounded-full
+                                            bg-slate-100
+                                            text-slate-600
+                                            text-xs
+                                            font-semibold">
+
+                                    Dismissed
+
+                                </span>
+
+                            @else
+
+                                <span class="hidden sm:inline-flex
+                                            px-3 py-1
+                                            rounded-full
+                                            bg-green-100
+                                            text-green-700
+                                            text-xs
+                                            font-semibold">
+
+                                    Action Taken
+
+                                </span>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                @empty
+
+                    {{-- No Report Updates --}}
+
+                    <div class="px-6 py-10 text-center">
+
+                        <div class="w-14 h-14
+                                    mx-auto
+                                    rounded-full
+                                    bg-slate-100
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-7 h-7 text-slate-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.8">
+
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                            </svg>
+
+                        </div>
+
+                        <p class="mt-4 font-semibold text-slate-700">
+                            No Report Updates
+                        </p>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            You will see updates here when your reports are reviewed.
+                        </p>
+
+                    </div>
+
+                @endforelse
+
+            </div>
+
+        </div>
+        {{-- ================= WARNINGS ================= --}}
+
+        <div class="mt-8 mb-8">
+
+            <div class="bg-white rounded-2xl border border-slate-200
+                        shadow-sm overflow-hidden">
+
+                {{-- Warning Header --}}
+                <div class="px-6 py-5 border-b border-slate-200
+                            flex items-center gap-3">
+
+                    <div class="w-11 h-11 rounded-xl
+                                bg-red-50
+                                flex items-center justify-center">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-6 h-6 text-red-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2">
+
+                            <path stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="text-lg font-bold text-slate-900">
+                            Warnings
+                        </h2>
+
+                        <p class="text-sm text-slate-500 mt-1">
+                            Warnings issued to your account by an administrator.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                {{-- Warning List --}}
+
+                @forelse($warnings as $warning)
+
+                    <div class="px-6 py-5
+                                border-b border-slate-100
+                                last:border-b-0
+                                hover:bg-slate-50
+                                transition">
+
+                        <div class="flex items-start gap-4">
+
+                            {{-- Warning Icon --}}
+
+                            <div class="w-10 h-10 rounded-full
+                                        bg-red-100
+                                        flex items-center justify-center
+                                        shrink-0">
+
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5 text-red-600"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2">
+
+                                    <path stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                                </svg>
+
+                            </div>
+
+
+                            {{-- Warning Information --}}
+
+                            <div class="flex-1">
+
+                                @if(
+                                    $warning->report &&
+                                    $warning->report->reported_content_title
+                                )
+
+                                    <h3 class="font-semibold text-red-700">
+                                        Content Removed & Warning Issued
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        After reviewing a report concerning your account,
+                                        the reported content was removed and a warning
+                                        has been issued. For more information, please contact the support team and check the report details.
+                                    </p>
+
+                                @else
+
+                                    <h3 class="font-semibold text-red-700">
+                                        Warning Issued
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        After reviewing a report concerning your account,
+                                        a warning has been issued. For more information, please contact the support team and check the report details.
+                                    </p>
+
+                                @endif
+
+
+                                @if($warning->created_at)
+
+                                    <p class="mt-2 text-xs text-slate-400">
+                                        {{ $warning->created_at->diffForHumans() }}
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+
+                            {{-- Badge --}}
+
+                            <span class="hidden sm:inline-flex
+                                        px-3 py-1
+                                        rounded-full
+                                        bg-red-100
+                                        text-red-700
+                                        text-xs
+                                        font-semibold">
+
+                                Warning
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                @empty
+
+                    {{-- No Warnings --}}
+
+                    <div class="px-6 py-10 text-center">
+
+                        <div class="w-14 h-14
+                                    mx-auto
+                                    rounded-2xl
+                                    bg-slate-100
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-7 h-7 text-slate-400"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.8">
+
+                                <path stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                            </svg>
+
+                        </div>
+
+                        <h3 class="mt-4 font-semibold text-slate-900">
+                            No Warnings
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-500">
+                            You currently have no warnings.
+                        </p>
+
+                    </div>
+
+                @endforelse
 
             </div>
 

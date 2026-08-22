@@ -11,6 +11,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\WalletController;
+use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -119,6 +120,17 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/wallet/deposit', [WalletController::class, 'deposit'])
         ->name('wallet.deposit');
+});
+Route::middleware('auth')->group(function () {
+
+    Route::get('/chat/{solution}', [ChatController::class, 'open'])
+        ->name('chat.open');
+
+    Route::post('/chat/{conversation}/message', [ChatController::class, 'send'])
+        ->name('chat.send');
+    Route::get('/chat/conversation/{conversation}', [ChatController::class, 'show'])
+        ->name('chat.show');
+
 });
 
 

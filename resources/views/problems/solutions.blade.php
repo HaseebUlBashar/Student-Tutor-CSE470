@@ -129,6 +129,23 @@
                                 {{ $solution->studentTutor->email }}
                             </p>
 
+                            @if($solution->status === 'submitted')
+
+                            <a
+                                href="{{ route('chat.open', $solution->id) }}"
+                                class="inline-flex items-center gap-2
+                                    mt-3
+                                    bg-blue-600 hover:bg-blue-700
+                                    text-white px-4 py-2
+                                    rounded-lg text-sm font-bold
+                                    transition shadow-sm hover:shadow-md">
+
+                                💬 Chat with Tutor
+
+                            </a>
+
+                        @endif
+
                         </div>
 
 
