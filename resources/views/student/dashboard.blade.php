@@ -1198,282 +1198,429 @@
 
             </div>
 
+{{-- ================= OPEN PROBLEMS ================= --}}
 
-            {{-- ================= RECENT PROBLEMS ================= --}}
+<div class="mt-8 bg-white rounded-2xl border border-slate-200
+            shadow-sm overflow-hidden">
 
-            <div class="bg-white rounded-2xl border border-slate-200
-                        shadow-sm overflow-hidden">
+    <div class="px-6 py-5 border-b border-slate-200
+                flex flex-col sm:flex-row
+                sm:items-center sm:justify-between gap-3">
 
-                {{-- Header --}}
+        <div>
 
-                <div class="px-6 py-5 border-b border-slate-200
-                            flex flex-col sm:flex-row
-                            sm:items-center sm:justify-between gap-3">
+            <h2 class="text-xl font-bold text-slate-900">
+                Open Problems
+            </h2>
 
-                    <div>
+            <p class="text-sm text-slate-500 mt-1">
+                Problems that are currently open and waiting for a student tutor.
+            </p>
 
-                        <h2 class="text-xl font-bold text-slate-900">
-                            Recent Problems
-                        </h2>
+        </div>
 
-                        <p class="text-sm text-slate-500 mt-1">
-                            Your most recently posted academic problems.
-                        </p>
+        <a href="{{ route('problems.index', ['status' => 'Open']) }}"
+           class="text-sm font-semibold text-blue-600
+                  hover:text-blue-700">
 
-                    </div>
+            See All →
 
+        </a>
 
-                    <a href="{{ route('problems.index') }}"
-                       class="text-sm font-semibold text-blue-600
-                              hover:text-blue-700">
+    </div>
 
-                        View All Problems →
 
-                    </a>
+    <div class="overflow-x-auto">
 
-                </div>
+        <table class="w-full">
 
+            <thead class="bg-slate-50">
 
-                {{-- Table --}}
+                <tr>
 
-                <div class="overflow-x-auto">
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Title
+                    </th>
 
-                    <table class="w-full">
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Course
+                    </th>
 
-                        <thead class="bg-slate-50">
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Reward
+                    </th>
 
-                            <tr>
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Deadline
+                    </th>
 
-                                <th class="px-6 py-4 text-left text-xs
-                                           font-semibold text-slate-500
-                                           uppercase tracking-wider">
-                                    Title
-                                </th>
+                </tr>
 
-                                <th class="px-6 py-4 text-left text-xs
-                                           font-semibold text-slate-500
-                                           uppercase tracking-wider">
-                                    Course
-                                </th>
+            </thead>
 
-                                <th class="px-6 py-4 text-left text-xs
-                                           font-semibold text-slate-500
-                                           uppercase tracking-wider">
-                                    Reward
-                                </th>
+            <tbody class="divide-y divide-slate-100">
 
-                                <th class="px-6 py-4 text-left text-xs
-                                           font-semibold text-slate-500
-                                           uppercase tracking-wider">
-                                    Status
-                                </th>
+                @forelse($openRecentProblems as $problem)
 
-                            </tr>
+                    <tr class="hover:bg-slate-50 transition">
 
-                        </thead>
+                        <td class="px-6 py-4">
 
+                            <p class="font-semibold text-slate-900">
+                                {{ $problem->title }}
+                            </p>
 
-                        <tbody class="divide-y divide-slate-100">
+                            <p class="text-xs text-slate-500 mt-1">
+                                {{ $problem->department }}
+                            </p>
 
-                            @forelse($recentProblems as $problem)
+                        </td>
 
-                                <tr class="hover:bg-slate-50
-                                           transition duration-150">
+                        <td class="px-6 py-4">
 
-                                    {{-- Title --}}
+                            <span class="inline-flex items-center
+                                         px-3 py-1 rounded-lg
+                                         bg-blue-50 text-blue-700
+                                         text-sm font-semibold">
 
-                                    <td class="px-6 py-4">
+                                {{ $problem->course }}
 
-                                        <p class="font-semibold text-slate-900">
-                                            {{ $problem->title }}
-                                        </p>
+                            </span>
 
-                                        <p class="text-xs text-slate-500 mt-1">
-                                            {{ $problem->department }}
-                                        </p>
+                        </td>
 
-                                    </td>
+                        <td class="px-6 py-4">
 
+                            <span class="font-semibold text-slate-800">
+                                ৳{{ number_format($problem->reward, 2) }}
+                            </span>
 
-                                    {{-- Course --}}
+                        </td>
 
-                                    <td class="px-6 py-4">
+                        <td class="px-6 py-4">
 
-                                        <span class="inline-flex items-center
-                                                     px-3 py-1 rounded-lg
-                                                     bg-blue-50 text-blue-700
-                                                     text-sm font-semibold">
+                            <span class="text-sm text-slate-600">
+                                {{ \Carbon\Carbon::parse($problem->deadline)->format('d M Y') }}
+                            </span>
 
-                                            {{ $problem->course }}
+                        </td>
 
-                                        </span>
+                    </tr>
 
-                                    </td>
+                @empty
 
+                    <tr>
 
-                                    {{-- Reward --}}
+                        <td colspan="4"
+                            class="px-6 py-10 text-center">
 
-                                    <td class="px-6 py-4">
+                            <p class="text-sm text-slate-500">
+                                No open problems.
+                            </p>
 
-                                        <span class="font-semibold text-slate-800">
+                        </td>
 
-                                            ৳{{ number_format($problem->reward, 2) }}
+                    </tr>
 
-                                        </span>
+                @endforelse
 
-                                    </td>
+            </tbody>
 
+        </table>
 
-                                    {{-- Status --}}
+    </div>
 
-                                    <td class="px-6 py-4">
+</div>
+{{-- ================= IN PROGRESS PROBLEMS ================= --}}
 
-                                        @if($problem->status === 'Open')
+<div class="mt-8 bg-white rounded-2xl border border-slate-200
+            shadow-sm overflow-hidden">
 
-                                            <span class="inline-flex items-center
-                                                         px-3 py-1 rounded-full
-                                                         bg-emerald-50
-                                                         text-emerald-700
-                                                         text-xs font-semibold">
+    <div class="px-6 py-5 border-b border-slate-200
+                flex flex-col sm:flex-row
+                sm:items-center sm:justify-between gap-3">
 
-                                                <span class="w-2 h-2
-                                                             bg-emerald-500
-                                                             rounded-full mr-2">
-                                                </span>
+        <div>
 
-                                                Open
+            <h2 class="text-xl font-bold text-slate-900">
+                In Progress
+            </h2>
 
-                                            </span>
+            <p class="text-sm text-slate-500 mt-1">
+                Problems currently being worked on by a student tutor.
+            </p>
 
-                                        @elseif($problem->status === 'In Progress')
+        </div>
 
-                                            <span class="inline-flex items-center
-                                                         px-3 py-1 rounded-full
-                                                         bg-amber-50
-                                                         text-amber-700
-                                                         text-xs font-semibold">
+        <a href="{{ route('problems.index', ['status' => 'In Progress']) }}"
+           class="text-sm font-semibold text-blue-600
+                  hover:text-blue-700">
 
-                                                <span class="w-2 h-2
-                                                             bg-amber-500
-                                                             rounded-full mr-2">
-                                                </span>
+            See All →
 
-                                                In Progress
+        </a>
 
-                                            </span>
+    </div>
 
-                                        @elseif($problem->status === 'Solved')
 
-                                            <span class="inline-flex items-center
-                                                         px-3 py-1 rounded-full
-                                                         bg-purple-50
-                                                         text-purple-700
-                                                         text-xs font-semibold">
+    <div class="overflow-x-auto">
 
-                                                <span class="w-2 h-2
-                                                             bg-purple-500
-                                                             rounded-full mr-2">
-                                                </span>
+        <table class="w-full">
 
-                                                Solved
+            <thead class="bg-slate-50">
 
-                                            </span>
+                <tr>
 
-                                        @elseif($problem->status === 'Expired')
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Title
+                    </th>
 
-                                            <span class="inline-flex items-center
-                                                         px-3 py-1 rounded-full
-                                                         bg-red-50
-                                                         text-red-700
-                                                         text-xs font-semibold">
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Course
+                    </th>
 
-                                                <span class="w-2 h-2
-                                                             bg-red-500
-                                                             rounded-full mr-2">
-                                                </span>
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Reward
+                    </th>
 
-                                                Expired
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Deadline
+                    </th>
 
-                                            </span>
+                </tr>
 
-                                        @else
+            </thead>
 
-                                            <span class="text-sm text-slate-600">
-                                                {{ $problem->status }}
-                                            </span>
+            <tbody class="divide-y divide-slate-100">
 
-                                        @endif
+                @forelse($inProgressRecentProblems as $problem)
 
-                                    </td>
+                    <tr class="hover:bg-slate-50 transition">
 
-                                </tr>
+                        <td class="px-6 py-4">
 
-                            @empty
+                            <p class="font-semibold text-slate-900">
+                                {{ $problem->title }}
+                            </p>
 
-                                <tr>
+                            <p class="text-xs text-slate-500 mt-1">
+                                {{ $problem->department }}
+                            </p>
 
-                                    <td colspan="4"
-                                        class="px-6 py-14 text-center">
+                        </td>
 
-                                        <div class="w-16 h-16 mx-auto
-                                                    rounded-2xl bg-blue-50
-                                                    flex items-center justify-center">
+                        <td class="px-6 py-4">
 
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                 class="w-8 h-8 text-blue-600"
-                                                 fill="none"
-                                                 viewBox="0 0 24 24"
-                                                 stroke="currentColor"
-                                                 stroke-width="2">
+                            <span class="inline-flex items-center
+                                         px-3 py-1 rounded-lg
+                                         bg-blue-50 text-blue-700
+                                         text-sm font-semibold">
 
-                                                <path stroke-linecap="round"
-                                                      stroke-linejoin="round"
-                                                      d="M12 4v16m8-8H4"/>
+                                {{ $problem->course }}
 
-                                            </svg>
+                            </span>
 
-                                        </div>
+                        </td>
 
-                                        <h3 class="mt-4 text-lg font-semibold
-                                                   text-slate-900">
+                        <td class="px-6 py-4">
 
-                                            No problems yet
+                            <span class="font-semibold text-slate-800">
+                                ৳{{ number_format($problem->reward, 2) }}
+                            </span>
 
-                                        </h3>
+                        </td>
 
-                                        <p class="mt-1 text-sm text-slate-500">
+                        <td class="px-6 py-4">
 
-                                            You haven't posted any academic
-                                            problems yet.
+                            <span class="text-sm text-slate-600">
+                                {{ \Carbon\Carbon::parse($problem->deadline)->format('d M Y') }}
+                            </span>
 
-                                        </p>
+                        </td>
 
-                                        <a href="{{ route('problems.create') }}"
-                                           class="inline-flex mt-5
-                                                  bg-blue-600 hover:bg-blue-700
-                                                  text-white px-5 py-2.5
-                                                  rounded-xl font-semibold
-                                                  transition">
+                    </tr>
 
-                                            + Post New Problem
+                @empty
 
-                                        </a>
+                    <tr>
 
-                                    </td>
+                        <td colspan="4"
+                            class="px-6 py-10 text-center">
 
-                                </tr>
+                            <p class="text-sm text-slate-500">
+                                No problems are currently in progress.
+                            </p>
 
-                            @endforelse
+                        </td>
 
-                        </tbody>
+                    </tr>
 
-                    </table>
+                @endforelse
 
-                </div>
+            </tbody>
 
-            </div>
+        </table>
 
+    </div>
 
+</div>
+{{-- ================= SOLVED PROBLEMS ================= --}}
+
+<div class="mt-8 bg-white rounded-2xl border border-slate-200
+            shadow-sm overflow-hidden">
+
+    <div class="px-6 py-5 border-b border-slate-200
+                flex flex-col sm:flex-row
+                sm:items-center sm:justify-between gap-3">
+
+        <div>
+
+            <h2 class="text-xl font-bold text-slate-900">
+                Solved Problems
+            </h2>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Problems that have been successfully solved.
+            </p>
+
+        </div>
+
+        <a href="{{ route('problems.index', ['status' => 'Solved']) }}"
+           class="text-sm font-semibold text-blue-600
+                  hover:text-blue-700">
+
+            See All →
+
+        </a>
+
+    </div>
+
+
+    <div class="overflow-x-auto">
+
+        <table class="w-full">
+
+            <thead class="bg-slate-50">
+
+                <tr>
+
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Title
+                    </th>
+
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Course
+                    </th>
+
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Reward
+                    </th>
+
+                    <th class="px-6 py-4 text-left text-xs
+                               font-semibold text-slate-500
+                               uppercase tracking-wider">
+                        Deadline
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody class="divide-y divide-slate-100">
+
+                @forelse($solvedRecentProblems as $problem)
+
+                    <tr class="hover:bg-slate-50 transition">
+
+                        <td class="px-6 py-4">
+
+                            <p class="font-semibold text-slate-900">
+                                {{ $problem->title }}
+                            </p>
+
+                            <p class="text-xs text-slate-500 mt-1">
+                                {{ $problem->department }}
+                            </p>
+
+                        </td>
+
+                        <td class="px-6 py-4">
+
+                            <span class="inline-flex items-center
+                                         px-3 py-1 rounded-lg
+                                         bg-blue-50 text-blue-700
+                                         text-sm font-semibold">
+
+                                {{ $problem->course }}
+
+                            </span>
+
+                        </td>
+
+                        <td class="px-6 py-4">
+
+                            <span class="font-semibold text-slate-800">
+                                ৳{{ number_format($problem->reward, 2) }}
+                            </span>
+
+                        </td>
+
+                        <td class="px-6 py-4">
+
+                            <span class="text-sm text-slate-600">
+                                {{ \Carbon\Carbon::parse($problem->deadline)->format('d M Y') }}
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                @empty
+
+                    <tr>
+
+                        <td colspan="4"
+                            class="px-6 py-10 text-center">
+
+                            <p class="text-sm text-slate-500">
+                                No solved problems yet.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
             {{-- ================= QUICK ACTIONS ================= --}}
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8 mb-8">

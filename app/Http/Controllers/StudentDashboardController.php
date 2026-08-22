@@ -27,7 +27,22 @@ class StudentDashboardController extends Controller
         $solvedProblems = Problem::where('user_id', $user->id)
             ->where('status', 'Solved')
             ->count();
-        $recentProblems = Problem::where('user_id', $user->id)
+
+
+        $openRecentProblems = Problem::where('user_id', $user->id)
+            ->where('status', 'Open')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $inProgressRecentProblems = Problem::where('user_id', $user->id)
+            ->where('status', 'In Progress')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $solvedRecentProblems = Problem::where('user_id', $user->id)
+            ->where('status', 'Solved')
             ->latest()
             ->take(5)
             ->get();
@@ -76,12 +91,14 @@ class StudentDashboardController extends Controller
             ->take(5)
             ->get();
 
-       return view('student.dashboard', compact(
+    return view('student.dashboard', compact(
         'totalProblems',
         'openProblems',
         'inProgressProblems',
         'solvedProblems',
-        'recentProblems',
+        'openRecentProblems',
+        'inProgressRecentProblems',
+        'solvedRecentProblems',
         'newSolutions',
         'newSolutionsCount',
         'activeConversations',

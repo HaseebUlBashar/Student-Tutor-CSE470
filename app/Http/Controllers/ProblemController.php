@@ -17,17 +17,24 @@ class ProblemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-    // $problems = Problem::where('user_id', auth()->id())
-    //     ->latest()
-    //     ->get();
-    $problems = Problem::where('user_id', Auth::id())
-    ->latest()
-    ->get();
+public function index(Request $request)
+{
+    $query = Problem::where('user_id', auth()->id());
+
+    if ($request->filled('status')) {
+        $request->validate([
+            'status' => 'in:Open,In Progress,Solved',
+        ]);
+
+        $query->where('status', $request->status);
+    }
+
+    $problems = $query
+        ->latest()
+        ->get();
 
     return view('problems.index', compact('problems'));
-    }
+}
 
     /**
      * Show the form for creating a new resource.
