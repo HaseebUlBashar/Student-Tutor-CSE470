@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -6,7 +7,6 @@ use App\Http\Controllers\ProblemController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\TutorProblemController;
 use App\Http\Controllers\TutorDashboardController;
-use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminReportController;
@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/problems/{problem}/bookmark', [BookmarkController::class, 'toggle'])->name('bookmarks.toggle');
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
+
+    Route::post('/problems/{problem}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])

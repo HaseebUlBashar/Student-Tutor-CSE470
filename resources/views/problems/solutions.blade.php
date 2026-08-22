@@ -244,6 +244,64 @@
                         </div>
 
                     @endif
+                    {{-- Rating & Review Section (Visible once solution is accepted) --}}
+                    @if($solution->status === 'accepted' && auth()->user()->role === 'student')
+                        <div class="mt-6 pt-5 border-t border-slate-200">
+                            @php
+                                $existingReview = \App\Models\Review::where('problem_id', $problem->id)
+                                    ->where('reviewer_id', auth()->id())
+                                    ->where('reviewed_id', $solution->student_tutor_id)
+                                    ->first();
+                            @endphp
+
+                            @if($existingReview)
+                                <div class="bg-blue-50 border border-blue-100 rounded-xl p-4">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-semibold text-blue-900">Your Review for this Tutor</h4>
+                                        <span class="text-amber-500 font-semibold">
+                                            {{ str_repeat('⭐', $existingReview->rating) }} ({{ $existingReview->rating }}/5)
+                                        </span>
+                                    </div>
+                                    @if($existingReview->comment)
+                                        <p class="text-sm text-blue-800 mt-2 italic">
+                                            "{{ $existingReview->comment }}"
+                                        </p>
+                                    @endif
+                                </div>
+                            @else
+                                <div class="bg-slate-50 border border-slate-200 rounded-xl p-5">
+                                    <h4 class="font-bold text-slate-900 mb-1">Rate Tutor: {{ $solution->studentTutor->name }}</h4>
+                                    <p class="text-xs text-slate-500 mb-4">Share your feedback to help the community know how helpful this tutor was.</p>
+
+                                    <form action="{{ route('reviews.store', $problem->id) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="reviewed_id" value="{{ $solution->student_tutor_id }}">
+
+                                        <div class="mb-3">
+                                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Rating</label>
+                                            <select name="rating" required class="w-full text-sm border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                                <option value="">Select Star Rating</option>
+                                                <option value="5">⭐⭐⭐⭐⭐ (5 - Excellent)</option>
+                                                <option value="4">⭐⭐⭐⭐ (4 - Good)</option>
+                                                <option value="3">⭐⭐⭐ (3 - Average)</option>
+                                                <option value="2">⭐⭐ (2 - Poor)</option>
+                                                <option value="1">⭐ (1 - Terrible)</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">Feedback Comment (Optional)</label>
+                                            <textarea name="comment" rows="2" class="w-full text-sm border-slate-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="How well did they explain the concept?"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="w-full sm:w-auto px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-sm transition">
+                                            Submit Review
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
 
                 </div>
 
