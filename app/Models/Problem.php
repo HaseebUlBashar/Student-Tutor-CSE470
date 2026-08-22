@@ -34,6 +34,10 @@ class Problem extends Model
     {
     return $this->belongsToMany(User::class, 'bookmarks');
     }
+    public function reviews(): HasMany
+    {
+    return $this->hasMany(Review::class);
+    }
     public function conversations(): HasMany
     {
     return $this->hasMany(Conversation::class);

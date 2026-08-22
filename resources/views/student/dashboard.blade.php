@@ -729,291 +729,125 @@
                     overflow-hidden">
 
 
+
+{{-- ============================================================ --}}
+    {{-- UNIFIED NOTIFICATIONS CARD (SOLUTIONS & PAYMENTS) --}}
+    {{-- ============================================================ --}}
+
+    <div class="mb-0">
+
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+
             {{-- ===================================================== --}}
-            {{-- HEADER --}}
+            {{-- CARD HEADER --}}
             {{-- ===================================================== --}}
-
-            <div class="px-6 py-5
-                        border-b border-slate-200
-                        flex items-center
-                        justify-between">
-
-
+            <div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-
-                    <div class="w-11 h-11
-                                rounded-xl
-                                bg-blue-50
-                                flex items-center
-                                justify-center">
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="w-6 h-6 text-blue-600"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke="currentColor"
-                             stroke-width="2">
-
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M15 17h5l-1.405-1.405A2.032
-                                     2.032 0 0118 14.158V11a6.002
-                                     6.002 0 00-4-5.659V5a2 2
-                                     0 10-4 0v.341C7.67 6.165
-                                     6 8.388 6 11v3.159c0
-                                     .538-.214 1.055-.595
-                                     1.436L4 17h5m6 0v1a3 3
-                                     0 11-6 0v-1m6 0H9"/>
-
+                    <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
-
                     </div>
-
 
                     <div>
-
                         <div class="flex items-center gap-2">
-
-                            <h2 class="text-xl
-                                       font-bold
-                                       text-slate-900">
-
-                                New Solutions
-
-                            </h2>
-
-
-                            @if($newSolutionsCount > 0)
-
-                                <span class="inline-flex
-                                             items-center
-                                             justify-center
-                                             min-w-6 h-6
-                                             px-2
-                                             rounded-full
-                                             bg-blue-600
-                                             text-white
-                                             text-xs
-                                             font-bold">
-
-                                    {{ $newSolutionsCount }}
-
+                            <h2 class="text-xl font-bold text-slate-900">Notifications</h2>
+                            @php
+                                $totalNotifs = ($newSolutionsCount ?? 0) + (isset($recentPayments) ? $recentPayments->count() : 0);
+                            @endphp
+                            @if($totalNotifs > 0)
+                                <span class="inline-flex items-center justify-center min-w-6 h-6 px-2 rounded-full bg-blue-600 text-white text-xs font-bold">
+                                    {{ $totalNotifs }}
                                 </span>
-
                             @endif
+                        </div>
+                        <p class="text-sm text-slate-500 mt-1">Solutions submitted and payments processed.</p>
+                    </div>
+                </div>
+            </div>
 
+            {{-- ===================================================== --}}
+            {{-- UNIFIED NOTIFICATION ROWS --}}
+            {{-- ===================================================== --}}
+            <div class="divide-y divide-slate-100">
+
+                {{-- 1. NEW SOLUTION ROWS --}}
+                @foreach($newSolutions as $solution)
+                    <div class="px-6 py-5 hover:bg-slate-50 transition duration-150 flex items-center justify-between gap-4">
+                        <div class="flex items-start gap-4 min-w-0">
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold shrink-0">
+                                {{ strtoupper(substr($solution->studentTutor->name, 0, 1)) }}
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-xs text-slate-500">New solution submitted for</p>
+                                <h3 class="font-bold text-slate-900 mt-0.5 truncate">{{ $solution->problem->title }}</h3>
+                                <p class="text-sm text-slate-600 mt-1">
+                                    By <span class="font-semibold">{{ $solution->studentTutor->name }}</span>
+                                </p>
+                                @if($solution->submitted_at)
+                                    <p class="text-xs text-slate-400 mt-1">
+                                        {{ $solution->submitted_at->format('d M Y, h:i A') }}
+                                    </p>
+                                @endif
+                            </div>
                         </div>
 
-
-                        <p class="text-sm
-                                  text-slate-500
-                                  mt-1">
-
-                            Solutions submitted by tutors for your problems.
-
-                        </p>
-
+                        <div class="flex-shrink-0">
+                            <a href="{{ route('problems.solutions', $solution->problem->id) }}" class="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2.5 rounded-xl text-sm font-semibold transition duration-200">
+                                <span>View</span>
+                                <span>→</span>
+                            </a>
+                        </div>
                     </div>
+                @endforeach
 
-                </div>
+                {{-- 2. PAYMENT COMPLETED ROWS --}}
+                @if(isset($recentPayments))
+                    @foreach($recentPayments as $payment)
+                        <div class="px-6 py-5 hover:bg-slate-50 transition duration-150 flex items-center justify-between gap-4">
+                            <div class="flex items-start gap-4 min-w-0">
+                                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+                                    ৳
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-xs text-slate-500">Payment Processed</p>
+                                    <h3 class="font-bold text-slate-900 mt-0.5 truncate">{{ $payment->description }}</h3>
+                                    <p class="text-xs text-slate-400 mt-1">
+                                        {{ $payment->created_at->format('d M Y, h:i A') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-3 shrink-0">
+                                <span class="text-sm font-bold text-red-600">
+                                    - ৳ {{ number_format($payment->amount, 2) }}
+                                </span>
+                                <a href="{{ route('receipts.show', $payment->id) }}" class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-xl text-xs font-semibold transition">
+                                    Receipt →
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+
+                {{-- 3. EMPTY STATE IF NOTHING EXISTS --}}
+                @if(($newSolutions->count() === 0) && (!isset($recentPayments) || $recentPayments->count() === 0))
+                    <div class="px-6 py-10 text-center">
+                        <div class="w-14 h-14 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-4 font-semibold text-slate-900">No New Notifications</h3>
+                        <p class="mt-1 text-sm text-slate-500">You don't have any new solutions or recent payments to review.</p>
+                    </div>
+                @endif
 
             </div>
 
-
-
-            {{-- ===================================================== --}}
-            {{-- SOLUTION LIST --}}
-            {{-- ===================================================== --}}
-
-            @forelse($newSolutions as $solution)
-
-                <div class="px-6 py-5
-                            border-b border-slate-100
-                            last:border-b-0
-                            hover:bg-slate-50
-                            transition duration-150">
-
-
-                    <div class="flex items-center
-                                justify-between
-                                gap-4">
-
-
-                        {{-- Solution Information --}}
-                        <div class="flex items-start
-                                    gap-4
-                                    min-w-0">
-
-
-                            {{-- Tutor Avatar --}}
-                            <div class="w-10 h-10
-                                        rounded-full
-                                        bg-indigo-100
-                                        text-indigo-700
-                                        flex items-center
-                                        justify-center
-                                        font-bold
-                                        shrink-0">
-
-                                {{ strtoupper(
-                                    substr($solution->studentTutor->name, 0, 1)
-                                ) }}
-
-                            </div>
-
-
-                            <div class="min-w-0">
-
-                                <p class="text-xs
-                                          text-slate-500">
-
-                                    New solution submitted for
-
-                                </p>
-
-
-                                <h3 class="font-bold
-                                           text-slate-900
-                                           mt-0.5
-                                           truncate">
-
-                                    {{ $solution->problem->title }}
-
-                                </h3>
-
-
-                                <p class="text-sm
-                                          text-slate-600
-                                          mt-1">
-
-                                    By
-
-                                    <span class="font-semibold">
-
-                                        {{ $solution->studentTutor->name }}
-
-                                    </span>
-
-                                </p>
-
-
-                                @if($solution->submitted_at)
-
-                                    <p class="text-xs
-                                              text-slate-400
-                                              mt-1">
-
-                                        {{ $solution->submitted_at->format('d M Y, h:i A') }}
-
-                                    </p>
-
-                                @endif
-
-                            </div>
-
-                        </div>
-
-
-
-                        {{-- View Solution --}}
-                        <div class="flex-shrink-0">
-
-                            <a
-                                href="{{ route('problems.solutions', $solution->problem->id) }}"
-                                class="inline-flex
-                                       items-center
-                                       gap-1.5
-                                       bg-blue-600
-                                       hover:bg-blue-700
-                                       text-white
-                                       px-3
-                                       py-2.5
-                                       rounded-xl
-                                       text-sm
-                                       font-semibold
-                                       transition duration-200"
-                            >
-
-                                <span class="hidden xl:inline">
-                                    View
-                                </span>
-
-                                <span>
-                                    →
-                                </span>
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-            @empty
-
-                {{-- ================================================= --}}
-                {{-- EMPTY STATE --}}
-                {{-- ================================================= --}}
-
-                <div class="px-6 py-10
-                            text-center">
-
-
-                    <div class="w-14 h-14
-                                mx-auto
-                                rounded-2xl
-                                bg-slate-100
-                                flex items-center
-                                justify-center">
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="w-7 h-7 text-slate-400"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke="currentColor"
-                             stroke-width="1.8">
-
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M15 17h5l-1.405-1.405A2.032
-                                     2.032 0 0118 14.158V11a6.002
-                                     6.002 0 00-4-5.659V5a2 2
-                                     0 10-4 0v.341C7.67 6.165
-                                     6 8.388 6 11v3.159c0
-                                     .538-.214 1.055-.595
-                                     1.436L4 17h5m6 0v1a3 3
-                                     0 11-6 0v-1m6 0H9"/>
-
-                        </svg>
-
-                    </div>
-
-
-                    <h3 class="mt-4
-                               font-semibold
-                               text-slate-900">
-
-                        No New Solutions
-
-                    </h3>
-
-
-                    <p class="mt-1
-                              text-sm
-                              text-slate-500">
-
-                        You don't have any new solutions
-                        to review right now.
-
-                    </p>
-
-                </div>
-
-            @endforelse
-
         </div>
+
+    </div>
 
     </div>
 

@@ -1459,327 +1459,145 @@
 
 
 
-    {{-- ============================================================ --}}
-    {{-- NOTIFICATIONS --}}
+{{-- ============================================================ --}}
+    {{-- UNIFIED NOTIFICATIONS CARD (SOLUTION UPDATES & PAYMENTS) --}}
     {{-- ============================================================ --}}
 
     <div class="mb-0">
 
-        <div class="bg-white
-                    rounded-3xl
-                    border border-slate-200
-                    shadow-sm
-                    overflow-hidden">
-
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
 
             {{-- ===================================================== --}}
-            {{-- NOTIFICATION HEADER --}}
+            {{-- CARD HEADER --}}
             {{-- ===================================================== --}}
-
-            <div class="px-6 py-5
-                        border-b border-slate-100
-                        flex items-center justify-between">
-
-
+            <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-
-                    <div class="w-11 h-11
-                                rounded-xl
-                                bg-blue-50
-                                flex items-center justify-center">
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="w-6 h-6 text-blue-600"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke="currentColor"
-                             stroke-width="2">
-
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M15 17h5l-1.405-1.405A2.032
-                                     2.032 0 0118 14.158V11a6.002
-                                     6.002 0 00-4-5.659V5a2 2 0
-                                     10-4 0v.341C7.67 6.165 6
-                                     8.388 6 11v3.159c0 .538-.214
-                                     1.055-.595 1.436L4 17h5m6
-                                     0v1a3 3 0 11-6 0v-1m6 0H9"/>
-
+                    <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
-
                     </div>
-
 
                     <div>
-
-                        <h2 class="text-xl
-                                   font-bold
-                                   text-slate-900">
-
-                            Notifications
-
-                        </h2>
-
-
-                        <p class="text-sm
-                                  text-slate-500">
-
-                            Updates about your submitted solutions
-
-                        </p>
-
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-xl font-bold text-slate-900">Notifications</h2>
+                            @php
+                                $totalTutorNotifs = ($notifications->count() ?? 0) + (isset($receivedPayments) ? $receivedPayments->count() : 0);
+                            @endphp
+                            @if($totalTutorNotifs > 0)
+                                <span class="inline-flex items-center justify-center min-w-6 h-6 px-2 rounded-full bg-blue-600 text-white text-xs font-bold">
+                                    {{ $totalTutorNotifs }}
+                                </span>
+                            @endif
+                        </div>
+                        <p class="text-sm text-slate-500 mt-1">Updates on your solutions and earnings credited.</p>
                     </div>
-
                 </div>
-
             </div>
 
-
-
             {{-- ===================================================== --}}
-            {{-- NOTIFICATION LIST --}}
+            {{-- UNIFIED NOTIFICATION ROWS --}}
             {{-- ===================================================== --}}
+            <div class="divide-y divide-slate-100">
 
-            @forelse($notifications as $notification)
-
-                <div class="px-6 py-5
-                            border-b border-slate-100
-                            last:border-b-0
-                            hover:bg-slate-50
-                            transition">
-
-                    <div class="flex items-start
-                                gap-4">
-
-
-                        {{-- Status Icon --}}
-                        @if($notification->status === 'accepted')
-
-                            <div class="w-10 h-10
-                                        rounded-full
-                                        bg-green-100
-                                        flex items-center justify-center
-                                        shrink-0">
-
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-5 h-5 text-green-600"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor"
-                                     stroke-width="2">
-
-                                    <path stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M5 13l4 4L19 7"/>
-
-                                </svg>
-
+                {{-- 1. PAYMENT RECEIVED ROWS (TOP PRIORITY) --}}
+                @if(isset($receivedPayments))
+                    @foreach($receivedPayments as $payment)
+                        <div class="px-6 py-5 hover:bg-slate-50 transition duration-150 flex items-center justify-between gap-4">
+                            <div class="flex items-start gap-4 min-w-0">
+                                <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+                                    ৳
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-xs text-slate-500">Reward Credited</p>
+                                    <h3 class="font-bold text-slate-900 mt-0.5 truncate">{{ $payment->description }}</h3>
+                                    <p class="text-xs text-slate-400 mt-1">
+                                        {{ $payment->created_at->format('d M Y, h:i A') }}
+                                    </p>
+                                </div>
                             </div>
 
-                        @else
-
-                            <div class="w-10 h-10
-                                        rounded-full
-                                        bg-red-100
-                                        flex items-center justify-center
-                                        shrink-0">
-
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-5 h-5 text-red-600"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor"
-                                     stroke-width="2">
-
-                                    <path stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M6 18L18 6M6 6l12 12"/>
-
-                                </svg>
-
+                            <div class="flex items-center gap-3 shrink-0">
+                                <span class="text-sm font-bold text-green-600">
+                                    + ৳ {{ number_format($payment->amount, 2) }}
+                                </span>
+                                <a href="{{ route('receipts.show', $payment->id) }}" class="inline-flex items-center gap-1 bg-slate-900 hover:bg-slate-800 text-white px-3 py-2 rounded-xl text-xs font-semibold transition">
+                                    Receipt →
+                                </a>
                             </div>
+                        </div>
+                    @endforeach
+                @endif
 
-                        @endif
-
-
-
-                        {{-- Notification Text --}}
-                        <div class="flex-1 min-w-0">
-
+                {{-- 2. SOLUTION ACCEPTED / REJECTED ROWS --}}
+                @foreach($notifications as $notification)
+                    <div class="px-6 py-5 hover:bg-slate-50 transition duration-150 flex items-center justify-between gap-4">
+                        <div class="flex items-start gap-4 min-w-0">
                             @if($notification->status === 'accepted')
-
-                                <h3 class="font-semibold
-                                           text-green-700">
-
-                                    Solution Accepted
-
-                                </h3>
-
-
-                                <p class="mt-1
-                                          text-sm
-                                          text-slate-600">
-
-                                    Your solution for
-
-                                    <span class="font-semibold
-                                                 text-slate-800">
-
-                                        "{{ $notification->problem->title }}"
-
-                                    </span>
-
-                                    was accepted by the student.
-
-                                </p>
-
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
                             @else
-
-                                <h3 class="font-semibold
-                                           text-red-700">
-
-                                    Solution Rejected
-
-                                </h3>
-
-
-                                <p class="mt-1
-                                          text-sm
-                                          text-slate-600">
-
-                                    Your solution for
-
-                                    <span class="font-semibold
-                                                 text-slate-800">
-
-                                        "{{ $notification->problem->title }}"
-
-                                    </span>
-
-                                    was not selected by the student.
-
-                                </p>
-
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </div>
                             @endif
 
+                            <div class="flex-1 min-w-0">
+                                @if($notification->status === 'accepted')
+                                    <h3 class="font-semibold text-green-700">Solution Accepted</h3>
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        Your solution for <span class="font-semibold text-slate-800">"{{ $notification->problem->title }}"</span> was accepted by the student.
+                                    </p>
+                                @else
+                                    <h3 class="font-semibold text-red-700">Solution Rejected</h3>
+                                    <p class="mt-1 text-sm text-slate-600">
+                                        Your solution for <span class="font-semibold text-slate-800">"{{ $notification->problem->title }}"</span> was not selected.
+                                    </p>
+                                @endif
 
-                            @if($notification->updated_at)
-
-                                <p class="mt-2
-                                          text-xs
-                                          text-slate-400">
-
-                                    {{ $notification->updated_at->diffForHumans() }}
-
-                                </p>
-
-                            @endif
-
+                                @if($notification->updated_at)
+                                    <p class="mt-2 text-xs text-slate-400">
+                                        {{ $notification->updated_at->diffForHumans() }}
+                                    </p>
+                                @endif
+                            </div>
                         </div>
 
-
-
-                        {{-- Status Badge --}}
                         @if($notification->status === 'accepted')
-
-                            <span class="hidden sm:inline-flex
-                                         px-3 py-1
-                                         rounded-full
-                                         bg-green-100
-                                         text-green-700
-                                         text-xs
-                                         font-semibold
-                                         flex-shrink-0">
-
+                            <span class="hidden sm:inline-flex px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold shrink-0">
                                 Accepted
-
                             </span>
-
                         @else
-
-                            <span class="hidden sm:inline-flex
-                                         px-3 py-1
-                                         rounded-full
-                                         bg-red-100
-                                         text-red-700
-                                         text-xs
-                                         font-semibold
-                                         flex-shrink-0">
-
+                            <span class="hidden sm:inline-flex px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold shrink-0">
                                 Rejected
-
                             </span>
-
                         @endif
-
                     </div>
+                @endforeach
 
-                </div>
-
-
-            @empty
-
-                {{-- ================================================= --}}
-                {{-- NO NOTIFICATIONS --}}
-                {{-- ================================================= --}}
-
-                <div class="px-6 py-10
-                            text-center">
-
-                    <div class="w-14 h-14
-                                mx-auto
-                                rounded-full
-                                bg-slate-100
-                                flex items-center justify-center">
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="w-7 h-7 text-slate-400"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke="currentColor"
-                             stroke-width="1.8">
-
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M15 17h5l-1.405-1.405A2.032
-                                     2.032 0 0118 14.158V11a6.002
-                                     6.002 0 00-4-5.659V5a2 2 0
-                                     10-4 0v.341C7.67 6.165
-                                     6 8.388 6 11v3.159c0
-                                     .538-.214 1.055-.595
-                                     1.436L4 17h5"/>
-
-                        </svg>
-
+                {{-- 3. EMPTY STATE IF NO NOTIFICATIONS --}}
+                @if(($notifications->count() === 0) && (!isset($receivedPayments) || $receivedPayments->count() === 0))
+                    <div class="px-6 py-10 text-center">
+                        <div class="w-14 h-14 mx-auto rounded-full bg-slate-100 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5" />
+                            </svg>
+                        </div>
+                        <p class="mt-4 font-semibold text-slate-700">No notifications yet</p>
+                        <p class="mt-1 text-sm text-slate-500">You will see updates here when a student reviews your solution or payments arrive.</p>
                     </div>
+                @endif
 
-
-                    <p class="mt-4
-                              font-semibold
-                              text-slate-700">
-
-                        No notifications yet
-
-                    </p>
-
-
-                    <p class="mt-1
-                              text-sm
-                              text-slate-500">
-
-                        You will see updates here when a student reviews your solution.
-
-                    </p>
-
-                </div>
-
-            @endforelse
+            </div>
 
         </div>
 
     </div>
-
-</div>
 
 
 
