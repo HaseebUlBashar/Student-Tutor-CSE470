@@ -37,35 +37,44 @@ public function tutors()
 
     return view('admin.users.tutors', compact('studentTutors'));
 }
-    public function show(User $user)
-    {
-        if ($user->role === 'student') {
+public function show(User $user)
+{
+    if ($user->role === 'student') {
 
-            $user->load([
-                'problems' => function ($query) {
-                    $query->latest();
-                },
-                'warnings',
-                'reportsReceived',
-            ]);
+        $user->load([
+            'problems' => function ($query) {
+                $query->latest();
+            },
+            'warnings',
+            'reportsReceived' => function ($query) {
+                $query->with('reporter')
+                    ->latest();
+            },
+        ]);
 
-            return view('admin.users.student', compact('user'));
-        }
-
-        if ($user->role === 'student_tutor') {
-
-            $user->load([
-                'solutions.problem',
-                'warnings',
-                'reportsReceived',
-            ]);
-
-            return view('admin.users.tutor', compact('user'));
-        }
-
-        abort(404);
+        return view('admin.users.student', compact('user'));
     }
 
+    if ($user->role === 'student_tutor') {
+
+        $user->load([
+            'solutions' => function ($query) {
+                $query->with('problem')
+                    ->whereIn('status', ['submitted', 'accepted'])
+                    ->latest();
+            },
+            'warnings',
+            'reportsReceived' => function ($query) {
+                $query->with('reporter')
+                    ->latest();
+            },
+        ]);
+
+        return view('admin.users.tutor', compact('user'));
+    }
+
+    abort(404);
+}
     public function editProblem(Problem $problem)
     {
         return view('admin.users.edit-problem', compact('problem'));

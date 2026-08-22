@@ -278,7 +278,163 @@
             </div>
 
         </div>
+{{-- REPORTS AGAINST THIS USER --}}
 
+<div class="bg-white rounded-2xl border border-slate-200
+            shadow-sm overflow-hidden mt-8">
+
+    <div class="px-6 py-5 border-b border-slate-200">
+
+        <h2 class="text-xl font-bold text-slate-900">
+            Reports Against This User
+        </h2>
+
+        <p class="text-sm text-slate-500 mt-1">
+            Reports submitted against this student.
+        </p>
+
+    </div>
+
+
+    @forelse($user->reportsReceived as $report)
+
+        <div class="px-6 py-6 border-b border-slate-100
+                    hover:bg-slate-50 transition">
+
+            <div class="flex flex-col lg:flex-row
+                        lg:items-center
+                        lg:justify-between
+                        gap-5">
+
+                <div>
+
+                    {{-- Reason --}}
+
+                    <div class="flex items-center gap-3 flex-wrap">
+
+                        <h3 class="font-bold text-slate-900">
+                            {{ ucfirst($report->reason) }}
+                        </h3>
+
+
+                        {{-- Status --}}
+
+                        @if($report->status === 'pending')
+
+                            <span class="px-3 py-1 rounded-full
+                                         bg-amber-100 text-amber-700
+                                         text-xs font-semibold">
+
+                                Pending
+
+                            </span>
+
+                        @elseif($report->status === 'action_taken')
+
+                            <span class="px-3 py-1 rounded-full
+                                         bg-red-100 text-red-700
+                                         text-xs font-semibold">
+
+                                Action Taken
+
+                            </span>
+
+                        @elseif($report->status === 'dismissed')
+
+                            <span class="px-3 py-1 rounded-full
+                                         bg-slate-100 text-slate-700
+                                         text-xs font-semibold">
+
+                                Dismissed
+
+                            </span>
+
+                        @endif
+
+                    </div>
+
+
+                    {{-- Reporter --}}
+
+                    <p class="text-sm text-slate-600 mt-2">
+
+                        Reported by:
+
+                        <span class="font-semibold text-slate-900">
+                            {{ $report->reporter->name ?? 'Unknown User' }}
+                        </span>
+
+                    </p>
+
+
+                    {{-- Report description --}}
+
+                    <p class="text-sm text-slate-500 mt-2 max-w-2xl">
+
+                        {{ \Illuminate\Support\Str::limit($report->description, 160) }}
+
+                    </p>
+
+
+                    {{-- Date --}}
+
+                    <p class="text-xs text-slate-400 mt-2">
+
+                        Reported
+                        {{ $report->created_at->format('M d, Y') }}
+
+                    </p>
+
+                </div>
+
+
+                {{-- Open Report --}}
+
+                <div class="shrink-0">
+
+                    <a href="{{ route('admin.reports.show', $report) }}"
+                       class="inline-flex items-center gap-2
+                              bg-blue-600 hover:bg-blue-700
+                              text-white px-4 py-2.5
+                              rounded-xl text-sm
+                              font-semibold transition">
+
+                        Open Report
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-4 h-4"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M9 5l7 7-7 7"/>
+
+                        </svg>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    @empty
+
+        <div class="px-6 py-10 text-center">
+
+            <p class="text-slate-500">
+                No reports have been submitted against this student.
+            </p>
+
+        </div>
+
+    @endforelse
+
+</div>
     </div>
 
 </x-app-layout>
