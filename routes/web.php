@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\TransactionReceiptController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\ProfileController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ChatController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,6 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
 
     Route::post('/problems/{problem}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+
+    // Transaction Summary Report
+    Route::get('/transactions', [TransactionReceiptController::class, 'index'])->name('receipts.index');
+
+    // Printable / Downloadable Receipt View
+    Route::get('/transactions/{transaction}/receipt', [TransactionReceiptController::class, 'show'])->name('receipts.show');
 });
 
 Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])
