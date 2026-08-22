@@ -58,7 +58,7 @@
         </div>
 
 
-        {{-- Reported Content --}}
+        {{-- Reported Content
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
 
             <h2 class="text-xl font-bold text-slate-900 mb-6">
@@ -133,9 +133,197 @@
 
         </div>
 
-    </div>
+    </div> --}}
+{{-- Reported Content --}}
 
-{{-- Admin Decision --}}
+<div class="bg-white rounded-2xl shadow-sm
+            border border-slate-200 p-6">
+
+    <h2 class="text-xl font-bold text-slate-900 mb-6">
+        Reported Content
+    </h2>
+
+
+    @if($report->problem)
+
+        <div class="space-y-4">
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Content Type
+                </p>
+
+                <p class="font-semibold">
+                    Problem
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Title
+                </p>
+
+                <p class="font-semibold text-slate-900">
+                    {{ $report->problem->title }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Description
+                </p>
+
+                <div class="mt-2 bg-slate-50 rounded-lg
+                            p-4 text-slate-700
+                            whitespace-pre-line">
+
+                    {{ $report->problem->description }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    @elseif($report->solution)
+
+        <div class="space-y-4">
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Content Type
+                </p>
+
+                <p class="font-semibold">
+                    Solution
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Problem
+                </p>
+
+                <p class="font-semibold text-slate-900">
+
+                    {{ $report->solution->problem->title ?? 'Unknown Problem' }}
+
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Solution Description
+                </p>
+
+                <div class="mt-2 bg-slate-50 rounded-lg
+                            p-4 text-slate-700
+                            whitespace-pre-line">
+
+                    {{ $report->solution->description ?? 'No description provided.' }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    @elseif($report->reported_content_title ||
+            $report->reported_content_description)
+
+        {{-- Snapshot of deleted content --}}
+
+        <div class="space-y-4">
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Content Type
+                </p>
+
+                <p class="font-semibold">
+                    {{ $report->reported_content_type ?? 'Reported Content' }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Title
+                </p>
+
+                <p class="font-semibold text-slate-900">
+                    {{ $report->reported_content_title ?? 'No title available.' }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p class="text-sm text-slate-500">
+                    Description
+                </p>
+
+                <div class="mt-2 bg-slate-50 rounded-lg
+                            p-4 text-slate-700
+                            whitespace-pre-line">
+
+                    {{ $report->reported_content_description
+                        ?? 'No description available.' }}
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <span class="inline-flex px-3 py-1 rounded-full
+                             bg-slate-100 text-slate-600
+                             text-xs font-semibold">
+
+                    Original content has been removed
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+    @else
+
+        <p class="text-slate-500">
+            The reported content is no longer available.
+        </p>
+
+    @endif
+
+</div>
+
+@if($report->status === 'pending')
+
+    {{-- existing Admin Decision section here --}}
+
 <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mt-6">
 
     <h2 class="text-xl font-bold text-slate-900 mb-2">
@@ -285,6 +473,67 @@
     </form>
 
 </div>
+@else
+
+    <div class="bg-white rounded-2xl shadow-sm
+                border border-slate-200 p-6 mt-6">
+
+        <h2 class="text-xl font-bold text-slate-900">
+            Report Resolution
+        </h2>
+
+        <div class="mt-4">
+
+            @if($report->status === 'action_taken')
+
+                <span class="inline-flex px-3 py-1 rounded-full
+                             bg-red-100 text-red-700
+                             text-sm font-semibold">
+
+                    Action Taken
+
+                </span>
+
+            @elseif($report->status === 'dismissed')
+
+                <span class="inline-flex px-3 py-1 rounded-full
+                             bg-slate-100 text-slate-700
+                             text-sm font-semibold">
+
+                    Report Dismissed
+
+                </span>
+
+            @endif
+
+        </div>
+
+
+        @if($report->admin_note)
+
+            <div class="mt-5">
+
+                <p class="text-sm font-semibold text-slate-600">
+                    Admin Note
+                </p>
+
+                <div class="mt-2 bg-slate-50 rounded-xl p-4
+                            text-slate-700 whitespace-pre-line">
+
+                    {{ $report->admin_note }}
+
+                </div>
+
+            </div>
+
+        @endif
+
+    </div>
+
+@endif
+
+
+
 <script>
     const actionSelect = document.getElementById('action');
     const suspensionDuration = document.getElementById('suspension-duration');

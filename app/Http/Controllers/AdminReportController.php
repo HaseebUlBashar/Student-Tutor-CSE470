@@ -23,7 +23,15 @@ class AdminReportController extends Controller
     }
 
     public function takeAction(Request $request, Report $report)
-    {
+    {  if ($report->status !== 'pending') {
+            return back()
+                ->with('error', 'This report has already been resolved.');
+        }
+        // if ($report->status !== 'pending') {
+        //     return redirect()
+        //         ->route('admin.reports.show', $report)
+        //         ->with('error', 'This report has already been resolved.');
+        // }
         $validated = $request->validate([
             'action' => 'required|in:warn,remove_and_warn,suspend,ban',
             'suspension_duration' => 'nullable|in:1,7,30',
@@ -43,7 +51,9 @@ class AdminReportController extends Controller
 
         DB::transaction(function () use ($validated, $report) {
 
+            /** @var \App\Models\User $user */
             $user = $report->reportedUser;
+
             /* Save a snapshot and remove the reported content */
             if (
                 in_array($validated['action'], [
@@ -114,7 +124,16 @@ class AdminReportController extends Controller
     }
 
     public function dismiss(Request $request, Report $report)
-    {
+        {   if ($report->status !== 'pending') {
+                return back()
+                    ->with('error', 'This report has already been resolved.');
+            }
+
+        //     if ($report->status !== 'pending') {
+        //     return redirect()
+        //         ->route('admin.reports.show', $report)
+        //         ->with('error', 'This report has already been resolved.');
+        // }
         $validated = $request->validate([
             'admin_note' => 'nullable|string|max:2000',
         ]);

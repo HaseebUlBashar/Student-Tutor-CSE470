@@ -12,6 +12,7 @@ class WalletController extends Controller
 {
     public function index()
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
 
         $wallet = $user->wallet()->firstOrCreate(
@@ -27,10 +28,6 @@ class WalletController extends Controller
             ->where('type', 'earning')
             ->sum('amount');
 
-        $totalRewards = $wallet->transactions()
-            ->where('type', 'reward')
-            ->sum('amount');
-
         $totalDeposits = $wallet->transactions()
             ->where('type', 'deposit')
             ->sum('amount');
@@ -42,7 +39,6 @@ class WalletController extends Controller
             'wallet',
             'transactions',
             'totalEarnings',
-            'totalRewards',
             'totalDeposits',
             'totalPayments'
         ));
@@ -55,6 +51,8 @@ class WalletController extends Controller
         ]);
 
         DB::transaction(function () use ($validated) {
+            /** @var \App\Models\User $user */
+            $user = Auth::user();
 
             $wallet = Auth::user()
                 ->wallet()

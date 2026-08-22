@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\AdminUserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,6 +58,48 @@ Route::post('/admin/reports/{report}/action', [\App\Http\Controllers\AdminReport
 Route::post('/admin/reports/{report}/dismiss', [\App\Http\Controllers\AdminReportController::class, 'dismiss'])
     ->middleware(['auth', 'role:admin'])
     ->name('admin.reports.dismiss');
+
+// Route::middleware(['auth', 'role:admin'])->group(function () {
+//     Route::get('/admin/users/students', [AdminUserController::class, 'students'])
+//     ->name('admin.users.students');
+
+//     Route::get('/admin/users/tutors', [AdminUserController::class, 'tutors'])
+//         ->name('admin.users.tutors');
+
+//     Route::get('/admin/users/{user}', [AdminUserController::class, 'show'])
+//         ->name('admin.users.show');
+
+//     Route::get('/admin/problems/{problem}/edit', [AdminUserController::class, 'editProblem'])
+//         ->name('admin.problems.edit');
+
+//     Route::put('/admin/problems/{problem}', [AdminUserController::class, 'updateProblem'])
+//         ->name('admin.problems.update');
+
+//     Route::delete('/admin/problems/{problem}', [AdminUserController::class, 'deleteProblem'])
+//         ->name('admin.problems.delete');
+
+// });
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::get('/admin/users/students', [AdminUserController::class, 'students'])
+        ->name('admin.users.students');
+
+    Route::get('/admin/users/tutors', [AdminUserController::class, 'tutors'])
+        ->name('admin.users.tutors');
+
+    Route::get('/admin/users/{user}', [AdminUserController::class, 'show'])
+        ->name('admin.users.show');
+
+    Route::get('/admin/problems/{problem}/edit', [AdminUserController::class, 'editProblem'])
+        ->name('admin.problems.edit');
+
+    Route::put('/admin/problems/{problem}', [AdminUserController::class, 'updateProblem'])
+        ->name('admin.problems.update');
+
+    Route::delete('/admin/problems/{problem}', [AdminUserController::class, 'deleteProblem'])
+        ->name('admin.problems.delete');
+
+});
 
 Route::resource('problems', ProblemController::class)
     ->middleware(['auth','role:student']);
