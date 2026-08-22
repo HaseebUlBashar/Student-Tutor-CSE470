@@ -110,6 +110,15 @@ public function warnings(): HasMany
 {
     return $this->hasMany(UserWarning::class, 'user_id');
 }
+public function reportsReceived(): HasMany
+{
+    return $this->hasMany(Report::class, 'reported_user_id');
+}
+
+public function solutions(): HasMany
+{
+    return $this->hasMany(Solution::class, 'student_tutor_id');
+}
 public function issuedWarnings(): HasMany
 {
     return $this->hasMany(UserWarning::class, 'admin_id');

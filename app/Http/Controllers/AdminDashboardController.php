@@ -3,11 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Models\User;
 
 class AdminDashboardController extends Controller
 {
     public function index()
-    {
+    {   $students = User::where('role', 'student')
+    ->withCount([
+        'problems',
+        'warnings',
+    ])
+    ->withCount([
+        'reportsReceived',
+    ])
+    ->latest()
+    ->take(5)
+    ->get();
+
+$studentTutors = User::where('role', 'student_tutor')
+    ->withCount([
+        'warnings',
+        'reportsReceived',
+        'solutions as solved_problems_count' => function ($query) {
+            $query->whereIn('status', ['submitted', 'accepted']);
+        },
+    ])
+    ->latest()
+    ->take(5)
+    ->get();
         $pendingReports = Report::with([
             'reporter',
             'reportedUser',
@@ -28,10 +51,12 @@ class AdminDashboardController extends Controller
         ])->count();
 
         return view('admin.dashboard', compact(
-            'pendingReports',
-            'totalReports',
-            'pendingReportsCount',
-            'resolvedReportsCount'
-        ));
+        'students',
+        'studentTutors',
+        'pendingReports',
+        'totalReports',
+        'pendingReportsCount',
+        'resolvedReportsCount'
+    ));
     }
 }
