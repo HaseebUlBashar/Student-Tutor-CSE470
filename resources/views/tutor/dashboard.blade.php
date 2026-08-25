@@ -799,7 +799,8 @@
                     shadow-sm
                     hover:shadow-xl
                     transition-all duration-300
-                    overflow-hidden">
+                    overflow-hidden
+                    mb-7">
 
             <!-- Blue accent -->
             <div class="absolute left-0 top-0 bottom-0

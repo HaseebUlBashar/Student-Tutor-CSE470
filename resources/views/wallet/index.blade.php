@@ -80,7 +80,7 @@
 
         {{-- BALANCE --}}
 
-<div class="bg-blue-700 text-white rounded-xl shadow-lg p-8">
+<div class="bg-blue-700 text-white rounded-xl shadow-lg p-8 mb-8">
 
     <p class="text-sm font-medium uppercase tracking-wide text-gray-300">
         Available Balance
@@ -102,7 +102,7 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
     {{-- Total Earnings --}}
-    <div class="bg-white rounded-xl shadow p-6">
+    <div class="bg-white rounded-xl shadow p-6 mb-8">
         <p class="text-sm font-medium text-gray-600">
             Total Earnings
         </p>
@@ -118,7 +118,7 @@
 
 
     {{-- Total Deposits --}}
-    <div class="bg-white rounded-xl shadow p-6">
+    <div class="bg-white rounded-xl shadow p-6 mb-8">
         <p class="text-sm font-medium text-gray-600">
             Total Deposits
         </p>
@@ -134,7 +134,7 @@
 
 
     {{-- Total Payments --}}
-    <div class="bg-white rounded-xl shadow p-6">
+    <div class="bg-white rounded-xl shadow p-6 mb-8">
         <p class="text-sm font-medium text-gray-600">
             Total Payments
         </p>
