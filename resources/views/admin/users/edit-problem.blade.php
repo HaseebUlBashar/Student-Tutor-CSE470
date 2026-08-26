@@ -233,6 +233,33 @@
                                   class="w-full rounded-xl border-slate-300">{{ old('description', $problem->description) }}</textarea>
 
                     </div>
+                    @if($problem->attachment)
+
+                        <div class="mt-6">
+
+                            <p class="block text-sm font-semibold text-slate-700 mb-2">
+                                Existing Attachment
+                            </p>
+
+                            <a
+                                href="{{ route('admin.problems.attachment', $problem) }}"
+                                target="_blank"
+                                class="inline-flex items-center gap-2
+                                    bg-blue-50 text-blue-700
+                                    hover:bg-blue-100
+                                    px-4 py-3
+                                    rounded-xl
+                                    text-sm font-semibold
+                                    transition"
+                            >
+
+                                📎 View Problem Attachment
+
+                            </a>
+
+                        </div>
+
+                    @endif
 
 
                     <div class="flex justify-end gap-3 mt-8">
