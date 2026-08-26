@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Problem;
 use Illuminate\Http\Request;
+use App\Models\Solution;
+use Illuminate\Support\Facades\Storage;
 
 class AdminUserController extends Controller
 {   public function students()
@@ -79,6 +81,36 @@ public function show(User $user)
     {
         return view('admin.users.edit-problem', compact('problem'));
     }
+    public function editSolution(Solution $solution)
+{
+    $solution->load('problem');
+
+    return view('admin.users.edit-solution', compact('solution'));
+}
+public function updateSolution(Request $request, Solution $solution)
+{
+    $validated = $request->validate([
+        'description' => 'required|string',
+        'reward' => 'required|numeric|min:0',
+        'status' => 'required|in:submitted,accepted,rejected',
+    ]);
+
+    $solution->update($validated);
+
+    return redirect()
+        ->route('admin.users.show', $solution->student_tutor_id)
+        ->with('success', 'Solution updated successfully.');
+}
+public function deleteSolution(Solution $solution)
+{
+    $tutorId = $solution->student_tutor_id;
+
+    $solution->delete();
+
+    return redirect()
+        ->route('admin.users.show', $tutorId)
+        ->with('success', 'Solution deleted successfully.');
+}
 
     public function updateProblem(Request $request, Problem $problem)
     {
@@ -111,4 +143,36 @@ public function show(User $user)
             ->route('admin.users.show', $userId)
             ->with('success', 'Problem deleted successfully.');
     }
+    public function viewSolutionAttachment(Solution $solution)
+{
+    if (!$solution->attachment) {
+        abort(404);
+    }
+
+    $disk = Storage::disk('public');
+
+    if (!$disk->exists($solution->attachment)) {
+        abort(404, 'Solution attachment not found.');
+    }
+
+    return response()->file(
+        $disk->path($solution->attachment)
+    );
+}
+public function viewProblemAttachment(Problem $problem)
+{
+    if (!$problem->attachment) {
+        abort(404);
+    }
+
+    $disk = Storage::disk('public');
+
+    if (!$disk->exists($problem->attachment)) {
+        abort(404, 'Problem attachment not found.');
+    }
+
+    return response()->file(
+        $disk->path($problem->attachment)
+    );
+}
 }

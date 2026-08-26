@@ -98,6 +98,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::delete('/admin/problems/{problem}', [AdminUserController::class, 'deleteProblem'])
         ->name('admin.problems.delete');
+    Route::get('/admin/problems/{problem}/attachment', [AdminUserController::class, 'viewProblemAttachment'])
+    ->name('admin.problems.attachment');
+    Route::get('/admin/solutions/{solution}/edit', [AdminUserController::class, 'editSolution'])
+    ->name('admin.solutions.edit');
+
+    Route::put('/admin/solutions/{solution}', [AdminUserController::class, 'updateSolution'])
+        ->name('admin.solutions.update');
+
+    Route::delete('/admin/solutions/{solution}', [AdminUserController::class, 'deleteSolution'])
+        ->name('admin.solutions.delete');
+    Route::get('/admin/solutions/{solution}/attachment', [AdminUserController::class, 'viewSolutionAttachment'])
+    ->name('admin.solutions.attachment');
 
 });
 

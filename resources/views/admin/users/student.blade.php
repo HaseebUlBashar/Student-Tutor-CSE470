@@ -144,32 +144,32 @@
                             <tr>
 
                                 <th class="px-6 py-4 text-left text-xs
-                                           font-semibold text-slate-500
-                                           uppercase">
+                                        font-semibold text-slate-500
+                                        uppercase">
                                     ID
                                 </th>
 
                                 <th class="px-6 py-4 text-left text-xs
-                                           font-semibold text-slate-500
-                                           uppercase">
+                                        font-semibold text-slate-500
+                                        uppercase">
                                     Problem
                                 </th>
 
                                 <th class="px-6 py-4 text-left text-xs
-                                           font-semibold text-slate-500
-                                           uppercase">
+                                        font-semibold text-slate-500
+                                        uppercase">
                                     Course
                                 </th>
 
                                 <th class="px-6 py-4 text-left text-xs
-                                           font-semibold text-slate-500
-                                           uppercase">
+                                        font-semibold text-slate-500
+                                        uppercase">
                                     Status
                                 </th>
 
                                 <th class="px-6 py-4 text-right text-xs
-                                           font-semibold text-slate-500
-                                           uppercase">
+                                        font-semibold text-slate-500
+                                        uppercase">
                                     Actions
                                 </th>
 
@@ -216,6 +216,7 @@
 
                                     </td>
 
+
                                     <td class="px-6 py-4">
 
                                         <div class="flex justify-end gap-2">
@@ -257,7 +258,7 @@
 
                                 <tr>
 
-                                    <td colspan="5"
+                                    <td colspan="6"
                                         class="px-6 py-10 text-center
                                                text-slate-500">
 
