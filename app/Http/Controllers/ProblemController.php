@@ -524,7 +524,7 @@ public function solutions(Problem $problem)
     }
 
     $solutions = $problem->solutions()
-        ->with('studentTutor')
+        ->with(['studentTutor', 'reviews'])
         ->whereIn('status', ['submitted', 'accepted', 'rejected'])
         ->latest('submitted_at')
         ->get();

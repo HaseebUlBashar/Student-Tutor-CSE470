@@ -132,4 +132,27 @@ class ChatController extends Controller
         'problem'
     ));
 }
+public function destroy(Conversation $conversation)
+{
+    // Only participants can delete the conversation
+    if (
+        auth()->id() !== $conversation->student_id &&
+        auth()->id() !== $conversation->student_tutor_id
+    ) {
+        abort(403);
+    }
+
+    // Delete conversation.
+    // Its messages will also be deleted automatically
+    // because of cascadeOnDelete() on conversation_id.
+    $conversation->delete();
+
+    return redirect()
+        ->route(
+            auth()->user()->role === 'student'
+                ? 'student.dashboard'
+                : 'tutor.dashboard'
+        )
+        ->with('success', 'Conversation deleted successfully.');
+}
 }

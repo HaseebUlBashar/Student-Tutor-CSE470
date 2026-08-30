@@ -14,6 +14,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\SolvedProblemController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,6 +60,10 @@ Route::post('/admin/reports/{report}/action', [\App\Http\Controllers\AdminReport
 Route::post('/admin/reports/{report}/dismiss', [\App\Http\Controllers\AdminReportController::class, 'dismiss'])
     ->middleware(['auth', 'role:admin'])
     ->name('admin.reports.dismiss');
+
+Route::post('/solutions/{solution}/reviews', [ReviewController::class, 'store'])
+    ->middleware('auth')
+    ->name('reviews.store');
 
 // Route::middleware(['auth', 'role:admin'])->group(function () {
 //     Route::get('/admin/users/students', [AdminUserController::class, 'students'])
@@ -154,6 +159,8 @@ Route::middleware(['auth', 'role:student_tutor'])->group(function () {
 
     Route::delete('/tutor/problems/{problem}/bookmark', [BookmarkController::class, 'destroy'])
         ->name('tutor.bookmarks.destroy');
+    Route::post('/tutor/problems/{problem}/bookmark/read', [BookmarkController::class, 'markRead'])
+    ->name('tutor.bookmarks.read');
 });
 
 Route::get('/reports/problem/{problem}', [ReportController::class, 'createForProblem'])
@@ -185,6 +192,8 @@ Route::middleware('auth')->group(function () {
         ->name('chat.send');
     Route::get('/chat/conversation/{conversation}', [ChatController::class, 'show'])
         ->name('chat.show');
+    Route::delete('/chat/conversation/{conversation}', [ChatController::class, 'destroy'])
+    ->name('chat.destroy');
 
 });
 

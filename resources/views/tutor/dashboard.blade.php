@@ -89,6 +89,121 @@
 
     <!-- Dashboard Content -->
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        {{-- ========================================================= --}}
+{{-- BOOKMARK DEADLINE NOTIFICATIONS --}}
+{{-- ========================================================= --}}
+
+@if($deadlineNotifications->count() > 0)
+
+    <div class="fixed top-24 right-6 z-50 w-full max-w-md space-y-4">
+
+        @foreach($deadlineNotifications as $problem)
+
+            <div class="bg-white rounded-2xl shadow-2xl border border-amber-200
+                        overflow-hidden">
+
+                <div class="p-5">
+
+                    <div class="flex items-start gap-4">
+
+                        {{-- Warning Icon --}}
+                        <div class="flex-shrink-0
+                                    w-11 h-11
+                                    rounded-full
+                                    bg-amber-100
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-6 h-6 text-amber-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M12 9v2m0 4h.01M10.29 3.86l-7.5 13A1 1 0 003.66 18h16.68a1 1 0 00.87-1.5l-7.5-13a1 1 0 00-1.74 0z"/>
+
+                            </svg>
+
+                        </div>
+
+                        {{-- Notification Content --}}
+                        <div class="flex-1 min-w-0">
+
+                            <h3 class="font-bold text-amber-700">
+                                Deadline Approaching
+                            </h3>
+
+                            <p class="mt-1 text-sm text-slate-600">
+                                A bookmarked problem is approaching its deadline.
+                            </p>
+
+                            <p class="mt-2 font-semibold text-slate-900">
+                                {{ $problem->title }}
+                            </p>
+
+                            <p class="mt-1 text-sm text-slate-500">
+                                Deadline:
+                                <span class="font-semibold text-red-600">
+                                    {{ \Carbon\Carbon::parse($problem->deadline)->format('d M Y') }}
+                                </span>
+                            </p>
+
+                            <div class="mt-4 flex items-center gap-2">
+
+                                {{-- View Problem --}}
+                                <a href="{{ route('tutor.problems.show', $problem->id) }}"
+                                   class="inline-flex items-center
+                                          px-3 py-2
+                                          rounded-lg
+                                          bg-blue-600
+                                          hover:bg-blue-700
+                                          text-white
+                                          text-sm
+                                          font-semibold">
+
+                                    View Problem
+
+                                </a>
+
+                                {{-- Mark Read --}}
+                                <form method="POST"
+                                      action="{{ route('tutor.bookmarks.read', $problem->id) }}">
+
+                                    @csrf
+
+                                    <button type="submit"
+                                            class="inline-flex items-center
+                                                   px-3 py-2
+                                                   rounded-lg
+                                                   bg-slate-100
+                                                   hover:bg-slate-200
+                                                   text-slate-700
+                                                   text-sm
+                                                   font-semibold">
+
+                                        Mark Read
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        @endforeach
+
+    </div>
+
+@endif
 
         <!-- Welcome Section -->
         <div class="mb-8">
@@ -1319,41 +1434,74 @@
                     {{-- OPEN CHAT BUTTON --}}
                     {{-- ================================================= --}}
 
-                    <div class="flex-shrink-0">
+                    <div class="flex-shrink-0 flex items-center gap-2">
 
-                        <a
-                            href="{{ route('chat.show', $conversation->id) }}"
-                            class="inline-flex
-                                   items-center
-                                   justify-center
-                                   gap-1.5
-                                   px-3
-                                   py-2.5
-                                   rounded-xl
-                                   bg-blue-600
-                                   hover:bg-blue-700
-                                   text-white
-                                   text-sm
-                                   font-semibold
-                                   shadow-sm
-                                   transition"
-                        >
+    {{-- Open Chat --}}
+    <a
+        href="{{ route('chat.show', $conversation->id) }}"
+        class="inline-flex
+               items-center
+               justify-center
+               gap-1.5
+               px-3
+               py-2.5
+               rounded-xl
+               bg-blue-600
+               hover:bg-blue-700
+               text-white
+               text-sm
+               font-semibold
+               shadow-sm
+               transition"
+    >
 
-                            <span>
-                                💬
-                            </span>
+        <span>
+            💬
+        </span>
 
-                            <span class="hidden xl:inline">
-                                Open Chat
-                            </span>
+        Open Chat
 
-                            <span>
-                                →
-                            </span>
+    </a>
 
-                        </a>
 
-                    </div>
+    {{-- Delete Conversation --}}
+    <form
+        method="POST"
+        action="{{ route('chat.destroy', $conversation->id) }}"
+        onsubmit="return confirm('Are you sure you want to delete this conversation? All messages will be deleted.');"
+    >
+
+        @csrf
+        @method('DELETE')
+
+        <button
+            type="submit"
+            class="inline-flex
+                   items-center
+                   justify-center
+                   gap-1.5
+                   px-3
+                   py-2.5
+                   rounded-xl
+                   bg-red-50
+                   hover:bg-red-100
+                   text-red-600
+                   text-sm
+                   font-semibold
+                   transition"
+        >
+
+            <span>
+                🗑️
+            </span>
+
+            Delete
+
+        </button>
+
+    </form>
+
+</div>
 
                 </div>
 
@@ -1713,7 +1861,85 @@
 
                         @endif
 
-                    </div>
+                                        @if($notification->status === 'accepted')
+
+                        @php
+                            $myReview = $notification->reviews
+                                ->firstWhere('reviewer_id', auth()->id());
+                        @endphp
+
+                        <div class="mt-4 pt-4 border-t border-slate-200">
+
+                            @if($myReview)
+
+                                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+
+                                    <h4 class="font-semibold text-slate-900 mb-2">
+                                        Your Review of the Student
+                                    </h4>
+
+                                    <div class="text-yellow-500 text-xl mb-2">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            {{ $i <= $myReview->rating ? '★' : '☆' }}
+                                        @endfor
+                                    </div>
+
+                                    @if($myReview->comment)
+                                        <p class="text-sm text-slate-700">
+                                            {{ $myReview->comment }}
+                                        </p>
+                                    @endif
+
+                                </div>
+
+                            @else
+
+                                <h4 class="font-semibold text-slate-900 mb-3">
+                                    Rate & Review This Student
+                                </h4>
+
+                                <form method="POST"
+                                      action="{{ route('reviews.store', $notification->id) }}">
+
+                                    @csrf
+
+                                    <select name="rating"
+                                            required
+                                            class="w-full rounded-xl border-slate-300 mb-3">
+
+                                        <option value="">Select rating</option>
+                                        <option value="5">★★★★★ - 5</option>
+                                        <option value="4">★★★★☆ - 4</option>
+                                        <option value="3">★★★☆☆ - 3</option>
+                                        <option value="2">★★☆☆☆ - 2</option>
+                                        <option value="1">★☆☆☆☆ - 1</option>
+
+                                    </select>
+
+                                    <textarea name="comment"
+                                              rows="3"
+                                              maxlength="1000"
+                                              class="w-full rounded-xl border-slate-300"
+                                              placeholder="Write your review..."></textarea>
+
+                                    <button type="submit"
+                                            class="mt-3 bg-blue-600 hover:bg-blue-700
+                                                   text-white px-5 py-2.5 rounded-xl
+                                                   font-semibold transition">
+
+                                        Submit Review
+
+                                    </button>
+
+                                </form>
+
+                            @endif
+
+                        </div>
+
+                    @endif
+
+                
 
                 </div>
 
