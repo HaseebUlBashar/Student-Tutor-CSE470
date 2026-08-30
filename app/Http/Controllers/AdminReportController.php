@@ -16,6 +16,8 @@ class AdminReportController extends Controller
             'reportedUser',
             'problem',
             'solution',
+            'message',
+            'conversation.messages.sender',
         ]);
         $previousWarningCount = UserWarning::where('user_id', $report->reported_user_id)->count();
 
@@ -37,6 +39,17 @@ class AdminReportController extends Controller
             'suspension_duration' => 'nullable|in:1,7,30',
             'admin_note' => 'nullable|string|max:2000',
         ]);
+
+        if (
+            $validated['action'] === 'remove_and_warn' &&
+            $report->message_id
+        ) {
+            return back()
+                ->withErrors([
+                    'action' => 'Remove Content & Warn User is not available for message reports.',
+                ])
+                ->withInput();
+        }
 
         if (
             $validated['action'] === 'suspend' &&

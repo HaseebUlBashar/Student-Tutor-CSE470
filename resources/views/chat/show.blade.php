@@ -546,10 +546,21 @@
                                                    font-semibold
                                                    text-slate-500"
                                         >
-
                                             {{ $message->sender->name }}
 
                                         </span>
+
+                                        <a
+                                            href="{{ route('reports.message.create', $message->id) }}"
+                                            class="mt-2
+                                                text-xs
+                                                font-semibold
+                                                text-red-500
+                                                hover:text-red-700
+                                                transition"
+                                        >
+                                            Report
+                                        </a>
 
                                     </div>
 

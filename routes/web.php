@@ -172,6 +172,10 @@ Route::get('/reports/solution/{solution}', [ReportController::class, 'createForS
     ->middleware('auth')
     ->name('reports.solution.create');
 
+Route::get('/reports/message/{message}', [ReportController::class, 'createForMessage'])
+    ->middleware('auth')
+    ->name('reports.message.create');
+
 Route::post('/reports', [ReportController::class, 'store'])
     ->middleware('auth')
     ->name('reports.store');
