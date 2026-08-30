@@ -14,7 +14,18 @@ use App\Models\Problem;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'email', 'role', 'password', 'points', 'account_status', 'suspended_until'])]
+#[Fillable([
+    'name',
+    'email',
+    'role',
+    'password',
+    'points',
+    'account_status',
+    'suspended_until',
+    'phone',
+    'department',
+    'profile_picture',
+])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
