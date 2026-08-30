@@ -573,41 +573,74 @@
                     {{-- OPEN CHAT --}}
                     {{-- ================================================= --}}
 
-                    <div class="flex-shrink-0">
+                    <div class="flex-shrink-0 flex items-center gap-2">
 
-                        <a
-                            href="{{ route('chat.show', $conversation->id) }}"
-                            class="inline-flex
-                                   items-center
-                                   justify-center
-                                   gap-1.5
-                                   px-3
-                                   py-2.5
-                                   rounded-xl
-                                   bg-emerald-600
-                                   hover:bg-emerald-700
-                                   text-white
-                                   text-sm
-                                   font-semibold
-                                   shadow-sm
-                                   transition"
-                        >
+    {{-- Open Chat --}}
+    <a
+        href="{{ route('chat.show', $conversation->id) }}"
+        class="inline-flex
+               items-center
+               justify-center
+               gap-1.5
+               px-3
+               py-2.5
+               rounded-xl
+               bg-blue-600
+               hover:bg-blue-700
+               text-white
+               text-sm
+               font-semibold
+               shadow-sm
+               transition"
+    >
 
-                            <span>
-                                💬
-                            </span>
+        <span>
+            💬
+        </span>
 
-                            <span class="hidden xl:inline">
-                                Open Chat
-                            </span>
+        Open Chat
 
-                            <span>
-                                →
-                            </span>
+    </a>
 
-                        </a>
 
-                    </div>
+    {{-- Delete Conversation --}}
+    <form
+        method="POST"
+        action="{{ route('chat.destroy', $conversation->id) }}"
+        onsubmit="return confirm('Are you sure you want to delete this conversation? All messages will be deleted.');"
+    >
+
+        @csrf
+        @method('DELETE')
+
+        <button
+            type="submit"
+            class="inline-flex
+                   items-center
+                   justify-center
+                   gap-1.5
+                   px-3
+                   py-2.5
+                   rounded-xl
+                   bg-red-50
+                   hover:bg-red-100
+                   text-red-600
+                   text-sm
+                   font-semibold
+                   transition"
+        >
+
+            <span>
+                🗑️
+            </span>
+
+            Delete
+
+        </button>
+
+    </form>
+
+</div>
 
                 </div>
 
