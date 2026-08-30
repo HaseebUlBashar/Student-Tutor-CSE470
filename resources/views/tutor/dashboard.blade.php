@@ -780,127 +780,312 @@
                 {{-- =========================
                      BADGE LEVELS
                 ========================== --}}
-                <div class="mt-8 pt-6 border-t border-slate-100">
+                {{-- ========================================================= --}}
+{{-- BADGE PROGRESSION + RATING PROGRESSION --}}
+{{-- ========================================================= --}}
 
-                    <p class="text-sm font-semibold text-slate-500 mb-4">
+<div class="mt-8 pt-8 border-t border-slate-100">
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+        {{-- ================================================= --}}
+        {{-- BADGE PROGRESSION --}}
+        {{-- ================================================= --}}
+
+        <div>
+
+            <div class="flex items-center gap-3 mb-5">
+
+                <div class="w-10 h-10 rounded-xl
+                            bg-blue-50
+                            flex items-center justify-center
+                            text-xl">
+
+                    🏆
+
+                </div>
+
+                <div>
+
+                    <h3 class="text-lg font-bold text-slate-900">
                         Tutor Badge Progression
+                    </h3>
+
+                    <p class="text-xs text-slate-500 mt-0.5">
+                        Unlock higher badges as you earn points.
                     </p>
 
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                </div>
+
+            </div>
 
 
-                        {{-- Copper --}}
-                        <div class="rounded-xl p-3 text-center
-                                    {{ $badgeLevel >= 1
-                                        ? 'bg-orange-50 border border-orange-200'
-                                        : 'bg-slate-50 border border-slate-100' }}">
+            <div class="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-2 xl:grid-cols-5 gap-3">
 
-                            <div class="text-sm font-bold
-                                        {{ $badgeLevel >= 1
-                                            ? 'text-orange-700'
-                                            : 'text-slate-400' }}">
+                {{-- Copper --}}
+                <div class="rounded-2xl p-4 text-center
+                            {{ $badgeLevel >= 1
+                                ? 'bg-orange-50 border border-orange-200'
+                                : 'bg-slate-50 border border-slate-100' }}">
 
-                                Copper
+                    <div class="text-sm font-bold
+                                {{ $badgeLevel >= 1
+                                    ? 'text-orange-700'
+                                    : 'text-slate-400' }}">
 
-                            </div>
+                        Copper
 
-                            <div class="text-xs text-slate-500 mt-1">
-                                0+
-                            </div>
+                    </div>
+
+                    <div class="text-xs text-slate-500 mt-1">
+                        0+
+                    </div>
+
+                    @if($badgeLevel >= 1)
+                        <div class="mt-2 text-xs font-semibold text-orange-600">
+                            ✓ Unlocked
+                        </div>
+                    @endif
+
+                </div>
+
+
+                {{-- Silver --}}
+                <div class="rounded-2xl p-4 text-center
+                            {{ $badgeLevel >= 2
+                                ? 'bg-gray-100 border border-gray-300'
+                                : 'bg-slate-50 border border-slate-100' }}">
+
+                    <div class="text-sm font-bold
+                                {{ $badgeLevel >= 2
+                                    ? 'text-gray-700'
+                                    : 'text-slate-400' }}">
+
+                        Silver
+
+                    </div>
+
+                    <div class="text-xs text-slate-500 mt-1">
+                        1,000+
+                    </div>
+
+                    @if($badgeLevel >= 2)
+                        <div class="mt-2 text-xs font-semibold text-gray-600">
+                            ✓ Unlocked
+                        </div>
+                    @endif
+
+                </div>
+
+
+                {{-- Gold --}}
+                <div class="rounded-2xl p-4 text-center
+                            {{ $badgeLevel >= 3
+                                ? 'bg-yellow-50 border border-yellow-200'
+                                : 'bg-slate-50 border border-slate-100' }}">
+
+                    <div class="text-sm font-bold
+                                {{ $badgeLevel >= 3
+                                    ? 'text-yellow-700'
+                                    : 'text-slate-400' }}">
+
+                        Gold
+
+                    </div>
+
+                    <div class="text-xs text-slate-500 mt-1">
+                        2,000+
+                    </div>
+
+                    @if($badgeLevel >= 3)
+                        <div class="mt-2 text-xs font-semibold text-yellow-600">
+                            ✓ Unlocked
+                        </div>
+                    @endif
+
+                </div>
+
+
+                {{-- Diamond --}}
+                <div class="rounded-2xl p-4 text-center
+                            {{ $badgeLevel >= 4
+                                ? 'bg-cyan-50 border border-cyan-200'
+                                : 'bg-slate-50 border border-slate-100' }}">
+
+                    <div class="text-sm font-bold
+                                {{ $badgeLevel >= 4
+                                    ? 'text-cyan-700'
+                                    : 'text-slate-400' }}">
+
+                        Diamond
+
+                    </div>
+
+                    <div class="text-xs text-slate-500 mt-1">
+                        3,000+
+                    </div>
+
+                    @if($badgeLevel >= 4)
+                        <div class="mt-2 text-xs font-semibold text-cyan-600">
+                            ✓ Unlocked
+                        </div>
+                    @endif
+
+                </div>
+
+
+                {{-- Platinum --}}
+                <div class="rounded-2xl p-4 text-center
+                            {{ $badgeLevel >= 5
+                                ? 'bg-slate-100 border border-slate-300'
+                                : 'bg-slate-50 border border-slate-100' }}">
+
+                    <div class="text-sm font-bold
+                                {{ $badgeLevel >= 5
+                                    ? 'text-slate-800'
+                                    : 'text-slate-400' }}">
+
+                        Platinum
+
+                    </div>
+
+                    <div class="text-xs text-slate-500 mt-1">
+                        4,000+
+                    </div>
+
+                    @if($badgeLevel >= 5)
+                        <div class="mt-2 text-xs font-semibold text-slate-700">
+                            ✓ Unlocked
+                        </div>
+                    @endif
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- ================================================= --}}
+        {{-- RATING PROGRESSION --}}
+        {{-- ================================================= --}}
+
+        <div class="rounded-2xl
+                    bg-slate-50
+                    border border-slate-100
+                    p-5">
+
+            <div class="flex items-center justify-between mb-4">
+
+                <div>
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="w-10 h-10 rounded-xl
+                                    bg-yellow-50
+                                    flex items-center justify-center
+                                    text-xl">
+
+                            ⭐
 
                         </div>
 
+                        <div>
 
-                        {{-- Silver --}}
-                        <div class="rounded-xl p-3 text-center
-                                    {{ $badgeLevel >= 2
-                                        ? 'bg-gray-100 border border-gray-300'
-                                        : 'bg-slate-50 border border-slate-100' }}">
+                            <h3 class="text-lg font-bold text-slate-900">
+                                Rating Progression
+                            </h3>
 
-                            <div class="text-sm font-bold
-                                        {{ $badgeLevel >= 2
-                                            ? 'text-gray-700'
-                                            : 'text-slate-400' }}">
-
-                                Silver
-
-                            </div>
-
-                            <div class="text-xs text-slate-500 mt-1">
-                                1,000+
-                            </div>
-
-                        </div>
-
-
-                        {{-- Gold --}}
-                        <div class="rounded-xl p-3 text-center
-                                    {{ $badgeLevel >= 3
-                                        ? 'bg-yellow-50 border border-yellow-200'
-                                        : 'bg-slate-50 border border-slate-100' }}">
-
-                            <div class="text-sm font-bold
-                                        {{ $badgeLevel >= 3
-                                            ? 'text-yellow-700'
-                                            : 'text-slate-400' }}">
-
-                                Gold
-
-                            </div>
-
-                            <div class="text-xs text-slate-500 mt-1">
-                                2,000+
-                            </div>
-
-                        </div>
-
-
-                        {{-- Diamond --}}
-                        <div class="rounded-xl p-3 text-center
-                                    {{ $badgeLevel >= 4
-                                        ? 'bg-cyan-50 border border-cyan-200'
-                                        : 'bg-slate-50 border border-slate-100' }}">
-
-                            <div class="text-sm font-bold
-                                        {{ $badgeLevel >= 4
-                                            ? 'text-cyan-700'
-                                            : 'text-slate-400' }}">
-
-                                Diamond
-
-                            </div>
-
-                            <div class="text-xs text-slate-500 mt-1">
-                                3,000+
-                            </div>
-
-                        </div>
-
-
-                        {{-- Platinum --}}
-                        <div class="rounded-xl p-3 text-center
-                                    {{ $badgeLevel >= 5
-                                        ? 'bg-slate-100 border border-slate-300'
-                                        : 'bg-slate-50 border border-slate-100' }}">
-
-                            <div class="text-sm font-bold
-                                        {{ $badgeLevel >= 5
-                                            ? 'text-slate-800'
-                                            : 'text-slate-400' }}">
-
-                                Platinum
-
-                            </div>
-
-                            <div class="text-xs text-slate-500 mt-1">
-                                4,000+
-                            </div>
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                Your average rating over time.
+                            </p>
 
                         </div>
 
                     </div>
 
                 </div>
+
+            </div>
+
+
+            @if(count($ratingData) > 0)
+
+                <div class="relative h-64 w-full">
+
+                    <canvas id="ratingProgressionChart"></canvas>
+
+                </div>
+
+
+                {{-- Current Rating --}}
+
+                <div class="mt-4 pt-4 border-t border-slate-200
+                            flex items-center justify-between">
+
+                    <div>
+
+                        <p class="text-xs text-slate-500">
+                            Current average rating
+                        </p>
+
+                    </div>
+
+                    <div class="flex items-center gap-2">
+
+                        <span class="text-yellow-500 text-xl">
+                            ★
+                        </span>
+
+                        <span class="text-xl font-extrabold text-slate-900">
+
+                            {{ number_format(end($ratingData), 2) }}
+
+                        </span>
+
+                        <span class="text-xs text-slate-400">
+                            / 5
+                        </span>
+
+                    </div>
+
+                </div>
+
+            @else
+
+                <div class="h-64 flex flex-col
+                            items-center justify-center
+                            text-center">
+
+                    <div class="w-14 h-14 rounded-full
+                                bg-white
+                                border border-slate-200
+                                flex items-center justify-center
+                                text-2xl
+                                shadow-sm">
+
+                        ⭐
+
+                    </div>
+
+                    <p class="font-semibold text-slate-700 mt-4">
+                        No ratings yet
+                    </p>
+
+                    <p class="text-xs text-slate-400 mt-1 max-w-xs">
+                        Your rating progression will appear here
+                        after students review your solutions.
+                    </p>
+
+                </div>
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
 
             </div>
 
@@ -1603,414 +1788,7 @@
             </div>
 
         @endforelse
-
-    </div>
-
-
-
-    {{-- ============================================================ --}}
-    {{-- NOTIFICATIONS --}}
-    {{-- ============================================================ --}}
-
-    <div class="mb-0">
-
-        <div class="bg-white
-                    rounded-3xl
-                    border border-slate-200
-                    shadow-sm
-                    overflow-hidden">
-
-
-            {{-- ===================================================== --}}
-            {{-- NOTIFICATION HEADER --}}
-            {{-- ===================================================== --}}
-
-            <div class="px-6 py-5
-                        border-b border-slate-100
-                        flex items-center justify-between">
-
-
-                <div class="flex items-center gap-3">
-
-                    <div class="w-11 h-11
-                                rounded-xl
-                                bg-blue-50
-                                flex items-center justify-center">
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="w-6 h-6 text-blue-600"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke="currentColor"
-                             stroke-width="2">
-
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M15 17h5l-1.405-1.405A2.032
-                                     2.032 0 0118 14.158V11a6.002
-                                     6.002 0 00-4-5.659V5a2 2 0
-                                     10-4 0v.341C7.67 6.165 6
-                                     8.388 6 11v3.159c0 .538-.214
-                                     1.055-.595 1.436L4 17h5m6
-                                     0v1a3 3 0 11-6 0v-1m6 0H9"/>
-
-                        </svg>
-
-                    </div>
-
-
-                    <div>
-
-                        <h2 class="text-xl
-                                   font-bold
-                                   text-slate-900">
-
-                            Notifications
-
-                        </h2>
-
-
-                        <p class="text-sm
-                                  text-slate-500">
-
-                            Updates about your submitted solutions
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            {{-- ===================================================== --}}
-            {{-- NOTIFICATION LIST --}}
-            {{-- ===================================================== --}}
-
-            @forelse($notifications as $notification)
-
-                <div class="px-6 py-5
-                            border-b border-slate-100
-                            last:border-b-0
-                            hover:bg-slate-50
-                            transition">
-
-                    <div class="flex items-start
-                                gap-4">
-
-
-                        {{-- Status Icon --}}
-                        @if($notification->status === 'accepted')
-
-                            <div class="w-10 h-10
-                                        rounded-full
-                                        bg-green-100
-                                        flex items-center justify-center
-                                        shrink-0">
-
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-5 h-5 text-green-600"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor"
-                                     stroke-width="2">
-
-                                    <path stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M5 13l4 4L19 7"/>
-
-                                </svg>
-
-                            </div>
-
-                        @else
-
-                            <div class="w-10 h-10
-                                        rounded-full
-                                        bg-red-100
-                                        flex items-center justify-center
-                                        shrink-0">
-
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-5 h-5 text-red-600"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor"
-                                     stroke-width="2">
-
-                                    <path stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M6 18L18 6M6 6l12 12"/>
-
-                                </svg>
-
-                            </div>
-
-                        @endif
-
-
-
-                        {{-- Notification Text --}}
-                        <div class="flex-1 min-w-0">
-
-                            @if($notification->status === 'accepted')
-
-                                <h3 class="font-semibold
-                                           text-green-700">
-
-                                    Solution Accepted
-
-                                </h3>
-
-
-                                <p class="mt-1
-                                          text-sm
-                                          text-slate-600">
-
-                                    Your solution for
-
-                                    <span class="font-semibold
-                                                 text-slate-800">
-
-                                        "{{ $notification->problem->title }}"
-
-                                    </span>
-
-                                    was accepted by the student.
-
-                                </p>
-
-                            @else
-
-                                <h3 class="font-semibold
-                                           text-red-700">
-
-                                    Solution Rejected
-
-                                </h3>
-
-
-                                <p class="mt-1
-                                          text-sm
-                                          text-slate-600">
-
-                                    Your solution for
-
-                                    <span class="font-semibold
-                                                 text-slate-800">
-
-                                        "{{ $notification->problem->title }}"
-
-                                    </span>
-
-                                    was not selected by the student.
-
-                                </p>
-
-                            @endif
-
-
-                            @if($notification->updated_at)
-
-                                <p class="mt-2
-                                          text-xs
-                                          text-slate-400">
-
-                                    {{ $notification->updated_at->diffForHumans() }}
-
-                                </p>
-
-                            @endif
-
-                        </div>
-
-
-
-                        {{-- Status Badge --}}
-                        @if($notification->status === 'accepted')
-
-                            <span class="hidden sm:inline-flex
-                                         px-3 py-1
-                                         rounded-full
-                                         bg-green-100
-                                         text-green-700
-                                         text-xs
-                                         font-semibold
-                                         flex-shrink-0">
-
-                                Accepted
-
-                            </span>
-
-                        @else
-
-                            <span class="hidden sm:inline-flex
-                                         px-3 py-1
-                                         rounded-full
-                                         bg-red-100
-                                         text-red-700
-                                         text-xs
-                                         font-semibold
-                                         flex-shrink-0">
-
-                                Rejected
-
-                            </span>
-
-                        @endif
-
-                                        @if($notification->status === 'accepted')
-
-                        @php
-                            $myReview = $notification->reviews
-                                ->firstWhere('reviewer_id', auth()->id());
-                        @endphp
-
-                        <div class="mt-4 pt-4 border-t border-slate-200">
-
-                            @if($myReview)
-
-                                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
-
-                                    <h4 class="font-semibold text-slate-900 mb-2">
-                                        Your Review of the Student
-                                    </h4>
-
-                                    <div class="text-yellow-500 text-xl mb-2">
-                                        @for($i = 1; $i <= 5; $i++)
-                                            {{ $i <= $myReview->rating ? '★' : '☆' }}
-                                        @endfor
-                                    </div>
-
-                                    @if($myReview->comment)
-                                        <p class="text-sm text-slate-700">
-                                            {{ $myReview->comment }}
-                                        </p>
-                                    @endif
-
-                                </div>
-
-                            @else
-
-                                <h4 class="font-semibold text-slate-900 mb-3">
-                                    Rate & Review This Student
-                                </h4>
-
-                                <form method="POST"
-                                      action="{{ route('reviews.store', $notification->id) }}">
-
-                                    @csrf
-
-                                    <select name="rating"
-                                            required
-                                            class="w-full rounded-xl border-slate-300 mb-3">
-
-                                        <option value="">Select rating</option>
-                                        <option value="5">★★★★★ - 5</option>
-                                        <option value="4">★★★★☆ - 4</option>
-                                        <option value="3">★★★☆☆ - 3</option>
-                                        <option value="2">★★☆☆☆ - 2</option>
-                                        <option value="1">★☆☆☆☆ - 1</option>
-
-                                    </select>
-
-                                    <textarea name="comment"
-                                              rows="3"
-                                              maxlength="1000"
-                                              class="w-full rounded-xl border-slate-300"
-                                              placeholder="Write your review..."></textarea>
-
-                                    <button type="submit"
-                                            class="mt-3 bg-blue-600 hover:bg-blue-700
-                                                   text-white px-5 py-2.5 rounded-xl
-                                                   font-semibold transition">
-
-                                        Submit Review
-
-                                    </button>
-
-                                </form>
-
-                            @endif
-
-                        </div>
-
-                    @endif
-
-                
-
-                </div>
-
-
-            @empty
-
-                {{-- ================================================= --}}
-                {{-- NO NOTIFICATIONS --}}
-                {{-- ================================================= --}}
-
-                <div class="px-6 py-10
-                            text-center">
-
-                    <div class="w-14 h-14
-                                mx-auto
-                                rounded-full
-                                bg-slate-100
-                                flex items-center justify-center">
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="w-7 h-7 text-slate-400"
-                             fill="none"
-                             viewBox="0 0 24 24"
-                             stroke="currentColor"
-                             stroke-width="1.8">
-
-                            <path stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  d="M15 17h5l-1.405-1.405A2.032
-                                     2.032 0 0118 14.158V11a6.002
-                                     6.002 0 00-4-5.659V5a2 2 0
-                                     10-4 0v.341C7.67 6.165
-                                     6 8.388 6 11v3.159c0
-                                     .538-.214 1.055-.595
-                                     1.436L4 17h5"/>
-
-                        </svg>
-
-                    </div>
-
-
-                    <p class="mt-4
-                              font-semibold
-                              text-slate-700">
-
-                        No notifications yet
-
-                    </p>
-
-
-                    <p class="mt-1
-                              text-sm
-                              text-slate-500">
-
-                        You will see updates here when a student reviews your solution.
-
-                    </p>
-
-                </div>
-
-            @endforelse
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-        {{-- ================= REPORT UPDATES ================= --}}
+{{-- ================= REPORT UPDATES ================= --}}
 
         <div class="mt-8 mb-8">
 
@@ -2245,7 +2023,7 @@
             </div>
 
         </div>
-        {{-- ================= WARNINGS ================= --}}
+ {{-- ================= WARNINGS ================= --}}
 
         <div class="mt-8 mb-8">
 
@@ -2429,7 +2207,662 @@
             </div>
 
         </div>
+    </div>
+
+
+
+    {{-- ============================================================ --}}
+    {{-- NOTIFICATIONS --}}
+    {{-- ============================================================ --}}
+
+    <div class="mb-0">
+
+        <div class="bg-white
+                    rounded-3xl
+                    border border-slate-200
+                    shadow-sm
+                    overflow-hidden">
+
+
+            {{-- ===================================================== --}}
+            {{-- NOTIFICATION HEADER --}}
+            {{-- ===================================================== --}}
+
+            <div class="px-6 py-5
+                        border-b border-slate-100
+                        flex items-center justify-between">
+
+
+                <div class="flex items-center gap-3">
+
+                    <div class="w-11 h-11
+                                rounded-xl
+                                bg-blue-50
+                                flex items-center justify-center">
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-6 h-6 text-blue-600"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15 17h5l-1.405-1.405A2.032
+                                     2.032 0 0118 14.158V11a6.002
+                                     6.002 0 00-4-5.659V5a2 2 0
+                                     10-4 0v.341C7.67 6.165 6
+                                     8.388 6 11v3.159c0 .538-.214
+                                     1.055-.595 1.436L4 17h5m6
+                                     0v1a3 3 0 11-6 0v-1m6 0H9"/>
+
+                        </svg>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2 class="text-xl
+                                   font-bold
+                                   text-slate-900">
+
+                            Notifications
+
+                        </h2>
+
+
+                        <p class="text-sm
+                                  text-slate-500">
+
+                            Updates about your submitted solutions
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            {{-- ===================================================== --}}
+            {{-- NOTIFICATION LIST --}}
+            {{-- ===================================================== --}}
+
+            {{-- ===================================================== --}}
+{{-- NOTIFICATION LIST --}}
+{{-- ===================================================== --}}
+
+<div class="w-full">
+    @foreach($paymentNotifications as $paymentNotification)
+
+    <div class="w-full
+                px-6 py-5
+                border-b border-slate-100
+                hover:bg-slate-50
+                transition">
+
+        <div class="flex items-start gap-4 w-full">
+
+            <div class="flex-shrink-0">
+
+                <div class="w-10 h-10
+                            rounded-full
+                            bg-emerald-100
+                            flex items-center justify-center">
+
+                    <span class="text-emerald-700 font-bold">
+                        ৳
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="flex-1 min-w-0">
+
+                <h3 class="font-semibold text-emerald-700">
+                    Payment Received
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-600">
+
+                    You received
+
+                    <span class="font-semibold text-slate-800">
+                        ৳{{ number_format($paymentNotification->amount, 2) }}
+                    </span>
+
+                    @if($paymentNotification->solution?->problem)
+
+                        for solving
+
+                        <span class="font-semibold text-slate-800">
+                            "{{ $paymentNotification->solution->problem->title }}"
+                        </span>
+
+                    @endif
+
+                </p>
+
+                <p class="mt-2 text-xs text-slate-400">
+                    {{ $paymentNotification->created_at->diffForHumans() }}
+                </p>
+
+            </div>
+
+            <span class="flex-shrink-0
+                         inline-flex
+                         px-3 py-1
+                         rounded-full
+                         bg-emerald-100
+                         text-emerald-700
+                         text-xs
+                         font-semibold">
+
+                Received
+
+            </span>
+
+        </div>
 
     </div>
+
+@endforeach
+
+    @forelse($notifications as $notification)
+
+        {{-- ONE NOTIFICATION --}}
+        <div class="w-full
+                    px-6 py-5
+                    border-b border-slate-100
+                    last:border-b-0
+                    hover:bg-slate-50
+                    transition">
+
+            {{-- Notification row --}}
+            <div class="flex items-start gap-4 w-full">
+
+                {{-- Status Icon --}}
+                <div class="flex-shrink-0">
+
+                    @if($notification->status === 'accepted')
+
+                        <div class="w-10 h-10
+                                    rounded-full
+                                    bg-green-100
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-5 h-5 text-green-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M5 13l4 4L19 7"/>
+
+                            </svg>
+
+                        </div>
+
+                    @else
+
+                        <div class="w-10 h-10
+                                    rounded-full
+                                    bg-red-100
+                                    flex items-center justify-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-5 h-5 text-red-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M6 18L18 6M6 6l12 12"/>
+
+                            </svg>
+
+                        </div>
+
+                    @endif
+
+                </div>
+
+
+                {{-- EVERYTHING ELSE --}}
+                <div class="flex-1 min-w-0 w-full">
+
+                    {{-- Notification Header --}}
+                    <div class="w-full flex items-start justify-between gap-4">
+
+                        <div class="min-w-0">
+
+                            @if($notification->status === 'accepted')
+
+                                <h3 class="font-semibold text-green-700">
+                                    Solution Accepted
+                                </h3>
+
+                                <p class="mt-1 text-sm text-slate-600">
+                                    Your solution for
+                                    <span class="font-semibold text-slate-800">
+                                        "{{ $notification->problem->title }}"
+                                    </span>
+                                    was accepted by the student.
+                                </p>
+
+                            @else
+
+                                <h3 class="font-semibold text-red-700">
+                                    Solution Rejected
+                                </h3>
+
+                                <p class="mt-1 text-sm text-slate-600">
+                                    Your solution for
+                                    <span class="font-semibold text-slate-800">
+                                        "{{ $notification->problem->title }}"
+                                    </span>
+                                    was not selected by the student.
+                                </p>
+
+                            @endif
+
+                            @if($notification->updated_at)
+
+                                <p class="mt-2 text-xs text-slate-400">
+                                    {{ $notification->updated_at->diffForHumans() }}
+                                </p>
+
+                            @endif
+
+                        </div>
+
+
+                        {{-- Status --}}
+                        @if($notification->status === 'accepted')
+
+                            <span class="flex-shrink-0
+                                         inline-flex
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-green-100
+                                         text-green-700
+                                         text-xs
+                                         font-semibold">
+
+                                Accepted
+
+                            </span>
+
+                        @else
+
+                            <span class="flex-shrink-0
+                                         inline-flex
+                                         px-3 py-1
+                                         rounded-full
+                                         bg-red-100
+                                         text-red-700
+                                         text-xs
+                                         font-semibold">
+
+                                Rejected
+
+                            </span>
+
+                        @endif
+
+                    </div>
+
+
+                    {{-- ================================================= --}}
+                    {{-- REVIEW --}}
+                    {{-- ================================================= --}}
+
+                    @if($notification->status === 'accepted')
+
+                        @php
+
+                            $myReview = $notification->reviews
+                                ->firstWhere('reviewer_id', auth()->id());
+
+                        @endphp
+
+
+                        <div class="w-full mt-5 pt-5 border-t border-slate-200">
+
+                            @if($myReview)
+
+                                {{-- Already Reviewed --}}
+                                <div class="w-full
+                                            bg-blue-50
+                                            border border-blue-200
+                                            rounded-xl
+                                            p-4">
+
+                                    <h4 class="font-semibold text-slate-900 mb-2">
+                                        Your Review of the Student
+                                    </h4>
+
+                                    <div class="text-yellow-500 text-xl mb-2">
+
+                                        @for($i = 1; $i <= 5; $i++)
+
+                                            {{ $i <= $myReview->rating ? '★' : '☆' }}
+
+                                        @endfor
+
+                                    </div>
+
+                                    @if($myReview->comment)
+
+                                        <p class="text-sm text-slate-700">
+                                            {{ $myReview->comment }}
+                                        </p>
+
+                                    @endif
+
+                                </div>
+
+
+                            @else
+
+                                {{-- Review Form --}}
+                                <div class="w-full">
+
+                                    <h4 class="font-semibold text-slate-900 mb-3">
+                                        Rate & Review This Student
+                                    </h4>
+
+
+                                    <form method="POST"
+                                          action="{{ route('reviews.store', $notification->id) }}"
+                                          class="w-full">
+
+                                        @csrf
+
+
+                                        <div class="w-full">
+
+                                            <select name="rating"
+                                                    required
+                                                    class="w-full rounded-xl border-slate-300 mb-3">
+
+                                                <option value="">
+                                                    Select rating
+                                                </option>
+
+                                                <option value="5">
+                                                    ★★★★★ - 5
+                                                </option>
+
+                                                <option value="4">
+                                                    ★★★★☆ - 4
+                                                </option>
+
+                                                <option value="3">
+                                                    ★★★☆☆ - 3
+                                                </option>
+
+                                                <option value="2">
+                                                    ★★☆☆☆ - 2
+                                                </option>
+
+                                                <option value="1">
+                                                    ★☆☆☆☆ - 1
+                                                </option>
+
+                                            </select>
+
+
+                                            <textarea name="comment"
+                                                      rows="3"
+                                                      maxlength="1000"
+                                                      class="w-full rounded-xl border-slate-300"
+                                                      placeholder="Write your review..."></textarea>
+
+
+                                            <button type="submit"
+                                                    class="mt-3
+                                                           bg-blue-600
+                                                           hover:bg-blue-700
+                                                           text-white
+                                                           px-5 py-2.5
+                                                           rounded-xl
+                                                           font-semibold
+                                                           transition">
+
+                                                Submit Review
+
+                                            </button>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+        </div>
+
+    
+@empty
+
+@if($paymentNotifications->isEmpty())
+        {{-- No Notifications --}}
+        <div class="px-6 py-10 text-center">
+
+            <div class="w-14 h-14
+                        mx-auto
+                        rounded-full
+                        bg-slate-100
+                        flex items-center justify-center">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="w-7 h-7 text-slate-400"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="1.8">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M15 17h5l-1.405-1.405A2.032
+                             2.032 0 0118 14.158V11a6.002
+                             6.002 0 00-4-5.659V5a2 2 0
+                             10-4 0v.341C7.67 6.165
+                             6 8.388 6 11v3.159c0
+                             .538-.214 1.055-.595
+                             1.436L4 17h5"/>
+
+                </svg>
+
+            </div>
+
+
+            <p class="mt-4 font-semibold text-slate-700">
+                No notifications yet
+            </p>
+
+            <p class="mt-1 text-sm text-slate-500">
+                You will see updates here when a student reviews your solution.
+            </p>
+
+        </div>
+        @endif
+
+    @endforelse
+
+</div>
+
+
+
+
+
+
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const canvas = document.getElementById('ratingProgressionChart');
+
+        if (!canvas) {
+            return;
+        }
+
+        const ctx = canvas.getContext('2d');
+
+        new Chart(ctx, {
+
+            type: 'line',
+
+            data: {
+
+                labels: @json($ratingLabels),
+
+                datasets: [
+
+                    {
+                        label: 'Average Rating',
+
+                        data: @json($ratingData),
+
+                        borderWidth: 3,
+
+                        tension: 0.4,
+
+                        fill: true,
+
+                        backgroundColor: 'rgba(250, 204, 21, 0.12)',
+
+                        borderColor: 'rgb(234, 179, 8)',
+
+                        pointBackgroundColor: 'rgb(234, 179, 8)',
+
+                        pointBorderColor: '#ffffff',
+
+                        pointBorderWidth: 2,
+
+                        pointRadius: 5,
+
+                        pointHoverRadius: 7
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+
+                scales: {
+
+                    y: {
+
+                        min: 0,
+
+                        max: 5,
+
+                        ticks: {
+
+                            stepSize: 1,
+
+                            callback: function(value) {
+                                return value + ' ★';
+                            }
+
+                        },
+
+                        grid: {
+                            color: 'rgba(148, 163, 184, 0.15)'
+                        }
+
+                    },
+
+
+                    x: {
+
+                        grid: {
+                            display: false
+                        },
+
+                        ticks: {
+
+                            maxRotation: 45,
+
+                            minRotation: 0
+
+                        }
+
+                    }
+
+                },
+
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+
+
+                    tooltip: {
+
+                        backgroundColor: '#0f172a',
+
+                        padding: 12,
+
+                        displayColors: false,
+
+                        callbacks: {
+
+                            title: function(context) {
+                                return context[0].label;
+                            },
+
+                            label: function(context) {
+
+                                return 'Average Rating: ' +
+                                    Number(context.parsed.y).toFixed(2) +
+                                    ' / 5';
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    });
+</script>
 
 </x-app-layout>
