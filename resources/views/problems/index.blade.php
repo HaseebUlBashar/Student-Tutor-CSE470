@@ -5,54 +5,35 @@
     ========================== --}}
     <x-slot name="header">
 
-        <div class="relative overflow-hidden">
+        <div class="flex items-center gap-3">
 
-            <div class="flex items-center justify-between">
+            <div class="w-10 h-10 rounded-xl bg-blue-600
+                        flex items-center justify-center text-white">
 
-                <div>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
 
-                    <p class="inline-flex items-center
-                                 px-3 py-1
-                                 rounded-full
-                                 bg-blue-100
-                                 text-blue-700
-                                 text-xs
-                                 font-bold
-                                 uppercase
-                                 tracking-wider">
-                        Student Portal
-                    </p>
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332-.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18s-3.332-.477-4.5 1.253"/>
 
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">
-                        📖 My Academic Problems
-                    </h2>
+                </svg>
 
-                    <p class="mt-2 text-blue-100">
-                        Manage the academic problems you have posted.
-                    </p>
+            </div>
 
-                </div>
+            <div>
 
-                {{-- Decorative Icon --}}
-                <div class="hidden sm:flex w-16 h-16
-                            rounded-2xl
-                            bg-blue-50
-                            items-center justify-center">
+                <h2 class="text-2xl font-bold text-slate-900">
+                    My Academic Problems
+                </h2>
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-9 h-9 text-blue-600"
-                         fill="none"
-                         viewBox="0 0 24 24"
-                         stroke="currentColor"
-                         stroke-width="1.8">
-
-                        <path stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332-.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18s-3.332-.477-4.5 1.253"/>
-
-                    </svg>
-
-                </div>
+                <p class="text-sm text-slate-500">
+                    Manage the academic problems you have posted
+                </p>
 
             </div>
 
@@ -184,7 +165,7 @@
         {{-- =========================
              PROBLEMS TABLE
         ========================== --}}
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="bg-blue-100 rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
 
 
             {{-- Table Header --}}

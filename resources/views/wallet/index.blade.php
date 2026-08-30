@@ -151,7 +151,7 @@
 </div>
         {{-- DEPOSIT --}}
 
-        <div class="bg-white rounded-2xl shadow-sm
+        <div class="bg-pink-100 rounded-2xl shadow-sm
                     border border-slate-100 p-6 mb-8">
 
             <h2 class="text-xl font-bold text-slate-900">
@@ -195,7 +195,7 @@
 
         {{-- TRANSACTION HISTORY --}}
 
-        <div class="bg-white rounded-2xl shadow-sm
+        <div class="bg-amber-50 rounded-2xl shadow-sm
                     border border-slate-100 overflow-hidden">
 
             <div class="p-6 border-b border-slate-100">

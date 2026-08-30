@@ -2,23 +2,43 @@
 
     <x-slot name="header">
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
 
             <a href="{{ route('student-tutors.index') }}"
-               class="text-gray-500 hover:text-blue-600">
+            class="text-gray-500 hover:text-blue-600 text-lg">
 
-                ← Back
+                ←
 
             </a>
 
+            <div class="w-10 h-10 rounded-xl bg-blue-600
+                        flex items-center justify-center text-white">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0"/>
+
+                </svg>
+
+            </div>
+
             <div>
-                <h2 class="font-bold text-2xl text-gray-800">
+
+                <h2 class="text-2xl font-bold text-slate-900">
                     {{ $studentTutor->name }}
                 </h2>
 
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-slate-500">
                     Student Tutor Profile
                 </p>
+
             </div>
 
         </div>
@@ -33,7 +53,7 @@
 
             <!-- Tutor Profile Card -->
 
-            <div class="bg-white rounded-2xl shadow-sm
+            <div class="bg-blue-100 rounded-2xl shadow-sm
                         border border-gray-100 p-8">
 
                 <div class="flex flex-col md:flex-row

@@ -1,15 +1,41 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <div>
-            <p class="text-sm font-semibold text-blue-600 uppercase tracking-wider">
-                Solution Review
-            </p>
 
-            <h2 class="text-3xl font-bold text-slate-900 mt-1">
-                Solutions for Your Problem
-            </h2>
+        <div class="flex items-center gap-3">
+
+            <div class="w-10 h-10 rounded-xl bg-blue-600
+                        flex items-center justify-center text-white">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 4v16m8-8H4"/>
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Solution Review
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    Solutions for your problems
+                </p>
+
+            </div>
+
         </div>
+
     </x-slot>
 
     <div class="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -32,7 +58,7 @@
 
 
         {{-- Problem Card --}}
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
+        <div class="bg-purple-100 rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
 
             <div class="flex items-start justify-between gap-4">
 
@@ -114,7 +140,7 @@
 
             @forelse($solutions as $solution)
 
-                <div class="bg-white rounded-2xl shadow-sm
+                <div class="bg-purple-50 rounded-2xl shadow-sm
                             border border-slate-200 p-6 mb-5">
 
                     <div class="flex items-start justify-between gap-4">
