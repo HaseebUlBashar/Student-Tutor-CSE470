@@ -15,6 +15,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\SolvedProblemController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\StudentTutorController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -197,5 +198,12 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::get('/student-tutors', [StudentTutorController::class, 'index'])
+    ->middleware('auth')
+    ->name('student-tutors.index');
+
+Route::get('/student-tutors/{studentTutor}', [StudentTutorController::class, 'show'])
+    ->middleware('auth')
+    ->name('student-tutors.show');
 
 require __DIR__.'/auth.php';
