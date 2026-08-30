@@ -1,12 +1,42 @@
 <x-app-layout>
 
-    <x-slot name="header">
+<x-slot name="header">
 
-        <h2 class="text-2xl font-bold text-slate-900">
-            Student Tutor Details
-        </h2>
+    <div class="flex items-center gap-3">
 
-    </x-slot>
+        <div class="w-10 h-10 rounded-xl bg-blue-600
+                    flex items-center justify-center text-white">
+
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 class="w-6 h-6"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke="currentColor">
+
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2m7-8a4 4 0 100-8 4 4 0 000 8zm7-4a4 4 0 11-2.5 3.464M22 21v-2a4 4 0 00-3-3.874"/>
+
+            </svg>
+
+        </div>
+
+        <div>
+
+            <h2 class="text-2xl font-bold text-slate-900">
+                Student Tutor Details
+            </h2>
+
+            <p class="text-sm text-slate-500">
+                View student tutorinformation and activity
+            </p>
+
+        </div>
+
+    </div>
+
+</x-slot>
 
     <div class="min-h-screen bg-slate-50">
 
@@ -14,7 +44,7 @@
 
             {{-- USER INFORMATION --}}
 
-            <div class="bg-white rounded-2xl border border-slate-200
+            <div class="bg-purple-100 rounded-2xl border border-slate-200
                         shadow-sm p-6 mb-8">
 
                 <div class="flex flex-col md:flex-row
@@ -110,7 +140,7 @@
 
             {{-- SOLUTIONS SUBMITTED --}}
 
-            <div class="bg-white rounded-2xl border border-slate-200
+            <div class="bg-blue-100 rounded-2xl border border-slate-200
                         shadow-sm overflow-hidden">
 
                 <div class="px-6 py-5 border-b border-slate-200">
@@ -331,7 +361,7 @@
         </div>
 {{-- REPORTS AGAINST THIS USER --}}
 
-<div class="bg-white rounded-2xl border border-slate-200
+<div class="bg-slate-100 rounded-2xl border border-slate-200
             shadow-sm overflow-hidden mt-8">
 
     <div class="px-6 py-5 border-b border-slate-200">

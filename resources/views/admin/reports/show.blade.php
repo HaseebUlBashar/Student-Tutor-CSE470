@@ -1,15 +1,47 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2 class="text-2xl font-bold text-slate-900">
-            Review Report
-        </h2>
+
+        <div class="flex items-center gap-3">
+
+            <div class="w-10 h-10 rounded-xl bg-blue-600
+                        flex items-center justify-center text-white">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h6.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Review Report
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    Review the reported content and take appropriate action
+                </p>
+
+            </div>
+
+        </div>
+
     </x-slot>
 
     <div class="max-w-5xl mx-auto py-8 px-4">
 
         {{-- Report Information --}}
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
+        <div class="bg-amber-100 rounded-2xl shadow-sm border border-slate-200 p-6 mb-6">
 
             <h1 class="text-xl font-bold text-slate-900 mb-6">
                 Report Details
@@ -62,7 +94,7 @@
 
 @if($report->problem || $report->solution || $report->reported_content_title || $report->reported_content_description)
 
-    <div class="bg-white rounded-2xl shadow-sm
+    <div class="bg-amber-50 rounded-2xl shadow-sm
                 border border-slate-200 p-6">
 
         <h2 class="text-xl font-bold text-slate-900 mb-6">

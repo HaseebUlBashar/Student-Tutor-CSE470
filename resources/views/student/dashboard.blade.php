@@ -45,7 +45,7 @@
                     </h2>
 
                     <p class="mt-3
-                              text-blue-100
+                              text-blue-300
                               max-w-xl">
 
                     Manage your academic problems, track their progress,
@@ -1046,7 +1046,7 @@
 
 
                 {{-- Total Problems --}}
-                <div class="bg-white rounded-2xl border border-slate-200
+                <div class="bg-blue-100 rounded-2xl border border-slate-200
                             p-6 shadow-sm hover:shadow-md
                             transition duration-200">
 
@@ -1088,7 +1088,7 @@
 
 
                 {{-- Open --}}
-                <div class="bg-white rounded-2xl border border-slate-200
+                <div class="bg-emerald-200 rounded-2xl border border-slate-200
                             p-6 shadow-sm hover:shadow-md
                             transition duration-200">
 
@@ -1130,7 +1130,7 @@
 
 
                 {{-- In Progress --}}
-                <div class="bg-white rounded-2xl border border-slate-200
+                <div class="bg-amber-200 rounded-2xl border border-slate-200
                             p-6 shadow-sm hover:shadow-md
                             transition duration-200">
 
@@ -1176,7 +1176,7 @@
 
 
                 {{-- Solved --}}
-                <div class="bg-white rounded-2xl border border-slate-200
+                <div class="bg-purple-200 rounded-2xl border border-slate-200
                             p-6 shadow-sm hover:shadow-md
                             transition duration-200">
 
@@ -1220,7 +1220,7 @@
 
 {{-- ================= OPEN PROBLEMS ================= --}}
 
-<div class="mt-8 bg-white rounded-2xl border border-slate-200
+<div class="mt-8 bg-emerald-50 rounded-2xl border border-slate-200
             shadow-sm overflow-hidden">
 
     <div class="px-6 py-5 border-b border-slate-200
@@ -1361,7 +1361,7 @@
 </div>
 {{-- ================= IN PROGRESS PROBLEMS ================= --}}
 
-<div class="mt-8 bg-white rounded-2xl border border-slate-200
+<div class="mt-8 bg-amber-50 rounded-2xl border border-slate-200
             shadow-sm overflow-hidden">
 
     <div class="px-6 py-5 border-b border-slate-200
@@ -1502,7 +1502,7 @@
 </div>
 {{-- ================= SOLVED PROBLEMS ================= --}}
 
-<div class="mt-8 bg-white rounded-2xl border border-slate-200
+<div class="mt-8 bg-purple-50 rounded-2xl border border-slate-200
             shadow-sm overflow-hidden">
 
     <div class="px-6 py-5 border-b border-slate-200
@@ -1702,7 +1702,7 @@
 
                 {{-- Manage Problems --}}
 
-                <div class="bg-white border border-slate-200
+                <div class="bg-blue-100 border border-slate-200
                             rounded-2xl p-6 shadow-sm">
 
                     <div class="flex items-center justify-between">
@@ -1757,7 +1757,7 @@
 
             <div class="mt-8 mb-8">
 
-                <div class="bg-white rounded-2xl border border-slate-200
+                <div class="bg-slate-300 rounded-2xl border border-slate-200
                             shadow-sm overflow-hidden">
 
                     {{-- Report Updates Header --}}
@@ -2006,7 +2006,7 @@
 
             <div class="mt-8 mb-8">
 
-                <div class="bg-white rounded-2xl border border-slate-200
+                <div class="bg-pink-100 rounded-2xl border border-slate-200
                             shadow-sm overflow-hidden">
 
                     {{-- Warning Header --}}

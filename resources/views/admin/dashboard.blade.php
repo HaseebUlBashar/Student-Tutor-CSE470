@@ -126,7 +126,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
 
                 {{-- Total Reports --}}
-                <div class="bg-white rounded-2xl
+                <div class="bg-blue-200 rounded-2xl
                             border border-slate-200
                             p-6 shadow-sm">
 
@@ -168,7 +168,7 @@
                 </div>
 
                 {{-- Pending Reports --}}
-                <div class="bg-white rounded-2xl
+                <div class="bg-amber-200 rounded-2xl
                             border border-slate-200
                             p-6 shadow-sm">
 
@@ -215,7 +215,7 @@
 
 
                 {{-- Resolved Reports --}}
-                <div class="bg-white rounded-2xl
+                <div class="bg-emerald-200 rounded-2xl
                             border border-slate-200
                             p-6 shadow-sm">
 
@@ -261,7 +261,7 @@
 
                 {{-- ================= STUDENTS ================= --}}
 
-<div class="bg-white rounded-2xl border border-slate-200
+<div class="bg-slate-100 rounded-2xl border border-slate-200
             shadow-sm overflow-hidden mb-8">
 
     <div class="px-6 py-5 border-b border-slate-200
@@ -410,7 +410,7 @@
 
 {{-- ================= STUDENT TUTORS ================= --}}
 
-<div class="bg-white rounded-2xl border border-slate-200
+<div class="bg-slate-200 rounded-2xl border border-slate-200
             shadow-sm overflow-hidden mb-8">
 
     <div class="px-6 py-5 border-b border-slate-200
@@ -557,7 +557,7 @@
 </div>
             {{-- ================= REPORTS ================= --}}
 
-            <div class="bg-white rounded-2xl
+            <div class="bg-pink-100 rounded-2xl
                         border border-slate-200
                         shadow-sm overflow-hidden">
 

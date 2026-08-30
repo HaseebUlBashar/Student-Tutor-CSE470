@@ -291,7 +291,7 @@
         @endphp
 
 
-        <div class="relative overflow-hidden bg-white rounded-3xl shadow-lg border border-slate-100 mb-8">
+        <div class="relative overflow-hidden bg-amber-100 rounded-3xl shadow-lg border border-slate-100 mb-8">
 
             {{-- Decorative background --}}
             <div class="absolute -top-20 -right-20 w-64 h-64
@@ -1093,7 +1093,7 @@
 
         <!-- Browse Problems Card -->
         <div class="group relative
-                    bg-white
+                    bg-blue-200
                     rounded-3xl
                     border border-slate-200
                     shadow-sm
@@ -1792,7 +1792,7 @@
 
         <div class="mt-8 mb-8">
 
-            <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="bg-slate-300 rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
 
                 {{-- Report Update Header --}}
                 <div class="px-6 py-5 border-b border-slate-100
@@ -2027,7 +2027,7 @@
 
         <div class="mt-8 mb-8">
 
-            <div class="bg-white rounded-2xl border border-slate-200
+            <div class="bg-pink-100 rounded-2xl border border-slate-200
                         shadow-sm overflow-hidden">
 
                 {{-- Warning Header --}}

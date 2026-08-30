@@ -130,7 +130,7 @@
 
             {{-- ================= REPORT CARD ================= --}}
 
-            <div class="bg-white
+            <div class="bg-slate-200
                         rounded-3xl
                         border border-slate-200
                         shadow-sm

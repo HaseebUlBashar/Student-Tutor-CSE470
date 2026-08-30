@@ -1,9 +1,41 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2 class="text-3xl font-bold">
-            Problem Details
-        </h2>
+
+        <div class="flex items-center gap-3">
+
+            <div class="w-10 h-10 rounded-xl bg-blue-600
+                        flex items-center justify-center text-white">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h6.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Problem Details
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    View the details and solutions for this academic problem
+                </p>
+
+            </div>
+
+        </div>
+
     </x-slot>
 
     <div class="max-w-4xl mx-auto py-8 px-4">
@@ -24,7 +56,7 @@
 
 
         {{-- Problem information card --}}
-        <div class="bg-white shadow-lg rounded-xl p-8">
+        <div class="bg-slate-200 shadow-lg rounded-xl p-8">
 
             {{-- Title --}}
             <div class="mb-6">

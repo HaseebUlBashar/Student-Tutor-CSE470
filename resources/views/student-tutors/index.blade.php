@@ -1,16 +1,41 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
-            <div>
-                <h2 class="font-bold text-2xl text-gray-800">
-                    Our Student Tutors
-                </h2>
+        <div class="flex items-center justify-between gap-3">
 
-                <p class="text-sm text-gray-500 mt-1">
-                    Discover our tutors, their achievements, and what students say about them.
-                </p>
+            <div class="flex items-center gap-3">
+
+                <div class="w-10 h-10 rounded-xl bg-blue-600
+                            flex items-center justify-center text-white">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="w-6 h-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+
+                        <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2m7-8a4 4 0 100-8 4 4 0 000 8zm7-4a4 4 0 11-2.5 3.464M22 21v-2a4 4 0 00-3-3.874"/>
+
+                    </svg>
+
+                </div>
+
+                <div>
+
+                    <h2 class="text-2xl font-bold text-slate-900">
+                        Our Student Tutors
+                    </h2>
+
+                    <p class="text-sm text-slate-500">
+                        Discover our tutors, their achievements, and what students say about them.
+                    </p>
+
+                </div>
+
             </div>
 
             <div class="hidden sm:flex items-center gap-2
@@ -24,6 +49,7 @@
             </div>
 
         </div>
+
     </x-slot>
 
 
@@ -414,7 +440,7 @@
 {{-- ACCEPTED SOLUTIONS HISTOGRAM --}}
 {{-- ========================================================= --}}
 
-<div class="bg-white rounded-3xl
+<div class="bg-amber-50 rounded-3xl
             shadow-sm
             border border-gray-100
             overflow-hidden
@@ -706,7 +732,7 @@
 
                         <a
                             href="{{ route('student-tutors.show', $tutor) }}"
-                            class="group bg-white
+                            class="group bg-blue-100
                                    rounded-3xl
                                    border border-gray-100
                                    shadow-sm

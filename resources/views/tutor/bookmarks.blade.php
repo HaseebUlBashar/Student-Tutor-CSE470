@@ -1,14 +1,46 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2 class="text-3xl font-bold">
-            ⭐ Bookmarked Problems
-        </h2>
+
+        <div class="flex items-center gap-3">
+
+            <div class="w-10 h-10 rounded-xl bg-blue-600
+                        flex items-center justify-center text-white">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-4-7 4V5z"/>
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Bookmarked Problems
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    View and manage your saved academic problems
+                </p>
+
+            </div>
+
+        </div>
+
     </x-slot>
 
     <div class="max-w-7xl mx-auto py-8">
 
-        <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+        <div class="bg-amber-50 shadow-xl rounded-2xl overflow-hidden">
 
             <div class="p-6 border-b">
                 <h3 class="text-xl font-bold">

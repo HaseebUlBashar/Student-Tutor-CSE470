@@ -272,7 +272,7 @@
             {{-- PROBLEM INFORMATION --}}
             {{-- ========================================================= --}}
 
-            <div class="bg-white rounded-2xl
+            <div class="bg-amber-100 rounded-2xl
                         border border-slate-200
                         shadow-sm
                         p-6 mb-6">
@@ -348,7 +348,7 @@
             {{-- CHAT CONTAINER --}}
             {{-- ========================================================= --}}
 
-            <div class="bg-white rounded-2xl
+            <div class="bg-emerald-50 rounded-2xl
                         border border-slate-200
                         shadow-sm
                         overflow-hidden">

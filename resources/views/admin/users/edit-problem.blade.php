@@ -2,9 +2,39 @@
 
     <x-slot name="header">
 
-        <h2 class="text-2xl font-bold text-slate-900">
-            Edit Problem
-        </h2>
+        <div class="flex items-center gap-3">
+
+            <div class="w-10 h-10 rounded-xl bg-blue-600
+                        flex items-center justify-center text-white">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M16.862 3.487a2.25 2.25 0 013.182 3.182L8.25 18.464 4 19.5l1.036-4.25L16.862 3.487z"/>
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Edit Problem
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    Update the details of your academic problem
+                </p>
+
+            </div>
+
+        </div>
 
     </x-slot>
 
@@ -12,7 +42,7 @@
 
         <div class="max-w-4xl mx-auto px-4 py-10">
 
-            <div class="bg-white rounded-2xl border border-slate-200
+            <div class="bg-slate-200 rounded-2xl border border-slate-200
                         shadow-sm p-8">
 
                 <h1 class="text-2xl font-bold text-slate-900 mb-6">

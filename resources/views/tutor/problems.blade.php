@@ -1,16 +1,46 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="text-3xl font-bold">
-                🔍 Browse Academic Problems
-            </h2>
+
+        <div class="flex items-center gap-3">
+
+            <div class="w-10 h-10 rounded-xl bg-blue-600
+                        flex items-center justify-center text-white">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m21 21-4.35-4.35m2.35-5.65a8 8 0 11-16 0 8 8 0 0116 0z"/>
+
+                </svg>
+
+            </div>
+
+            <div>
+
+                <h2 class="text-2xl font-bold text-slate-900">
+                    Browse Academic Problems
+                </h2>
+
+                <p class="text-sm text-slate-500">
+                    Find academic problems to solve and earn rewards
+                </p>
+
+            </div>
+
         </div>
+
     </x-slot>
 
 <!----------------------------- Search Section  ----------------------------->
     <div class="max-w-7xl mx-auto py-8">
-        <form method="GET" action="{{ route('tutor.problems') }}" class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+        <form method="GET" action="{{ route('tutor.problems') }}" class="bg-yellow-100 rounded-2xl shadow-xl p-8 mb-6">
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
@@ -103,7 +133,7 @@
 
 </form>
 <!----------------------------- Filter Section  ----------------------------->
-<div class="bg-white rounded-2xl shadow-xl p-8 mb-6">
+<div class="bg-yellow-50 rounded-2xl shadow-xl p-8 mb-6">
 
     <details>
         <summary class="cursor-pointer font-semibold text-gray-800">
@@ -295,7 +325,7 @@
     </form>
 </div>
 <!----------------------------- Results Section  ----------------------------->
-        <div class="bg-white shadow rounded-2xl shadow-xl overflow-hidden mb-6">
+        <div class="bg-slate-300 shadow rounded-2xl shadow-xl overflow-hidden mb-6">
             <div class="overflow-x-auto">
 
                 <table class="w-full">
