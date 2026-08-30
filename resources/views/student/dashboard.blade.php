@@ -121,9 +121,9 @@
                 </div>
 
 
-                {{-- Post Problem Button --}}
+                {{-- Previously Solved Problems Button --}}
 
-                <a href="{{ route('problems.create') }}"
+                <a href="{{ route('student.solved-problems') }}"
                    class="inline-flex items-center justify-center gap-2
                           bg-blue-600 hover:bg-blue-700
                           text-white font-semibold
@@ -131,20 +131,7 @@
                           shadow-sm hover:shadow-md
                           transition duration-200">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-5 h-5"
-                         fill="none"
-                         viewBox="0 0 24 24"
-                         stroke="currentColor"
-                         stroke-width="2">
-
-                        <path stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 4v16m8-8H4"/>
-
-                    </svg>
-
-                    Post New Problem
+                    🗝️ The Vault
 
                 </a>
 
