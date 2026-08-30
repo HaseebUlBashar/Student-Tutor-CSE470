@@ -58,267 +58,230 @@
         </div>
 
 
-        {{-- Reported Content
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-
-            <h2 class="text-xl font-bold text-slate-900 mb-6">
-                Reported Content
-            </h2>
-
-            @if($report->problem)
-
-                <div class="space-y-4">
-
-                    <div>
-                        <p class="text-sm text-slate-500">Content Type</p>
-                        <p class="font-semibold">
-                            Problem
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="text-sm text-slate-500">Title</p>
-                        <p class="font-semibold text-slate-900">
-                            {{ $report->problem->title }}
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="text-sm text-slate-500">Description</p>
-
-                        <div class="mt-2 bg-slate-50 rounded-lg p-4 text-slate-700 whitespace-pre-line">
-                            {{ $report->problem->description }}
-                        </div>
-
-                    </div>
-
-                </div>
-
-            @elseif($report->solution)
-
-                <div class="space-y-4">
-
-                    <div>
-                        <p class="text-sm text-slate-500">Content Type</p>
-                        <p class="font-semibold">
-                            Solution
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="text-sm text-slate-500">Problem</p>
-                        <p class="font-semibold text-slate-900">
-                            {{ $report->solution->problem->title ?? 'Unknown Problem' }}
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="text-sm text-slate-500">Solution Description</p>
-
-                        <div class="mt-2 bg-slate-50 rounded-lg p-4 text-slate-700 whitespace-pre-line">
-                            {{ $report->solution->description ?? 'No description provided.' }}
-                        </div>
-
-                    </div>
-
-                </div>
-
-            @else
-
-                <p class="text-slate-500">
-                    The reported content is no longer available.
-                </p>
-
-            @endif
-
-        </div>
-
-    </div> --}}
 {{-- Reported Content --}}
 
-<div class="bg-white rounded-2xl shadow-sm
-            border border-slate-200 p-6">
+@if($report->problem || $report->solution || $report->reported_content_title || $report->reported_content_description)
 
-    <h2 class="text-xl font-bold text-slate-900 mb-6">
-        Reported Content
-    </h2>
+    <div class="bg-white rounded-2xl shadow-sm
+                border border-slate-200 p-6">
 
-
-    @if($report->problem)
-
-        <div class="space-y-4">
-
-            <div>
-
-                <p class="text-sm text-slate-500">
-                    Content Type
-                </p>
-
-                <p class="font-semibold">
-                    Problem
-                </p>
-
-            </div>
+        <h2 class="text-xl font-bold text-slate-900 mb-6">
+            Reported Content
+        </h2>
 
 
-            <div>
+        @if($report->problem)
 
-                <p class="text-sm text-slate-500">
-                    Title
-                </p>
+            <div class="space-y-4">
 
-                <p class="font-semibold text-slate-900">
-                    {{ $report->problem->title }}
-                </p>
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Content Type
+                    </p>
 
-            </div>
-
-
-            <div>
-
-                <p class="text-sm text-slate-500">
-                    Description
-                </p>
-
-                <div class="mt-2 bg-slate-50 rounded-lg
-                            p-4 text-slate-700
-                            whitespace-pre-line">
-
-                    {{ $report->problem->description }}
-
+                    <p class="font-semibold">
+                        Problem
+                    </p>
                 </div>
 
-            </div>
 
-        </div>
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Title
+                    </p>
 
-
-    @elseif($report->solution)
-
-        <div class="space-y-4">
-
-            <div>
-
-                <p class="text-sm text-slate-500">
-                    Content Type
-                </p>
-
-                <p class="font-semibold">
-                    Solution
-                </p>
-
-            </div>
-
-
-            <div>
-
-                <p class="text-sm text-slate-500">
-                    Problem
-                </p>
-
-                <p class="font-semibold text-slate-900">
-
-                    {{ $report->solution->problem->title ?? 'Unknown Problem' }}
-
-                </p>
-
-            </div>
-
-
-            <div>
-
-                <p class="text-sm text-slate-500">
-                    Solution Description
-                </p>
-
-                <div class="mt-2 bg-slate-50 rounded-lg
-                            p-4 text-slate-700
-                            whitespace-pre-line">
-
-                    {{ $report->solution->description ?? 'No description provided.' }}
-
+                    <p class="font-semibold text-slate-900">
+                        {{ $report->problem->title }}
+                    </p>
                 </div>
 
-            </div>
 
-        </div>
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Description
+                    </p>
 
+                    <div class="mt-2 bg-slate-50 rounded-lg
+                                p-4 text-slate-700
+                                whitespace-pre-line">
 
-    @elseif($report->reported_content_title ||
-            $report->reported_content_description)
+                        {{ $report->problem->description }}
 
-        {{-- Snapshot of deleted content --}}
-
-        <div class="space-y-4">
-
-            <div>
-
-                <p class="text-sm text-slate-500">
-                    Content Type
-                </p>
-
-                <p class="font-semibold">
-                    {{ $report->reported_content_type ?? 'Reported Content' }}
-                </p>
-
-            </div>
-
-
-            <div>
-
-                <p class="text-sm text-slate-500">
-                    Title
-                </p>
-
-                <p class="font-semibold text-slate-900">
-                    {{ $report->reported_content_title ?? 'No title available.' }}
-                </p>
-
-            </div>
-
-
-            <div>
-
-                <p class="text-sm text-slate-500">
-                    Description
-                </p>
-
-                <div class="mt-2 bg-slate-50 rounded-lg
-                            p-4 text-slate-700
-                            whitespace-pre-line">
-
-                    {{ $report->reported_content_description
-                        ?? 'No description available.' }}
-
+                    </div>
                 </div>
 
             </div>
 
 
-            <div>
+        @elseif($report->solution)
 
-                <span class="inline-flex px-3 py-1 rounded-full
-                             bg-slate-100 text-slate-600
-                             text-xs font-semibold">
+            <div class="space-y-4">
 
-                    Original content has been removed
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Content Type
+                    </p>
 
-                </span>
+                    <p class="font-semibold">
+                        Solution
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Problem
+                    </p>
+
+                    <p class="font-semibold text-slate-900">
+                        {{ $report->solution->problem->title ?? 'Unknown Problem' }}
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Solution Description
+                    </p>
+
+                    <div class="mt-2 bg-slate-50 rounded-lg
+                                p-4 text-slate-700
+                                whitespace-pre-line">
+
+                        {{ $report->solution->description ?? 'No description provided.' }}
+
+                    </div>
+                </div>
 
             </div>
 
-        </div>
+
+        @elseif($report->reported_content_title ||
+                $report->reported_content_description)
+
+            {{-- Snapshot of deleted content --}}
+
+            <div class="space-y-4">
+
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Content Type
+                    </p>
+
+                    <p class="font-semibold">
+                        {{ $report->reported_content_type ?? 'Reported Content' }}
+                    </p>
+                </div>
 
 
-    @else
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Title
+                    </p>
 
-        <p class="text-slate-500">
-            The reported content is no longer available.
+                    <p class="font-semibold text-slate-900">
+                        {{ $report->reported_content_title ?? 'No title available.' }}
+                    </p>
+                </div>
+
+
+                <div>
+                    <p class="text-sm text-slate-500">
+                        Description
+                    </p>
+
+                    <div class="mt-2 bg-slate-50 rounded-lg
+                                p-4 text-slate-700
+                                whitespace-pre-line">
+
+                        {{ $report->reported_content_description
+                            ?? 'No description available.' }}
+
+                    </div>
+                </div>
+
+
+                <div>
+                    <span class="inline-flex px-3 py-1 rounded-full
+                                 bg-slate-100 text-slate-600
+                                 text-xs font-semibold">
+
+                        Original content has been removed
+
+                    </span>
+                </div>
+
+            </div>
+
+        @endif
+
+    </div>
+
+@endif
+
+
+{{-- ================= MESSAGE CONVERSATION ================= --}}
+
+@if($report->message && $report->conversation)
+
+    <div class="bg-white rounded-2xl shadow-sm
+                border border-slate-200 p-6 mt-6">
+
+        <h2 class="text-xl font-bold text-slate-900 mb-2">
+            Conversation Thread
+        </h2>
+
+        <p class="text-sm text-slate-500 mb-6">
+            Review the conversation to understand the context of the reported message.
         </p>
 
-    @endif
+        <div class="space-y-3 max-h-96 overflow-y-auto">
 
-</div>
+            @foreach($report->conversation->messages as $message)
+
+                <div class="rounded-xl p-4
+                    {{ $message->id === $report->message_id
+                        ? 'bg-red-50 border border-red-200'
+                        : 'bg-slate-50 border border-slate-200' }}">
+
+                    <div class="flex items-center justify-between gap-3 mb-1">
+
+                        <p class="font-semibold text-slate-900">
+                            {{ $message->sender->name ?? 'Unknown User' }}
+                        </p>
+
+                        <span class="text-xs text-slate-400">
+                            {{ $message->created_at->format('d M, h:i A') }}
+                        </span>
+
+                    </div>
+
+                    <p class="text-sm text-slate-700 whitespace-pre-line">
+                        {{ $message->message }}
+                    </p>
+
+                    @if($message->id === $report->message_id)
+
+                        <span class="inline-flex mt-2 px-2.5 py-1
+                                     rounded-full
+                                     bg-red-100 text-red-700
+                                     text-xs font-semibold">
+
+                            Reported Message
+
+                        </span>
+
+                    @endif
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    </div>
+
+@endif
 
 @if($report->status === 'pending')
 
@@ -361,9 +324,11 @@
                     Warn User
                 </option>
 
-                <option value="remove_and_warn">
-                    Remove Content & Warn User
-                </option>
+                @if(!$report->message)
+                    <option value="remove_and_warn">
+                        Remove Content & Warn User
+                    </option>
+                @endif
 
                 <option value="suspend">
                     Suspend User

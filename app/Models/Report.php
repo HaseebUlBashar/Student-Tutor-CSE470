@@ -20,6 +20,8 @@ class Report extends Model
         'reported_content_title',
         'reported_content_description',
         'reported_content_attachment',
+        'message_id',
+        'conversation_id',
     ];
 
     public function reporter(): BelongsTo
@@ -40,5 +42,15 @@ class Report extends Model
     public function solution(): BelongsTo
     {
         return $this->belongsTo(Solution::class);
+    }
+
+    public function message(): BelongsTo
+    {
+        return $this->belongsTo(Message::class);
+    }
+
+    public function conversation(): BelongsTo
+    {
+        return $this->belongsTo(Conversation::class);
     }
 }

@@ -38,7 +38,7 @@
                            font-extrabold
                            text-white">
 
-                    Report {{ $solution ? 'Solution' : 'Problem' }}
+                    Report {{ $message ? 'Message' : ($solution ? 'Solution' : 'Problem') }}
 
                 </h2>
 
@@ -204,7 +204,7 @@
                                   tracking-wider
                                   mb-3">
 
-                            Reported {{ $solution ? 'Solution' : 'Problem' }}
+                            Reported {{ $message ? 'Message' : ($solution ? 'Solution' : 'Problem') }}
 
                         </p>
 
@@ -213,8 +213,60 @@
                                     bg-slate-50
                                     border border-slate-200
                                     p-5">
+                            @if($message)
 
-                            @if($solution)
+                                {{-- Message --}}
+
+                                <div class="flex items-center gap-3 mb-4">
+
+                                    <div class="w-10 h-10
+                                                rounded-full
+                                                bg-indigo-100
+                                                text-indigo-700
+                                                flex items-center justify-center
+                                                font-bold">
+
+                                        {{ strtoupper(substr($message->sender->name ?? 'U', 0, 1)) }}
+
+                                    </div>
+
+                                    <div>
+
+                                        <p class="text-xs text-slate-500">
+                                            Sent by
+                                        </p>
+
+                                        <p class="font-semibold text-slate-900">
+                                            {{ $message->sender->name ?? 'Unknown User' }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <p class="text-xs
+                                        font-medium
+                                        text-slate-500
+                                        mb-1">
+
+                                    Message
+
+                                </p>
+
+                                <div class="mt-2
+                                            rounded-xl
+                                            bg-white
+                                            border border-slate-200
+                                            p-4
+                                            text-sm
+                                            text-slate-700
+                                            whitespace-pre-line">
+
+                                    {{ $message->message }}
+
+                                </div>
+
+                            @elseif($solution)
 
                                 {{-- Solution --}}
 
@@ -355,7 +407,16 @@
 
                         @csrf
 
-                        @if($solution)
+                        @if($message)
+
+                            <input type="hidden"
+                                name="message_id"
+                                value="{{ $message->id }}">
+                            <input type="hidden"
+                                name="conversation_id"
+                                value="{{ $message->conversation_id }}">
+
+                        @elseif($solution)
 
                             <input type="hidden"
                                 name="solution_id"
@@ -535,43 +596,61 @@
                                     sm:justify-end
                                     gap-3">
 
-                            @if($solution)
+                    @if($message)
 
-                                <a href="{{ route('tutor.problems.show', $solution->problem_id) }}"
-                                   class="inline-flex
-                                          items-center
-                                          justify-center
-                                          px-5 py-3
-                                          rounded-xl
-                                          border border-slate-300
-                                          text-slate-700
-                                          font-semibold
-                                          hover:bg-slate-50
-                                          transition">
+                        <a href="{{ route('chat.show', $message->conversation_id) }}"
+                        class="inline-flex
+                                items-center
+                                justify-center
+                                px-5 py-3
+                                rounded-xl
+                                border border-slate-300
+                                text-slate-700
+                                font-semibold
+                                hover:bg-slate-50
+                                transition">
 
-                                    Cancel
+                            Cancel
 
-                                </a>
+                        </a>
 
-                            @else
+                    @elseif($solution)
 
-                                <a href="{{ route('problems.show', $problem->id) }}"
-                                   class="inline-flex
-                                          items-center
-                                          justify-center
-                                          px-5 py-3
-                                          rounded-xl
-                                          border border-slate-300
-                                          text-slate-700
-                                          font-semibold
-                                          hover:bg-slate-50
-                                          transition">
+                        <a href="{{ route('tutor.problems.show', $solution->problem_id) }}"
+                        class="inline-flex
+                                items-center
+                                justify-center
+                                px-5 py-3
+                                rounded-xl
+                                border border-slate-300
+                                text-slate-700
+                                font-semibold
+                                hover:bg-slate-50
+                                transition">
 
-                                    Cancel
+                            Cancel
 
-                                </a>
+                        </a>
 
-                            @endif
+                    @else
+
+                        <a href="{{ route('problems.show', $problem->id) }}"
+                        class="inline-flex
+                                items-center
+                                justify-center
+                                px-5 py-3
+                                rounded-xl
+                                border border-slate-300
+                                text-slate-700
+                                font-semibold
+                                hover:bg-slate-50
+                                transition">
+
+                            Cancel
+
+                        </a>
+
+                    @endif
 
 
                             <button type="submit"
