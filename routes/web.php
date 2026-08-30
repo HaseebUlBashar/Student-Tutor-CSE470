@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\SolvedProblemController;
 use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
@@ -120,6 +121,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::resource('problems', ProblemController::class)
     ->middleware(['auth','role:student']);
+
+Route::get('/student/solved-problems', [SolvedProblemController::class, 'index'])
+    ->middleware(['auth', 'role:student'])
+    ->name('student.solved-problems');
 
 Route::get('/problems/{problem}/solutions', [ProblemController::class, 'solutions'])
     ->middleware(['auth', 'role:student'])
