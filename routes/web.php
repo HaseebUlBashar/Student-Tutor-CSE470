@@ -149,6 +149,8 @@ Route::middleware(['auth', 'role:student_tutor'])->group(function () {
 
     Route::delete('/tutor/problems/{problem}/bookmark', [BookmarkController::class, 'destroy'])
         ->name('tutor.bookmarks.destroy');
+    Route::post('/tutor/problems/{problem}/bookmark/read', [BookmarkController::class, 'markRead'])
+    ->name('tutor.bookmarks.read');
 });
 
 Route::get('/reports/problem/{problem}', [ReportController::class, 'createForProblem'])
@@ -180,6 +182,8 @@ Route::middleware('auth')->group(function () {
         ->name('chat.send');
     Route::get('/chat/conversation/{conversation}', [ChatController::class, 'show'])
         ->name('chat.show');
+    Route::delete('/chat/conversation/{conversation}', [ChatController::class, 'destroy'])
+    ->name('chat.destroy');
 
 });
 

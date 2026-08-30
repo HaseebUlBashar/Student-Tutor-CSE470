@@ -30,6 +30,18 @@ class BookmarkController extends Controller
 
         return back()->with('success', 'Bookmark removed.');
     }
+    public function markRead(Problem $problem): RedirectResponse
+    {
+    /** @var User $user */
+    $user = Auth::user();
+
+    $user->bookmarkedProblems()
+        ->updateExistingPivot($problem->id, [
+            'read_at' => now(),
+        ]);
+
+    return back();
+    }
 
     public function index()
     {

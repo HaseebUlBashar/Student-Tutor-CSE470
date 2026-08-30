@@ -7,12 +7,20 @@ use App\Models\Report;
 use App\Models\UserWarning;
 use App\Models\Conversation;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class TutorDashboardController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
+        // Get unread deadline notifications for bookmarked problems
+        $deadlineNotifications = $user->bookmarkedProblems()
+        ->whereNull('bookmarks.read_at')
+        ->whereDate('deadline', '>=', Carbon::today())
+        ->whereDate('deadline', '<=', Carbon::today()->addDays(3))
+        ->orderBy('deadline', 'asc')
+        ->get();
         // Get active conversations for this tutor's submitted solutions
         $conversations = Conversation::where('student_tutor_id', $user->id)
         ->whereHas('problem.solutions', function ($query) use ($user) {
@@ -54,7 +62,8 @@ return view('tutor.dashboard', compact(
     'notifications',
     'reportUpdates',
     'warnings',
-    'conversations'
+    'conversations',
+    'deadlineNotifications'
 ));
 }
 }
