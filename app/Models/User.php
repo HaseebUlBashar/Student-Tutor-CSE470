@@ -148,4 +148,14 @@ public function sentMessages(): HasMany
 {
     return $this->hasMany(Message::class, 'sender_id');
 }
+
+public function reviewsGiven(): HasMany
+{
+    return $this->hasMany(Review::class, 'reviewer_id');
+}
+
+public function reviewsReceived(): HasMany
+{
+    return $this->hasMany(Review::class, 'reviewed_user_id');
+}
 }

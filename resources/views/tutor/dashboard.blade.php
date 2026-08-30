@@ -1861,7 +1861,85 @@
 
                         @endif
 
-                    </div>
+                                        @if($notification->status === 'accepted')
+
+                        @php
+                            $myReview = $notification->reviews
+                                ->firstWhere('reviewer_id', auth()->id());
+                        @endphp
+
+                        <div class="mt-4 pt-4 border-t border-slate-200">
+
+                            @if($myReview)
+
+                                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+
+                                    <h4 class="font-semibold text-slate-900 mb-2">
+                                        Your Review of the Student
+                                    </h4>
+
+                                    <div class="text-yellow-500 text-xl mb-2">
+                                        @for($i = 1; $i <= 5; $i++)
+                                            {{ $i <= $myReview->rating ? '★' : '☆' }}
+                                        @endfor
+                                    </div>
+
+                                    @if($myReview->comment)
+                                        <p class="text-sm text-slate-700">
+                                            {{ $myReview->comment }}
+                                        </p>
+                                    @endif
+
+                                </div>
+
+                            @else
+
+                                <h4 class="font-semibold text-slate-900 mb-3">
+                                    Rate & Review This Student
+                                </h4>
+
+                                <form method="POST"
+                                      action="{{ route('reviews.store', $notification->id) }}">
+
+                                    @csrf
+
+                                    <select name="rating"
+                                            required
+                                            class="w-full rounded-xl border-slate-300 mb-3">
+
+                                        <option value="">Select rating</option>
+                                        <option value="5">★★★★★ - 5</option>
+                                        <option value="4">★★★★☆ - 4</option>
+                                        <option value="3">★★★☆☆ - 3</option>
+                                        <option value="2">★★☆☆☆ - 2</option>
+                                        <option value="1">★☆☆☆☆ - 1</option>
+
+                                    </select>
+
+                                    <textarea name="comment"
+                                              rows="3"
+                                              maxlength="1000"
+                                              class="w-full rounded-xl border-slate-300"
+                                              placeholder="Write your review..."></textarea>
+
+                                    <button type="submit"
+                                            class="mt-3 bg-blue-600 hover:bg-blue-700
+                                                   text-white px-5 py-2.5 rounded-xl
+                                                   font-semibold transition">
+
+                                        Submit Review
+
+                                    </button>
+
+                                </form>
+
+                            @endif
+
+                        </div>
+
+                    @endif
+
+                
 
                 </div>
 
