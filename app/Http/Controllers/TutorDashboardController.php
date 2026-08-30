@@ -14,11 +14,12 @@ class TutorDashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $tutor = $user;
         // Get unread deadline notifications for bookmarked problems
         $deadlineNotifications = $user->bookmarkedProblems()
         ->whereNull('bookmarks.read_at')
         ->whereDate('deadline', '>=', Carbon::today())
-        ->whereDate('deadline', '<=', Carbon::today()->addDays(3))
+        ->whereDate('deadline', '<=', Carbon::today()->addDays(2))
         ->orderBy('deadline', 'asc')
         ->get();
         // Get active conversations for this tutor's submitted solutions
@@ -40,7 +41,7 @@ class TutorDashboardController extends Controller
         // Get this tutor's accepted/rejected solutions
         $notifications = Solution::where('student_tutor_id', $user->id)
             ->whereIn('status', ['accepted', 'rejected'])
-            ->with(['problem.user', 'reviews'])
+            ->with('problem')
             ->latest('updated_at')
             ->take(5)
             ->get();
@@ -57,13 +58,38 @@ class TutorDashboardController extends Controller
             ->latest('created_at')
             ->take(5)
             ->get();
+        // Rating progression data
+$ratingReviews = $tutor->reviewsReceived()
+    ->whereNotNull('rating')
+    ->orderBy('created_at', 'asc')
+    ->get();
+
+$ratingLabels = [];
+$ratingData = [];
+
+$totalRating = 0;
+$ratingCount = 0;
+
+foreach ($ratingReviews as $review) {
+
+    $totalRating += $review->rating;
+    $ratingCount++;
+
+    $averageRating = $totalRating / $ratingCount;
+
+    $ratingLabels[] = $review->created_at->format('M d');
+    $ratingData[] = round($averageRating, 2);
+}
 
 return view('tutor.dashboard', compact(
+    'tutor',
     'notifications',
     'reportUpdates',
     'warnings',
     'conversations',
-    'deadlineNotifications'
+    'deadlineNotifications',
+    'ratingLabels',
+    'ratingData'
 ));
 }
 }

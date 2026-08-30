@@ -70,6 +70,31 @@
                         Dashboard
 
                     </a>
+                    <!-- Our Student Tutors -->
+<a href="{{ route('student-tutors.index') }}"
+   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl
+          text-sm font-semibold
+          transition-all duration-200
+
+          {{ request()->routeIs('student-tutors.*')
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40'
+                : 'text-slate-300 hover:text-white hover:bg-white/10' }}">
+
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="w-5 h-5"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke="currentColor"
+         stroke-width="2">
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m4-8a4 4 0 11-8 0 4 4 0 018 0zm6 3a3 3 0 10-6 0"/>
+    </svg>
+
+    Our Student Tutors
+
+</a>
 
                     {{-- Wallet --}}
 
