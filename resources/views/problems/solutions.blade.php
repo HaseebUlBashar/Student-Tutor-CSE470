@@ -262,6 +262,93 @@
 
                     @endif
 
+                    {{-- Review Student Tutor after accepted solution --}}
+@if($solution->status === 'accepted')
+
+    @php
+        $myReview = $solution->reviews
+            ->firstWhere('reviewer_id', auth()->id());
+    @endphp
+
+    <div class="mt-6 pt-5 border-t border-slate-200">
+
+        @if($myReview)
+
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-5">
+
+                <h4 class="font-bold text-slate-900 mb-2">
+                    Your Review
+                </h4>
+
+                <div class="text-yellow-500 text-xl mb-2">
+                    @for($i = 1; $i <= 5; $i++)
+                        {{ $i <= $myReview->rating ? '★' : '☆' }}
+                    @endfor
+                </div>
+
+                @if($myReview->comment)
+                    <p class="text-slate-700">
+                        {{ $myReview->comment }}
+                    </p>
+                @endif
+
+            </div>
+
+        @else
+
+            <h4 class="font-bold text-slate-900 mb-3">
+                Rate & Review This Student Tutor
+            </h4>
+
+            <form method="POST"
+                  action="{{ route('reviews.store', $solution->id) }}">
+
+                @csrf
+
+                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                    Rating
+                </label>
+
+                <select name="rating"
+                        required
+                        class="w-full rounded-xl border-slate-300 mb-4">
+
+                    <option value="">Select rating</option>
+                    <option value="5">★★★★★ - 5</option>
+                    <option value="4">★★★★☆ - 4</option>
+                    <option value="3">★★★☆☆ - 3</option>
+                    <option value="2">★★☆☆☆ - 2</option>
+                    <option value="1">★☆☆☆☆ - 1</option>
+
+                </select>
+
+                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                    Review
+                </label>
+
+                <textarea name="comment"
+                          rows="4"
+                          maxlength="1000"
+                          class="w-full rounded-xl border-slate-300"
+                          placeholder="Write your review..."></textarea>
+
+                <button type="submit"
+                        class="mt-4 bg-blue-600 hover:bg-blue-700
+                               text-white px-5 py-2.5 rounded-xl
+                               font-semibold transition">
+
+                    Submit Review
+
+                </button>
+
+            </form>
+
+        @endif
+
+    </div>
+
+@endif
+
                 </div>
 
             @empty

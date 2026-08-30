@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -58,6 +59,10 @@ Route::post('/admin/reports/{report}/action', [\App\Http\Controllers\AdminReport
 Route::post('/admin/reports/{report}/dismiss', [\App\Http\Controllers\AdminReportController::class, 'dismiss'])
     ->middleware(['auth', 'role:admin'])
     ->name('admin.reports.dismiss');
+
+Route::post('/solutions/{solution}/reviews', [ReviewController::class, 'store'])
+    ->middleware('auth')
+    ->name('reviews.store');
 
 // Route::middleware(['auth', 'role:admin'])->group(function () {
 //     Route::get('/admin/users/students', [AdminUserController::class, 'students'])

@@ -32,7 +32,7 @@ class TutorDashboardController extends Controller
         // Get this tutor's accepted/rejected solutions
         $notifications = Solution::where('student_tutor_id', $user->id)
             ->whereIn('status', ['accepted', 'rejected'])
-            ->with('problem')
+            ->with(['problem.user', 'reviews'])
             ->latest('updated_at')
             ->take(5)
             ->get();
