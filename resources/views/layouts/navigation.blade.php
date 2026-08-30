@@ -184,15 +184,34 @@
                                    focus:outline-none">
 
                             <!-- User Avatar -->
-                            <div class="w-9 h-9 rounded-full
+                            @if (Auth::user()->profile_picture)
+                                <img
+                                    src="{{ asset('storage/' . Auth::user()->profile_picture) }}"
+                                    alt="{{ Auth::user()->name }}"
+                                    class="w-9 h-9 rounded-full object-cover shadow-md"
+                                >
+                            @else
+                                {{-- <div
+                                    class="w-9 h-9 rounded-full
                                         bg-gradient-to-br from-blue-500 to-indigo-600
                                         flex items-center justify-center
                                         text-white font-bold text-sm
-                                        shadow-md">
-
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-
-                            </div>
+                                        shadow-md"
+                                >
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                </div> --}}
+                                @if(Auth::user()->profile_picture)
+                                    <img
+                                        src="{{ asset('storage/' . Auth::user()->profile_picture) }}"
+                                        alt="{{ Auth::user()->name }}"
+                                        class="w-9 h-9 rounded-full object-cover shadow-md"
+                                    >
+                                @else
+                                    <div class="w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-bold text-sm shadow-md">
+                                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                    </div>
+                                @endif
+                            @endif
 
                             <div class="hidden md:block text-left">
 
