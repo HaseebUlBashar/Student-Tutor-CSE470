@@ -8,6 +8,8 @@ use App\Models\UserWarning;
 use App\Models\Conversation;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Models\WalletTransaction;
+
 
 class TutorDashboardController extends Controller
 {
@@ -45,6 +47,15 @@ class TutorDashboardController extends Controller
             ->latest('updated_at')
             ->take(5)
             ->get();
+
+        $paymentNotifications = WalletTransaction::whereHas('wallet', function ($query) use ($user) {
+        $query->where('user_id', $user->id);
+    })
+    ->where('type', 'earning')
+    ->with('solution.problem')
+    ->latest('created_at')
+    ->take(5)
+    ->get();
 
         // Get reviewed reports submitted by this tutor
         $reportUpdates = Report::where('reporter_id', $user->id)
@@ -89,7 +100,8 @@ return view('tutor.dashboard', compact(
     'conversations',
     'deadlineNotifications',
     'ratingLabels',
-    'ratingData'
+    'ratingData',
+    'paymentNotifications'
 ));
 }
 }

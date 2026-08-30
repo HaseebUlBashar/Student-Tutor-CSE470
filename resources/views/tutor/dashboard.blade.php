@@ -2297,6 +2297,81 @@
 {{-- ===================================================== --}}
 
 <div class="w-full">
+    @foreach($paymentNotifications as $paymentNotification)
+
+    <div class="w-full
+                px-6 py-5
+                border-b border-slate-100
+                hover:bg-slate-50
+                transition">
+
+        <div class="flex items-start gap-4 w-full">
+
+            <div class="flex-shrink-0">
+
+                <div class="w-10 h-10
+                            rounded-full
+                            bg-emerald-100
+                            flex items-center justify-center">
+
+                    <span class="text-emerald-700 font-bold">
+                        ৳
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="flex-1 min-w-0">
+
+                <h3 class="font-semibold text-emerald-700">
+                    Payment Received
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-600">
+
+                    You received
+
+                    <span class="font-semibold text-slate-800">
+                        ৳{{ number_format($paymentNotification->amount, 2) }}
+                    </span>
+
+                    @if($paymentNotification->solution?->problem)
+
+                        for solving
+
+                        <span class="font-semibold text-slate-800">
+                            "{{ $paymentNotification->solution->problem->title }}"
+                        </span>
+
+                    @endif
+
+                </p>
+
+                <p class="mt-2 text-xs text-slate-400">
+                    {{ $paymentNotification->created_at->diffForHumans() }}
+                </p>
+
+            </div>
+
+            <span class="flex-shrink-0
+                         inline-flex
+                         px-3 py-1
+                         rounded-full
+                         bg-emerald-100
+                         text-emerald-700
+                         text-xs
+                         font-semibold">
+
+                Received
+
+            </span>
+
+        </div>
+
+    </div>
+
+@endforeach
 
     @forelse($notifications as $notification)
 
@@ -2587,8 +2662,10 @@
 
         </div>
 
-    @empty
+    
+@empty
 
+@if($paymentNotifications->isEmpty())
         {{-- No Notifications --}}
         <div class="px-6 py-10 text-center">
 
@@ -2629,6 +2706,7 @@
             </p>
 
         </div>
+        @endif
 
     @endforelse
 
